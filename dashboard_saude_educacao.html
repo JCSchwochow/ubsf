@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard — Articulação Intersetorial Saúde-Educação 2025</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{--v:#1a7f4b;--v2:#2fa866;--v3:#e8f5ee;--a:#1a4e8f;--a2:#2d72d2;--a3:#e8f0fb;--l:#d97706;--l3:#fef3c7;--r:#dc2626;--r3:#fef2f2;--g:#6b7280;--g2:#f3f4f6;--g3:#e5e7eb;--tx:#111827;--tx2:#4b5563}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:var(--tx);font-size:14px}
+.hdr{background:linear-gradient(135deg,#0d4f2e 0%,#1a7f4b 50%,#2d72d2 100%);color:#fff;padding:24px 36px 20px}
+.hdr-in{max-width:1400px;margin:0 auto}
+.hdr h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.hdr .sub{font-size:12.5px;opacity:.85;margin-bottom:12px}
+.bdgs{display:flex;gap:9px;flex-wrap:wrap}
+.bdg{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:3px 13px;font-size:11.5px;font-weight:600}
+.wrap{max-width:1400px;margin:0 auto;padding:20px 18px}
+
+/* ── UPLOAD ZONE ── */
+.dz{background:#fff;border:2px dashed #d1d5db;border-radius:12px;padding:18px 20px;text-align:center;cursor:pointer;margin-bottom:20px;transition:border-color .2s,background .2s;user-select:none}
+.dz:hover,.dz.over{border-color:var(--a2);background:var(--a3)}
+.dz-icon{font-size:30px;margin-bottom:6px}
+.dz-title{font-weight:700;font-size:14px;margin-bottom:3px;color:var(--a)}
+.dz-sub{font-size:12px;color:var(--g)}
+.dz-info{font-size:12px;margin-top:8px;padding:6px 12px;border-radius:6px;display:inline-block}
+.dz-info.ok{background:var(--v3);color:var(--v);font-weight:600}
+.dz-info.err{background:var(--r3);color:var(--r);font-weight:600}
+.dz-info.load{background:var(--l3);color:var(--l);font-weight:600}
+
+.stitle{font-size:15px;font-weight:700;color:var(--a);margin:24px 0 13px;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--a2);padding-bottom:7px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:13px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:13px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;margin-bottom:13px}
+.g12{display:grid;grid-template-columns:1fr 2fr;gap:13px;margin-bottom:13px}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:13px;margin-bottom:13px}
+@media(max-width:1024px){.g4,.g3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.g4,.g3,.g2,.g12,.g21{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:10px;padding:17px;box-shadow:0 1px 3px rgba(0,0,0,.10)}
+.ct{font-size:11.5px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.kv{font-size:35px;font-weight:800;line-height:1}
+.kl{font-size:12px;color:var(--tx2);margin-top:3px}
+.kb{display:inline-block;border-radius:12px;font-size:11px;font-weight:700;padding:2px 9px;margin-top:5px}
+.bv{background:var(--v3);color:var(--v)}.bl{background:var(--l3);color:var(--l)}.br{background:var(--r3);color:var(--r)}.ba{background:var(--a3);color:var(--a)}
+.cw{position:relative;width:100%}
+.dleg{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)}
+.ld{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.wc{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:8px 0;min-height:60px}
+.wt{border-radius:4px;padding:4px 9px;font-weight:600;cursor:default;transition:transform .15s}
+.wt:hover{transform:scale(1.07)}
+.rl{display:flex;flex-direction:column;gap:7px}
+.ri{display:flex;align-items:center;gap:8px}
+.rn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+.rb{flex:1;font-size:12px}
+.rbw{width:80px;height:7px;background:var(--g2);border-radius:4px;overflow:hidden;flex-shrink:0}
+.rbar{height:100%;border-radius:4px}
+.rc{font-size:12px;font-weight:700;color:var(--tx2);min-width:24px;text-align:right}
+.pi{margin-bottom:9px}
+.pl{display:flex;justify-content:space-between;margin-bottom:3px;font-size:12px}
+.pt{height:9px;background:var(--g2);border-radius:5px;overflow:hidden}
+.pf{height:100%;border-radius:5px}
+.ab{border-radius:8px;padding:11px 13px;margin-bottom:8px;border-left:4px solid}
+.ac{background:#fff1f0;border-color:var(--r)}.aa{background:#fffbeb;border-color:var(--l)}.ai{background:#eff6ff;border-color:var(--a2)}
+.at2{font-size:12.5px;font-weight:700;margin-bottom:2px}
+.ac .at2{color:var(--r)}.aa .at2{color:var(--l)}.ai .at2{color:var(--a)}
+.ab2{font-size:12px;color:var(--tx2)}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:var(--g2);text-align:left;padding:7px 10px;font-size:10.5px;font-weight:700;text-transform:uppercase;color:var(--tx2)}
+.tbl td{padding:7px 10px;border-bottom:1px solid var(--g3)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#f9fafb}
+.pill{display:inline-block;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600}
+.exec{background:linear-gradient(135deg,#0d4f2e,#1a7f4b);color:#fff;border-radius:12px;padding:22px 24px;margin-bottom:20px}
+.exec h2{font-size:16px;font-weight:700;margin-bottom:13px}
+.eg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}
+@media(max-width:768px){.eg{grid-template-columns:1fr}}
+.ec{background:rgba(255,255,255,.12);border-radius:8px;padding:11px 13px;border:1px solid rgba(255,255,255,.2)}
+.ec h3{font-size:11px;font-weight:700;margin-bottom:5px;opacity:.9;text-transform:uppercase}
+.ec p{font-size:12px;opacity:.85;line-height:1.5}
+.corr{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-radius:10px;padding:16px}
+.cv2{font-size:40px;font-weight:800;color:var(--a2);text-align:center;margin:8px 0}
+.cl2{text-align:center;font-size:12px;color:var(--tx2)}
+.gi{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.gic{font-size:17px;width:28px;text-align:center}
+.gin{flex:1}
+.gnm{font-size:12.5px;font-weight:600}
+.gbw{height:6px;background:var(--g2);border-radius:3px;margin-top:3px;overflow:hidden}
+.gb{height:100%;border-radius:3px}
+.gcnt{font-size:13px;font-weight:700;color:var(--tx2);min-width:22px;text-align:right}
+.div{height:1px;background:var(--g3);margin:11px 0}
+.chip{display:inline-flex;background:var(--g2);border-radius:4px;padding:3px 7px;font-size:11px;color:var(--tx2);margin:2px}
+.foot{background:#1a2535;color:#9ca3af;text-align:center;padding:15px;font-size:12px;margin-top:28px}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-in">
+    <h1>🏥🏫 Dashboard — Avaliação da Articulação Intersetorial Saúde-Educação · PSE 2025</h1>
+    <p class="sub">Programa Saúde na Escola · Secretaria Municipal de Educação · Para atualizar os dados, arraste a planilha na área abaixo</p>
+    <div class="bdgs">
+      <span class="bdg" id="bdgN">📊 126 Unidades Escolares</span>
+      <span class="bdg" id="bdgU">🏥 49 UBS Avaliadas</span>
+      <span class="bdg">📋 28 Indicadores</span>
+      <span class="bdg" id="bdgAtu">🕐 Dados: carregamento inicial</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- UPLOAD ZONE -->
+<div class="dz" id="dz">
+  <input type="file" id="fi" accept=".xlsx,.xls" style="display:none">
+  <div class="dz-icon">📂</div>
+  <div class="dz-title">Arraste a planilha aqui ou clique para selecionar</div>
+  <div class="dz-sub">Aceita .xlsx exportado do Google Forms · Os dados são processados localmente, sem envio à internet</div>
+  <div id="upInfo"></div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="exec">
+  <h2>📌 Resumo Executivo — O que precisa de intervenção imediata da gestão</h2>
+  <div class="eg" id="exBody"></div>
+</div>
+
+<!-- BLOCO 1 -->
+<div class="stitle">📊 BLOCO 1 — PANORAMA GERAL: KPIs de Engajamento e Desempenho</div>
+<div class="g4" id="zKPI"></div>
+
+<div class="g2">
+  <div class="card">
+    <div class="ct">Distribuição do Grau de Satisfação Geral (Q15)</div>
+    <div class="cw" style="height:220px"><canvas id="cSat"></canvas></div>
+    <div class="dleg" id="lSat"></div>
+  </div>
+  <div class="card">
+    <div class="ct">Status do Cumprimento do Cronograma PSE (Q17)</div>
+    <div class="cw" style="height:155px"><canvas id="cCrono"></canvas></div>
+    <div style="margin-top:10px" id="sQ17Prog"></div>
+  </div>
+</div>
+
+<!-- BLOCO 2 -->
+<div class="stitle">🤝 BLOCO 2 — QUALIDADE DA PARCERIA: Percepção Qualitativa e Análise de Sentimento</div>
+<div class="g2">
+  <div class="card">
+    <div class="ct">☀️ Pontos Fortes da Parceria (Q1) — Termos Mais Frequentes</div>
+    <div style="font-size:11px;color:var(--tx2);font-style:italic;margin-bottom:6px">Tamanho proporcional à frequência de citação nas respostas abertas</div>
+    <div class="wc" id="wcQ1"></div>
+  </div>
+  <div class="card">
+    <div class="ct">⚡ Fragilidades da Parceria (Q2) — Termos Mais Frequentes</div>
+    <div style="font-size:11px;color:var(--tx2);font-style:italic;margin-bottom:6px">Padrões sistêmicos de insatisfação identificados nas respostas abertas</div>
+    <div class="wc" id="wcQ2"></div>
+  </div>
+</div>
+<div class="g2">
+  <div class="card">
+    <div class="ct">🚧 Desafios / Barreiras (Q3) · 💡 Sugestões Prioritárias (Q4)</div>
+    <div style="font-size:11px;font-weight:700;color:#92400e;margin-bottom:4px">Q3 — Barreiras à Articulação Intersetorial</div>
+    <div class="wc" id="wcQ3"></div>
+    <div class="div"></div>
+    <div style="font-size:11px;font-weight:700;color:#1e40af;margin-bottom:4px">Q4 — Sugestões de Melhoria para o Ano</div>
+    <div class="wc" id="wcQ4"></div>
+  </div>
+  <div class="card">
+    <div class="ct">🧠 Análise de Sentimento — Questões Abertas</div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-top:4px">
+      <div style="background:#dcfce7;border-radius:8px;padding:10px 12px"><div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:3px">Q1 — PONTOS FORTES · Sentimento: POSITIVO 🟢</div><p style="font-size:12px;color:#374151">Vocabulário afirmativo: <strong>parceria, comunicação, atendimento, integral, diálogo, prevenção</strong>. Escolas elogiam receptividade e rapidez de resposta da UBS.</p></div>
+      <div style="background:#fee2e2;border-radius:8px;padding:10px 12px"><div style="font-size:11px;font-weight:700;color:#991b1b;margin-bottom:3px">Q2 — FRAGILIDADES · Sentimento: CRÍTICO 🔴</div><p style="font-size:12px;color:#374151" id="sentQ2">Dominância de termos negativos. Escassez de RH e sobrecarga assistencial como padrão sistêmico.</p></div>
+      <div style="background:#fef3c7;border-radius:8px;padding:10px 12px"><div style="font-size:11px;font-weight:700;color:#92400e;margin-bottom:3px">Q3 — DESAFIOS · Sentimento: ALERTA 🟡</div><p style="font-size:12px;color:#374151" id="sentQ3">Tríade crítica: falta + profissionais + tempo. Alta convergência com Q2 — padrão estrutural confirmado.</p></div>
+      <div style="background:#dbeafe;border-radius:8px;padding:10px 12px"><div style="font-size:11px;font-weight:700;color:#1e40af;margin-bottom:3px">Q4 — SUGESTÕES · Sentimento: PROPOSITIVO 🔵</div><p style="font-size:12px;color:#374151" id="sentQ4">Demanda por reuniões, encontros e alinhamento periódico entre as equipes.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOCO 3 -->
+<div class="stitle">⚙️ BLOCO 3 — EFICIÊNCIA OPERACIONAL E FLUXOS DE SAÚDE</div>
+<div class="g3">
+  <div class="card">
+    <div class="ct">Encaminhamentos Escola → UBS (Q5)</div>
+    <div class="cw" style="height:195px"><canvas id="cQ5"></canvas></div>
+    <div class="ab aa" style="padding:8px 10px;margin-top:8px;margin-bottom:0" id="q5Alt"><div class="ab2">⚠️ Calculando...</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Doenças Infectocontagiosas (Q9, Q10, Q11)</div>
+    <div class="cw" style="height:195px"><canvas id="cInfecto"></canvas></div>
+    <div style="margin-top:6px" id="chpInf"></div>
+  </div>
+  <div class="card">
+    <div class="ct">Integração e Troca de Informações (Q12 e Q13)</div>
+    <div class="cw" style="height:195px"><canvas id="cIntegr"></canvas></div>
+    <div style="margin-top:6px">
+      <div style="margin-bottom:4px">📋 <strong>Q13 Fornece informações à UBS:</strong> <span class="kb bv" style="font-size:11px" id="q13Bdg">—</span></div>
+      <div>📋 <strong>Q12 Participa Conselho Local:</strong> <span class="kb bl" style="font-size:11px" id="q12Bdg">—</span></div>
+    </div>
+  </div>
+</div>
+<div class="g2">
+  <div class="card">
+    <div class="ct">📋 Etapas da Declaração Vacinal Cumpridas (Q7)</div>
+    <div class="rl" style="margin-top:8px" id="rkQ7"></div>
+    <div class="ab ai" style="padding:8px 10px;margin-top:10px;margin-bottom:0" id="q7Alt"><div class="ab2">ℹ️ —</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">🦟 Suporte em Doenças Infectocontagiosas — Análise Detalhada</div>
+    <div style="margin-top:6px" id="sInfDet"></div>
+  </div>
+</div>
+
+<!-- BLOCO 4 -->
+<div class="stitle">🏫 BLOCO 4 — FOCO NO PSE: Programa Saúde na Escola</div>
+<div class="g3">
+  <div class="card">
+    <div class="ct">Avaliação do Seminário PSE — Interação Profissionais (Q18)</div>
+    <div class="cw" style="height:195px"><canvas id="cSem"></canvas></div>
+    <div class="dleg" id="lSem"></div>
+    <div class="ab aa" style="padding:8px 10px;margin-top:8px;margin-bottom:0" id="semAlt"><div class="ab2">⚠️ —</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Condições de Infraestrutura nas Escolas (Q20)</div>
+    <div class="rl" style="margin-top:8px" id="rkQ20"></div>
+    <div class="ab ai" style="padding:8px 10px;margin-top:10px;margin-bottom:0"><div class="ab2">ℹ️ Espaço físico e planejamento são os itens mais avaliados positivamente.</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Indicadores de Acompanhamento (Q21, Q22, Q23)</div>
+    <div style="margin-top:6px">
+      <div class="ct" style="margin-bottom:4px">Q21 — Registro na Planilha PSE</div>
+      <div class="pi"><div class="pl"><span>Sim — Registra</span><span style="color:var(--v);font-weight:700" id="pl21s">—</span></div><div class="pt"><div class="pf" id="pb21s" style="background:var(--v)"></div></div></div>
+      <div class="div"></div>
+      <div id="sQ2223"></div>
+    </div>
+  </div>
+</div>
+<div class="g21">
+  <div class="card">
+    <div class="ct">🏆 Ações PSE — Ranking do Alcance (Q19) · 🟢 Mais alcançadas · 🔴 Menos alcançadas</div>
+    <div class="cw" style="height:310px"><canvas id="cAcoes"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ct">Elaboração do Cronograma PSE Conjunto (Q16)</div>
+    <div class="cw" style="height:155px"><canvas id="cQ16"></canvas></div>
+    <div style="margin-top:10px" id="sQ16Prog"></div>
+  </div>
+</div>
+
+<!-- CRUZAMENTO -->
+<div class="stitle">🔗 CRUZAMENTO DE DADOS — Satisfação vs. Cumprimento do Cronograma</div>
+<div class="g12">
+  <div class="card corr">
+    <div class="ct" style="text-align:center">Correlação de Pearson (Q15 × Q17)</div>
+    <div class="cv2" id="corrR">r = —</div>
+    <div class="cl2">Correlação entre cumprimento do cronograma PSE e satisfação geral com a parceria (n=<span id="corrN">—</span>).</div>
+    <div style="margin-top:12px;padding:10px;background:rgba(255,255,255,.7);border-radius:8px">
+      <p style="font-size:12px;color:#374151;text-align:center" id="corrDesc">Calculando...</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct">Satisfação Média por Grupo de Cumprimento do Cronograma</div>
+    <div class="cw" style="height:200px"><canvas id="cCorr"></canvas></div>
+    <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap" id="corrBx"></div>
+  </div>
+</div>
+
+<!-- GARGALOS -->
+<div class="stitle">🔍 GARGALOS SILENCIOSOS — Categorização Q5.1 e Q17.1</div>
+<div class="g2">
+  <div class="card">
+    <div class="ct">Q5.1 — Por que encaminhamentos não foram plenamente atendidos?</div>
+    <div style="font-size:11px;color:var(--g);font-style:italic;margin-bottom:8px">Categorização automática das justificativas abertas</div>
+    <div id="gG51"></div>
+    <div class="ab aa" style="padding:8px 10px;margin-top:10px;margin-bottom:0"><div class="ab2" id="gG51Alt">Calculando...</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Q17.1 — Por que o cronograma PSE não foi plenamente cumprido?</div>
+    <div style="font-size:11px;color:var(--g);font-style:italic;margin-bottom:8px">Categorização e padrões qualitativos identificados</div>
+    <div id="gG171"></div>
+    <div class="div"></div>
+    <div class="ct" style="margin-bottom:6px">Padrões Qualitativos Recorrentes</div>
+    <div class="ab aa" style="padding:7px 9px;margin-bottom:6px"><div class="ab2">• <em>"Ações da UBS realizadas apenas no 2º semestre"</em> — atraso na entrada da equipe de saúde.</div></div>
+    <div class="ab aa" style="padding:7px 9px;margin-bottom:6px"><div class="ab2">• <em>"UBS não tinha representante no planejamento inicial"</em> — ausência na construção do cronograma.</div></div>
+    <div class="ab aa" style="padding:7px 9px;margin-bottom:0"><div class="ab2">• <em>"O que dependia da saúde ficou a desejar"</em> — percepção de assimetria no compromisso.</div></div>
+  </div>
+</div>
+
+<!-- ALERTAS -->
+<div class="stitle">🚨 ALERTAS CRÍTICOS — Unidades com Necessidade de Intervenção Imediata</div>
+<div class="g3" style="margin-bottom:14px" id="zAlertas3"></div>
+<div class="g2">
+  <div class="card">
+    <div class="ct">🔴 Escolas com Satisfação Crítica — Q15 ≤ 2/5</div>
+    <table class="tbl" style="margin-top:6px">
+      <thead><tr><th>#</th><th>Unidade Escolar</th><th>UBS Parceira</th><th>Satisfação</th></tr></thead>
+      <tbody id="tbBS"></tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="ct">⚠️ Escolas com Múltiplos Alertas Simultâneos</div>
+    <table class="tbl" style="margin-top:6px">
+      <thead><tr><th>Escola</th><th>UBS</th><th>Alertas</th><th>Satisfação</th></tr></thead>
+      <tbody id="tbAL"></tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+<div class="foot">
+  📊 Dashboard — Articulação Intersetorial Saúde-Educação · PSE 2025 · Secretaria Municipal de Educação<br>
+  Os dados são processados <strong>localmente no navegador</strong> — nenhuma informação é enviada à internet
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONSTANTS & HELPERS
+// ═══════════════════════════════════════════════════════
+var C = {v:'#1a7f4b',v2:'#2fa866',a:'#1a4e8f',a2:'#2d72d2',l:'#d97706',r:'#dc2626',r2:'#fca5a5',g:'#9ca3af',g2:'#e5e7eb',p:'#6366f1',t:'#0891b2',te:'#059669'};
+
+var SAT_MAP = {'Completamente satisfeito':5,'Parcialmente satisfeito':4,'Nem satisfeito, nem insatisfeito':3,'Parcialmente insatisfeito':2,'Completamente insatisfeito':1};
+var CRONO_MAP = {'Sim':3,'Parcialmente':2,'Não':1};
+
+var STOPS = new Set('a o e de da do que as os em para com na no se por um uma não mais foi é são ao ou nos nas ela ele seu sua essa esse isso como ser ter tem muito bem cada ainda sempre toda todo todos sobre este esta lhe mas nem já também pois quando qual entre pelo pela num numa diante após ante desde durante segundo cujo cujos meu minha nosso nossa seus suas lhes me te nós você vocês eles elas eu tu oi sim nan nenhuma seria fazer feito parte toda tudo algo outro outra outros outras mesmo mesma vários várias pouco pouca dentro fora então aqui aí até após caso fazer faz'.split(' '));
+
+var CH = {};
+
+function mk(id, cfg) {
+  if (CH[id]) CH[id].destroy();
+  CH[id] = new Chart(document.getElementById(id), cfg);
+}
+function leg(id, ls, cs) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = ls.map(function(l,i){ return '<div class="li"><div class="ld" style="background:'+cs[i]+'"></div>'+l+'</div>'; }).join('');
+}
+function wc(id, words, bg, tc) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  if (!words || !words.length) { el.innerHTML = '<span style="color:#9ca3af;font-size:12px">Sem dados suficientes</span>'; return; }
+  var mx = words[0][1];
+  el.innerHTML = words.map(function(w){
+    var sz = 11 + Math.round((w[1]/mx)*18);
+    var op = (0.55 + (w[1]/mx)*0.45).toFixed(2);
+    return '<span class="wt" style="font-size:'+sz+'px;background:'+bg+';color:'+tc+';opacity:'+op+';padding:'+(3+Math.round(w[1]/mx*3))+'px '+(8+Math.round(w[1]/mx*5))+'px" title="'+w[1]+' ocorrências">'+w[0]+'</span>';
+  }).join('');
+}
+function setText(id, v) { var el=document.getElementById(id); if(el) el.textContent=v; }
+function setHTML(id, v) { var el=document.getElementById(id); if(el) el.innerHTML=v; }
+function setBar(id, p) { var el=document.getElementById(id); if(el) el.style.width=Math.min(100,Math.max(0,Math.round(p)))+'%'; }
+function p2(n,t){ return t>0 ? (n/t*100).toFixed(1) : '0.0'; }
+function p0(n,t){ return t>0 ? Math.round(n/t*100) : 0; }
+
+function wfreq(texts, topN) {
+  var cnt = {};
+  texts.forEach(function(t){
+    if (!t) return;
+    var words = String(t).toLowerCase().match(/[a-záàâãéèêíïóôõúüç]+/g);
+    if (!words) return;
+    words.forEach(function(w){ if(w.length>3 && !STOPS.has(w)) cnt[w]=(cnt[w]||0)+1; });
+  });
+  return Object.keys(cnt).map(function(k){ return [k,cnt[k]]; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,topN||20);
+}
+
+function pearson(xs, ys) {
+  var n=xs.length; if(n<3) return 0;
+  var mx=xs.reduce(function(a,b){return a+b;})/n, my=ys.reduce(function(a,b){return a+b;})/n;
+  var num=0,dx2=0,dy2=0;
+  for(var i=0;i<n;i++){var dx=xs[i]-mx,dy=ys[i]-my; num+=dx*dy; dx2+=dx*dx; dy2+=dy*dy;}
+  return dx2&&dy2 ? +(num/Math.sqrt(dx2*dy2)).toFixed(3) : 0;
+}
+
+function catGarg(t) {
+  if (!t) return null;
+  var s = String(t).toLowerCase();
+  if (/profissional|enfermeiro|enfermeira|m[eé]dico|recursos humanos|\brh\b|servidor|equipe reduz|falta de pessoal/.test(s)) return 'Falta de RH';
+  if (/comunica|contato|informaç|agenda|agendamento|retorno|whatsapp|telefone/.test(s)) return 'Comunicação';
+  if (/espaço|infraestrutura|log[íi]stica|material|recurso|estrutura|sala/.test(s)) return 'Logística/Infra';
+  if (/tempo|prazo|demanda|sobrecarga|corrido|ocupad|atendimento/.test(s)) return 'Falta de Tempo';
+  return 'Outro';
+}
+
+function countVal(rows, col, val) {
+  return rows.filter(function(r){ return String(r[col]||'').trim()===val; }).length;
+}
+function countInc(rows, col, kw) {
+  return rows.filter(function(r){ return String(r[col]||'').toLowerCase().indexOf(kw.toLowerCase())>=0; }).length;
+}
+
+// ═══════════════════════════════════════════════════════
+//  COMPUTE ALL METRICS FROM RAW ROWS
+// ═══════════════════════════════════════════════════════
+function calc(rows) {
+  var n = rows.length;
+  if (!n) return null;
+
+  var escolas = {}, ubs = {};
+  rows.forEach(function(r){ if(r[0]) escolas[r[0]]=1; if(r[1]) ubs[r[1]]=1; });
+  var nEscolas = Object.keys(escolas).length, nUbs = Object.keys(ubs).length;
+
+  // Q15
+  var sat5=0,sat4=0,sat3=0,sat2=0,sat1=0;
+  var satScores=[], satValid=[];
+  rows.forEach(function(r){
+    var v=String(r[17]||'').trim(), s=SAT_MAP[v];
+    if(s){if(s===5)sat5++;else if(s===4)sat4++;else if(s===3)sat3++;else if(s===2)sat2++;else if(s===1)sat1++; satScores.push(s); satValid.push(r);}
+  });
+  var satMean = satScores.length ? +(satScores.reduce(function(a,b){return a+b;})/satScores.length).toFixed(2) : 0;
+
+  // Q16, Q17
+  var q17s=countVal(rows,20,'Sim'),q17p=countVal(rows,20,'Parcialmente'),q17n=countVal(rows,20,'Não');
+  var q16s=countVal(rows,18,'Sim'),q16p=countVal(rows,18,'Parcialmente'),q16n=countVal(rows,18,'Não');
+
+  // Q5
+  var q5s=countVal(rows,6,'Sim'),q5p=countVal(rows,6,'Parcialmente'),q5n=countVal(rows,6,'Não');
+
+  // Q9 Q10 Q11
+  var q9s=countVal(rows,11,'Sim'),q9n=countVal(rows,11,'Não'),q9no=countVal(rows,11,'Não ocorreu'),q9ns=countVal(rows,11,'Não sabe informar');
+  var q10s=countVal(rows,12,'Sim'),q10n=countVal(rows,12,'Não'),q10no=countVal(rows,12,'Não ocorreu'),q10ns=countVal(rows,12,'Não sabe informar');
+  var q11s=countVal(rows,13,'Sim'),q11n=countVal(rows,13,'Não'),q11no=countVal(rows,13,'Não ocorreu'),q11ns=countVal(rows,13,'Não sabe informar');
+
+  // Q12 Q13
+  var q12s=countVal(rows,14,'Sim'),q12n=countVal(rows,14,'Não');
+  var q13s=countVal(rows,15,'Sim'),q13n=countVal(rows,15,'Não');
+
+  // Q18
+  var sem5=0,sem4=0,sem3=0,sem2=0,sem1=0,semNS=0;
+  rows.forEach(function(r){
+    var v=String(r[22]||'').trim();
+    if(v==='Completamente satisfeito')sem5++;
+    else if(v==='Parcialmente satisfeito')sem4++;
+    else if(v==='Nem satisfeito, nem insatisfeito')sem3++;
+    else if(v==='Parcialmente insatisfeito')sem2++;
+    else if(v==='Completamente insatisfeito')sem1++;
+    else if(v==='Não sabe informar')semNS++;
+  });
+
+  // Q7 (keyword-based, field has commas within option text)
+  var q7b=countInc(rows,9,'bilhetes'), q7v=countInc(rows,9,'verificou a situação vacinal'), q7a=countInc(rows,9,'assinalou a listagem'), q7ns=countInc(rows,9,'Não sei informar');
+
+  // Q19 (keyword-based)
+  var q19=[
+    ['Combate Aedes aegypti',     countInc(rows,23,'Aedes aegypti')],
+    ['Alimentação Saudável',       countInc(rows,23,'alimentação saudável')],
+    ['Saúde Bucal (escovação)',    countInc(rows,23,'escovação')],
+    ['Atividade Física',           countInc(rows,23,'Atividade Física')],
+    ['Saúde Bucal (avaliação)',    countInc(rows,23,'Saúde Bucal (avaliação)')],
+    ['Teste Snellen',              countInc(rows,23,'Snellen')],
+    ['Cultura de Paz / Cidadania', countInc(rows,23,'Cultura de Paz')],
+    ['Saúde Ambiental',            countInc(rows,23,'Saúde Ambiental')],
+    ['Prevenção COVID-19',         countInc(rows,23,'COVID')],
+    ['Saúde Mental Escolar',       countInc(rows,23,'Saúde Mental')],
+    ['Consulta Oftalmológica',     countInc(rows,23,'consulta Oftalmológica')],
+    ['Prevenção Violências',       countInc(rows,23,'Violências')],
+    ['Prev. Álcool/Drogas',        countInc(rows,23,'álcool')],
+    ['Saúde Auditiva',             countInc(rows,23,'Auditiva')],
+    ['Saúde Sexual / IST',         countInc(rows,23,'sexual')],
+    ['Teste Olhinho',              countInc(rows,23,'Olhinho')],
+    ['Teste Orelhinha',            countInc(rows,23,'Orelhinha')],
+    ['Prev. Doenças Negligenc.',   countInc(rows,23,'negligenciadas')]
+  ].sort(function(a,b){ return b[1]-a[1]; });
+
+  // Q20
+  var q20plan=countInc(rows,24,'planejamento'),q20esp=countInc(rows,24,'Espaço físico'),q20rec=countInc(rows,24,'Recursos disponíveis'),q20ac=countInc(rows,24,'Acessibilidade');
+
+  // Q21 Q22 Q23
+  var q21s=countVal(rows,25,'Sim'),q21p=countVal(rows,25,'Parcialmente'),q21n=countVal(rows,25,'Não'),q21na=countVal(rows,25,'Não se aplica');
+  var q22s=countVal(rows,26,'Sim'),q22n=countVal(rows,26,'Não');
+  var q23s=countVal(rows,27,'Sim'),q23n=countVal(rows,27,'Não'),q23na=countVal(rows,27,'Não se aplica'),q23ns=countVal(rows,27,'Não sabe informar');
+
+  // Correlation Q15 x Q17
+  var xs=[],ys=[];
+  rows.forEach(function(r){
+    var s=SAT_MAP[String(r[17]||'').trim()], c=CRONO_MAP[String(r[20]||'').trim()];
+    if(s&&c){xs.push(s);ys.push(c);}
+  });
+  var corr=pearson(xs,ys);
+
+  // Sat by crono group
+  var gSat={Sim:[],Parcialmente:[],Não:[]};
+  rows.forEach(function(r){
+    var g=String(r[20]||'').trim(), s=SAT_MAP[String(r[17]||'').trim()];
+    if(gSat[g]&&s) gSat[g].push(s);
+  });
+  var satByC={};
+  ['Sim','Parcialmente','Não'].forEach(function(k){
+    var arr=gSat[k]; satByC[k]=arr.length ? +(arr.reduce(function(a,b){return a+b;})/arr.length).toFixed(2) : 0;
+  });
+
+  // Gargalos
+  var g51={},g171={};
+  rows.forEach(function(r){ var c=catGarg(r[7]); if(c) g51[c]=(g51[c]||0)+1; });
+  rows.forEach(function(r){ var c=catGarg(r[21]); if(c) g171[c]=(g171[c]||0)+1; });
+
+  // Word frequencies
+  var wq1=wfreq(rows.map(function(r){return r[2];}));
+  var wq2=wfreq(rows.map(function(r){return r[3];}));
+  var wq3=wfreq(rows.map(function(r){return r[4];}));
+  var wq4=wfreq(rows.map(function(r){return r[5];}));
+
+  // Alerts
+  var baixaSat=rows.filter(function(r){ return [1,2].indexOf(SAT_MAP[String(r[17]||'').trim()])>=0; })
+    .map(function(r){ return {escola:r[0],ubs:r[1],sat:String(r[17]||'').trim()}; });
+
+  var topAlertas=rows.map(function(r){
+    var a=0;
+    if(['Não','Parcialmente'].indexOf(String(r[6]||'').trim())>=0) a++;
+    if(['Não','Parcialmente'].indexOf(String(r[20]||'').trim())>=0) a++;
+    if(String(r[13]||'').trim()==='Não') a++;
+    if([1,2].indexOf(SAT_MAP[String(r[17]||'').trim()])>=0) a++;
+    return {escola:r[0],ubs:r[1],alertas:a,sat:String(r[17]||'').trim(),q17:String(r[20]||'').trim()};
+  }).filter(function(x){return x.alertas>1&&x.escola;}).sort(function(a,b){return b.alertas-a.alertas;}).slice(0,8);
+
+  return {n,nEscolas,nUbs,satMean,sat5,sat4,sat3,sat2,sat1,satPctPos:+((sat5+sat4)/n*100).toFixed(1),
+    q17s,q17p,q17n,q16s,q16p,q16n,q5s,q5p,q5n,
+    q9s,q9n,q9no,q9ns,q10s,q10n,q10no,q10ns,q11s,q11n,q11no,q11ns,
+    q12s,q12n,q13s,q13n,sem5,sem4,sem3,sem2,sem1,semNS,
+    q7b,q7v,q7a,q7ns,q19,q20plan,q20esp,q20rec,q20ac,
+    q21s,q21p,q21n,q21na,q22s,q22n,q23s,q23n,q23na,q23ns,
+    corr,satByC,g51,g171,wq1,wq2,wq3,wq4,baixaSat,topAlertas};
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER ALL UI
+// ═══════════════════════════════════════════════════════
+function render(m) {
+  var n=m.n;
+
+  // Header badges
+  setText('bdgN','📊 '+m.nEscolas+' Unidades Escolares');
+  setText('bdgU','🏥 '+m.nUbs+' UBS Avaliadas');
+
+  // Exec summary
+  setHTML('exBody',
+    '<div class="ec"><h3>⚠️ Intervenção Urgente</h3><p>'+p0(m.q5p+m.q5n,n)+'% das escolas com encaminhamentos não plenamente atendidos. Visita domiciliar ausente em '+p0(m.q10n,m.q10s+m.q10n||1)+'% dos casos pertinentes. Apenas '+p0(m.q23s,n)+'% dos casos de obesidade/magreza acompanhados pela UBS.</p></div>'
+   +'<div class="ec"><h3>🔴 Gargalos Estruturais</h3><p>Falta de Tempo/Demanda é o principal gargalo identificado. '+p0(m.q16p+m.q16n,n)+'% sem cronograma PSE conjunto pleno. '+m.baixaSat.length+' escola(s) com satisfação crítica (≤2/5).</p></div>'
+   +'<div class="ec"><h3>✅ Pontos de Força</h3><p>'+m.satPctPos+'% satisfeitas ou plenamente satisfeitas com a parceria. Cronograma PSE cumprido em '+p0(m.q17s,n)+'%. Bilhetes vacinais enviados em '+p0(m.q7b,n)+'% dos casos. Troca de informações com a UBS em '+p0(m.q13s,n)+'%.</p></div>');
+
+  // KPIs
+  setHTML('zKPI',
+    '<div class="card"><div class="ct">Unidades Participantes</div><div class="kv" style="color:var(--v)">'+m.nEscolas+'</div><div class="kl">Unidades Escolares respondentes</div><span class="kb bv">'+m.nUbs+' UBS avaliadas</span></div>'
+   +'<div class="card"><div class="ct">Satisfação Geral Média (Q15)</div><div class="kv" style="color:var(--a2)">'+m.satMean.toFixed(2).replace('.',',')+' <span style="font-size:16px;color:var(--g)">/5</span></div><div class="kl">Média ponderada — escala 1 a 5</div><span class="kb bv">'+m.satPctPos+'% satisfeitos ou plenamente satisfeitos</span></div>'
+   +'<div class="card"><div class="ct">Cumprimento Cronograma PSE (Q17)</div><div class="kv" style="color:var(--v)">'+p0(m.q17s,n)+'%</div><div class="kl">Cronograma cumprido integralmente</div><span class="kb bl">'+p0(m.q17p,n)+'% Parcial · '+p0(m.q17n,n)+'% Não cumprido</span></div>'
+   +'<div class="card"><div class="ct">Resolutividade Encaminhamentos (Q5)</div><div class="kv" style="color:var(--l)">'+p2(m.q5s,n)+'%</div><div class="kl">Encaminhamentos plenamente atendidos</div><span class="kb bl">'+p0(m.q5p,n)+'% Parcial · '+p2(m.q5n,n)+'% Não atendido</span></div>');
+
+  // Q17 progress
+  setHTML('sQ17Prog',
+    mkProg('pb17s','✅ Sim — Cronograma Cumprido',m.q17s+' escolas ('+p0(m.q17s,n)+'%)',m.q17s/n*100,'var(--v)')
+   +mkProg('pb17p','⚠️ Parcialmente Cumprido',m.q17p+' escolas ('+p0(m.q17p,n)+'%)',m.q17p/n*100,'var(--l)')
+   +mkProg('pb17n','🔴 Não Cumprido',m.q17n+' escolas ('+p0(m.q17n,n)+'%)',m.q17n/n*100,'var(--r)'));
+
+  // Charts B1
+  mk('cSat',{type:'doughnut',data:{labels:['Comp. Satisfeito ('+m.sat5+')','Parc. Satisfeito ('+m.sat4+')','Parc. Insatisfeito ('+m.sat2+')','Comp. Insatisfeito ('+m.sat1+')'],datasets:[{data:[m.sat5,m.sat4,m.sat2,m.sat1],backgroundColor:[C.v,C.v2,C.l,C.r],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.label+': '+p2(ctx.raw,n)+'%';}}}}}});
+  leg('lSat',['Comp. Satisfeito ('+m.sat5+')','Parc. Satisfeito ('+m.sat4+')','Parc. Insatisfeito ('+m.sat2+')','Comp. Insatisfeito ('+m.sat1+')'],[C.v,C.v2,C.l,C.r]);
+
+  mk('cCrono',{type:'doughnut',data:{labels:['Sim ('+m.q17s+')','Parcialmente ('+m.q17p+')','Não ('+m.q17n+')'],datasets:[{data:[m.q17s,m.q17p,m.q17n],backgroundColor:[C.v,C.l,C.r],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:9,font:{size:10}}},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.raw+' ('+p2(ctx.raw,n)+'%)';}}}}}});
+
+  // Word clouds B2
+  wc('wcQ1',m.wq1,'#dcfce7','#166534');
+  wc('wcQ2',m.wq2,'#fee2e2','#991b1b');
+  wc('wcQ3',m.wq3,'#fef3c7','#92400e');
+  wc('wcQ4',m.wq4,'#dbeafe','#1e40af');
+
+  /*
+  // Sentiment top words
+  if(m.wq2&&m.wq2.length) setText('sentQ2','Dominância de: '+m.wq2.slice(0,5).map(function(w){return '<strong>'+w[0]+' ('+w[1]+'×)</strong>';}).join(', ')+'. Padrão de escassez de RH e sobrecarga.');
+  if(m.wq3&&m.wq3.length) setText('sentQ3','Tríade crítica: '+m.wq3.slice(0,3).map(function(w){return '<strong>'+w[0]+' ('+w[1]+'×)</strong>';}).join(', ')+'. Alta convergência com Q2.');
+  if(m.wq4&&m.wq4.length) setText('sentQ4','Demanda por: '+m.wq4.slice(0,3).map(function(w){return '<strong>'+w[0]+' ('+w[1]+'×)</strong>';}).join(', ')+'. Escolas querem maior integração periódica.');
+  */
+  // Sentiment top words - Refatorado com Template Literals
+  if (m.wq2 && m.wq2.length) {
+    setHTML('sentQ2', `Dominância de: ${m.wq2.slice(0, 5).map(w => `<strong>${w[0]} (${w[1]}×)</strong>`).join(', ')}. Padrão de escassez de RH e sobrecarga.`);
+  }
+  if (m.wq3 && m.wq3.length) {
+    setHTML('sentQ3', `Tríade crítica: ${m.wq3.slice(0, 3).map(w => `<strong>${w[0]} (${w[1]}×)</strong>`).join(', ')}. Alta convergência com Q2.`);
+  }
+  if (m.wq4 && m.wq4.length) {
+    setHTML('sentQ4', `Demanda por: ${m.wq4.slice(0, 3).map(w => `<strong>${w[0]} (${w[1]}×)</strong>`).join(', ')}. Escolas querem maior integração periódica.`);
+  }
+
+  // Charts B3
+  setHTML('q5Alt','<div class="ab2">⚠️ '+p0(m.q5p+m.q5n,n)+'% das escolas com encaminhamentos <strong>não plenamente atendidos</strong>. Gargalo operacional prioritário.</div>');
+  mk('cQ5',{type:'doughnut',data:{labels:['Plenamente ('+m.q5s+')','Parcialmente ('+m.q5p+')','Não Atendidos ('+m.q5n+')'],datasets:[{data:[m.q5s,m.q5p,m.q5n],backgroundColor:[C.v,C.l,C.r],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:9,font:{size:10}}},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.raw+' ('+p2(ctx.raw,n)+'%)';}}}}}});
+
+  mk('cInfecto',{type:'bar',data:{labels:['Q9 · Identificadas\ne encaminhadas','Q10 · Visita\ndomiciliar','Q11 · Colaboração\ndoenças graves'],datasets:[{label:'Sim',data:[m.q9s,m.q10s,m.q11s],backgroundColor:C.v},{label:'Não',data:[m.q9n,m.q10n,m.q11n],backgroundColor:C.r},{label:'N.Ocorreu/N.Sabe',data:[m.q9no+m.q9ns,m.q10no+m.q10ns,m.q11no+m.q11ns],backgroundColor:C.g2,borderColor:C.g,borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,ticks:{font:{size:9}}},y:{stacked:true,max:n}},plugins:{legend:{position:'bottom',labels:{boxWidth:9,font:{size:10}}},tooltip:{mode:'index',intersect:false}}}});
+  setHTML('chpInf','<span class="chip">Q9 Identificadas: '+m.q9s+' Sim / '+m.q9n+' Não</span><span class="chip">Q10 Visita Dom.: '+m.q10s+' Sim / '+m.q10n+' Não</span><span class="chip">Q11 Graves: '+m.q11s+' Sim / '+m.q11n+' Não</span>');
+
+  mk('cIntegr',{type:'bar',data:{labels:['Q12 · Participa\nConselho Local','Q13 · Fornece\nInfo à UBS'],datasets:[{label:'Sim',data:[m.q12s,m.q13s],backgroundColor:C.a2},{label:'Não',data:[m.q12n,m.q13n],backgroundColor:C.r2}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,ticks:{font:{size:9}}},y:{stacked:true,max:n}},plugins:{legend:{position:'bottom',labels:{boxWidth:9,font:{size:10}}}}}});
+  setText('q13Bdg',p2(m.q13s,n)+'% SIM'); setText('q12Bdg',p0(m.q12s,n)+'% SIM · '+p0(m.q12n,n)+'% NÃO');
+
+  // Q7 ranking
+  var q7mx=Math.max(m.q7b,m.q7v,m.q7a,1);
+  setHTML('rkQ7',
+    rnkRow(1,C.p,'Bilhetes enviados — alunos com pendência vacinal',m.q7b,q7mx,'inherit')
+   +rnkRow(2,C.t,'UBS verificou situação vacinal dos alunos',m.q7v,q7mx,'inherit')
+   +rnkRow(3,C.te,'UBS assinalou listagem com pendências',m.q7a,q7mx,'inherit')
+   +rnkRow(4,C.l,'Não soube informar sobre as etapas vacinais',m.q7ns,q7mx,C.l));
+  setText('q7Alt','ℹ️ '+p0(m.q7b,n)+'% com bilhetes enviados. '+p0(m.q7ns,n)+'% não souberam informar — lacuna de comunicação sobre o processo.');
+
+  // Infecto detalhes
+  setHTML('sInfDet',
+    mkProg('','Q9 · Casos identificados e encaminhados à UBS',p2(m.q9s,n)+'% Sim',m.q9s/n*100,'var(--v)')
+   +mkProg('','Q9 · Não ocorreu (sem casos no período)',p2(m.q9no,n)+'%',m.q9no/n*100,'#9ca3af')
+   +mkProg('','Q9 · Não encaminhou mesmo havendo casos',p2(m.q9n,n)+'% 🔴',m.q9n/n*100,'var(--r)')
+   +'<div class="div"></div>'
+   +mkProg('','Q10 · Visita domiciliar realizada',p2(m.q10s,n)+'% Sim',m.q10s/n*100,'var(--v)')
+   +mkProg('','Q10 · Não solicitou visita (casos existentes)',p2(m.q10n,n)+'% Não 🔴',m.q10n/n*100,'var(--r)')
+   +mkProg('','Q10 · Visita não foi necessária',p2(m.q10no,n)+'%',m.q10no/n*100,'#9ca3af')
+   +'<div class="ab ac" style="padding:8px 10px;margin-top:8px;margin-bottom:0"><div class="ab2">🔴 <strong>ALERTA:</strong> Em '+p0(m.q10n,m.q10s+m.q10n||1)+'% dos casos pertinentes, visita domiciliar não realizada — ruptura crítica no cuidado familiar.</div></div>');
+
+  // Charts B4
+  mk('cSem',{type:'doughnut',data:{labels:['Comp. Satisfeito ('+m.sem5+')','Parc. Satisfeito ('+m.sem4+')','Não Sabe ('+m.semNS+')','Parc. Insatisfeito ('+m.sem2+')','Comp. Insatisfeito ('+m.sem1+')'],datasets:[{data:[m.sem5,m.sem4,m.semNS,m.sem2,m.sem1],backgroundColor:[C.v,C.v2,C.g,C.l,C.r],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.raw+' escolas';}}}}}});
+  leg('lSem',['Comp. Satisfeito ('+m.sem5+')','Parc. Satisfeito ('+m.sem4+')','Não Sabe ('+m.semNS+')','Parc. Insatisfeito ('+m.sem2+')','Comp. Insatisfeito ('+m.sem1+')'],[C.v,C.v2,C.g,C.l,C.r]);
+  setHTML('semAlt','<div class="ab2">⚠️ '+p0(m.sem2+m.sem1,n)+'% insatisfeitos com o Seminário. '+p0(m.semNS,n)+'% não souberam avaliar.</div>');
+
+  var q20mx=Math.max(m.q20plan,m.q20esp,m.q20rec,m.q20ac,1);
+  setHTML('rkQ20',rnkRow(1,C.p,'Disponibilidade para planejamento das atividades',m.q20plan,q20mx,'inherit')+rnkRow(1,C.p,'Espaço físico adequado para ações',m.q20esp,q20mx,'inherit')+rnkRow(3,C.t,'Recursos disponíveis (materiais/equipamentos)',m.q20rec,q20mx,'inherit')+rnkRow(4,C.te,'Acessibilidade estrutural',m.q20ac,q20mx,'inherit'));
+
+  setText('pl21s',p0(m.q21s,n)+'%'); setBar('pb21s',m.q21s/n*100);
+  setHTML('sQ2223',
+    '<div class="ct" style="margin-bottom:4px">Q22 — Apoio UBS no Teste de Snellen (Acuidade Visual)</div>'
+   +mkProg('','Sim — Com apoio da UBS',p0(m.q22s,n)+'%',m.q22s/n*100,'var(--v)')
+   +mkProg('','Não — Sem apoio 🔴',p0(m.q22n,n)+'%',m.q22n/n*100,'var(--r)')
+   +'<div class="div"></div><div class="ct" style="margin-bottom:4px">Q23 — Acompanhamento Antropométrico UBS</div>'
+   +mkProg('','Sim',p0(m.q23s,n)+'%',m.q23s/n*100,'var(--v)')
+   +mkProg('','Não 🔴',p0(m.q23n,n)+'%',m.q23n/n*100,'var(--r)')
+   +mkProg('','Não soube informar',p0(m.q23ns,n)+'%',m.q23ns/n*100,'#9ca3af')
+   +'<div class="ab ac" style="padding:8px 10px;margin-top:6px;margin-bottom:0"><div class="ab2">🔴 Apenas <strong>'+p0(m.q23s,n)+'%</strong> dos casos de obesidade/magreza com acompanhamento confirmado pela UBS.</div></div>');
+
+  var aColors=m.q19.map(function(a,i){return i<6?C.v:i>13?C.r:C.a2;});
+  mk('cAcoes',{type:'bar',data:{labels:m.q19.map(function(a){return a[0];}),datasets:[{label:'Escolas que Alcançaram',data:m.q19.map(function(a){return a[1];}),backgroundColor:aColors,borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{max:n,ticks:{font:{size:9}}},y:{ticks:{font:{size:9}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.raw+' ('+p2(ctx.raw,n)+'%)';}}}}}});
+
+  mk('cQ16',{type:'doughnut',data:{labels:['Sim ('+m.q16s+')','Parcialmente ('+m.q16p+')','Não ('+m.q16n+')'],datasets:[{data:[m.q16s,m.q16p,m.q16n],backgroundColor:[C.v,C.l,C.r],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:9,font:{size:10}}},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.raw+' escolas';}}}}}});
+  setHTML('sQ16Prog',
+    mkProg('','✅ Cronograma elaborado (Sim)',p0(m.q16s,n)+'% — '+m.q16s+' esc.',m.q16s/n*100,'var(--v)')
+   +mkProg('','⚠️ Parcialmente elaborado',p0(m.q16p,n)+'% — '+m.q16p+' esc.',m.q16p/n*100,'var(--l)')
+   +mkProg('','🔴 Não elaborado conjuntamente',p0(m.q16n,n)+'% — '+m.q16n+' esc.',m.q16n/n*100,'var(--r)')
+   +'<div class="ab aa" style="padding:8px 10px;margin-top:8px;margin-bottom:0"><div class="ab2">⚠️ <strong>'+p0(m.q16p+m.q16n,n)+'%</strong> sem cronograma conjunto pleno — fragilidade na base do planejamento PSE.</div></div>');
+
+  // Correlation
+  var cSign = m.corr > 0 ? 'positiva' : m.corr < 0 ? 'negativa' : 'nula';
+  var cStr = (m.corr>0?'+':'')+m.corr.toFixed(2).replace('.',',');
+  setText('corrR','r = '+cStr); setText('corrN',n);
+  setText('corrDesc', m.corr>=0.3 ? 'Onde o cronograma é cumprido, a satisfação é significativamente maior.' : 'Correlação '+cSign+' entre cumprimento do cronograma e satisfação.');
+
+  var cD=[m.satByC['Não']||0,m.satByC['Parcialmente']||0,m.satByC['Sim']||0];
+  mk('cCorr',{type:'bar',data:{labels:['Crono NÃO Cumprido','Crono Parcialmente','Crono Cumprido (Sim)'],datasets:[{label:'Satisfação Média (1-5)',data:cD,backgroundColor:[C.r,C.l,C.v],borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:1,max:5,ticks:{callback:function(v){return v.toFixed(1);}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' Sat. Média: '+ctx.raw.toFixed(2);}}}}}});
+  setHTML('corrBx',
+    cBox(C.v,'var(--v3)',(m.satByC['Sim']||0).toFixed(2).replace('.',','),'Cronograma Cumprido')
+   +cBox(C.l,'var(--l3)',(m.satByC['Parcialmente']||0).toFixed(2).replace('.',','),'Cronograma Parcial')
+   +cBox(C.r,'var(--r3)',(m.satByC['Não']||0).toFixed(2).replace('.',','),'Não Cumprido'));
+
+  // Gargalos
+  setHTML('gG51',renderGarg(m.g51));
+  var g51top=Object.keys(m.g51).length?Object.keys(m.g51).sort(function(a,b){return m.g51[b]-m.g51[a];})[0]:'—';
+  setHTML('gG51Alt','⚠️ <strong>"'+g51top+'"</strong> é o principal gargalo identificado no fluxo de encaminhamentos.');
+  setHTML('gG171',renderGarg(m.g171));
+
+  // Alertas
+  setHTML('zAlertas3',
+    '<div class="ab ac" style="border-radius:10px;margin-bottom:0"><div class="at2">🔴 ALERTA 1 — Encaminhamentos em Colapso</div><div class="ab2">'+p0(m.q5p+m.q5n,n)+'% das escolas com encaminhamentos não plenamente atendidos. Impacto direto na continuidade do cuidado das crianças e famílias.</div></div>'
+   +'<div class="ab ac" style="border-radius:10px;margin-bottom:0"><div class="at2">🔴 ALERTA 2 — Visita Domiciliar Ausente</div><div class="ab2">Em '+p0(m.q10n,m.q10s+m.q10n||1)+'% dos casos pertinentes, visita domiciliar não realizada. Ruptura grave na atenção integral ao ambiente familiar.</div></div>'
+   +'<div class="ab ac" style="border-radius:10px;margin-bottom:0"><div class="at2">🔴 ALERTA 3 — Acompanhamento Nutricional Crítico</div><div class="ab2">Apenas '+p0(m.q23s,n)+'% dos casos de obesidade/magreza com acompanhamento confirmado. '+p0(m.q23ns,n)+'% não souberam informar — desconexão nos protocolos.</div></div>');
+
+  // Tables
+  var sSat={'Completamente insatisfeito':'background:#fef2f2;color:#dc2626','Parcialmente insatisfeito':'background:#fff7ed;color:#d97706'};
+  setHTML('tbBS', m.baixaSat.length ? m.baixaSat.map(function(x,i){return '<tr><td>'+(i+1)+'</td><td>'+x.escola+'</td><td>'+x.ubs+'</td><td><span class="pill" style="'+(sSat[x.sat]||'')+'">'+x.sat.replace('Completamente ','Comp. ').replace('Parcialmente ','Parc. ')+'</span></td></tr>';}).join('') : '<tr><td colspan="4" style="text-align:center;color:#9ca3af">Nenhuma escola com satisfação crítica 🎉</td></tr>');
+  var sAl={3:'background:#fef2f2;color:#dc2626',2:'background:#fff7ed;color:#d97706'};
+  var sSatA={'Completamente insatisfeito':'background:#fef2f2;color:#dc2626','Parcialmente insatisfeito':'background:#fff7ed;color:#d97706','Parcialmente satisfeito':'background:#fef9c3;color:#92400e','Completamente satisfeito':'background:#dcfce7;color:#166534'};
+  setHTML('tbAL', m.topAlertas.length ? m.topAlertas.map(function(x){return '<tr><td>'+x.escola+'</td><td>'+x.ubs+'</td><td><span class="pill" style="'+(sAl[x.alertas]||'')+'">'+x.alertas+' alertas</span></td><td><span class="pill" style="'+(sSatA[x.sat]||'')+'">'+x.sat.replace('Completamente ','Comp. ').replace('Parcialmente ','Parc. ')+'</span></td></tr>';}).join('') : '<tr><td colspan="4" style="text-align:center;color:#9ca3af">Sem unidades com múltiplos alertas</td></tr>');
+}
+
+// Small render helpers
+function mkProg(pbId, lbl, val, pct, color) {
+  return '<div class="pi"><div class="pl"><span>'+lbl+'</span><span style="font-weight:700;color:'+color+'">'+val+'</span></div><div class="pt"><div class="pf" '+(pbId?'id="'+pbId+'"':'')+'style="width:'+Math.min(100,Math.max(0,Math.round(pct)))+'%;background:'+color+'"></div></div></div>';
+}
+function rnkRow(num, numBg, lbl, val, mx, rc) {
+  return '<div class="ri"><div class="rn" style="background:'+numBg+'">'+num+'</div><div class="rb">'+lbl+'</div><div class="rbw"><div class="rbar" style="width:'+Math.round(val/mx*100)+'%;background:'+numBg+'"></div></div><div class="rc" style="color:'+rc+'">'+val+'</div></div>';
+}
+function cBox(textC, bgC, val, lbl) {
+  return '<div style="flex:1;min-width:90px;background:'+bgC+';border-radius:6px;padding:8px;text-align:center"><div style="font-size:22px;font-weight:800;color:'+textC+'">'+val+'</div><div style="font-size:11px;color:var(--tx2)">'+lbl+'</div></div>';
+}
+var GICONS={'Falta de Tempo':'⏰','Falta de RH':'👥','Comunicação':'📡','Logística/Infra':'🏗️','Outro':'❓'};
+var GCOLS={'Falta de Tempo':'#f59e0b','Falta de RH':'#dc2626','Comunicação':'#3b82f6','Logística/Infra':'#8b5cf6','Outro':'#9ca3af'};
+function renderGarg(g) {
+  var entries=Object.keys(g).map(function(k){return [k,g[k]];}).sort(function(a,b){return b[1]-a[1];});
+  if(!entries.length) return '<span style="color:#9ca3af;font-size:12px">Sem dados</span>';
+  var mx=entries[0][1];
+  return entries.map(function(e){return '<div class="gi"><div class="gic">'+(GICONS[e[0]]||'❓')+'</div><div class="gin"><div class="gnm">'+e[0]+'</div><div class="gbw"><div class="gb" style="width:'+Math.round(e[1]/mx*100)+'%;background:'+(GCOLS[e[0]]||'#9ca3af')+'"></div></div></div><div class="gcnt">'+e[1]+'</div></div>';}).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+//  FILE HANDLING
+// ═══════════════════════════════════════════════════════
+function handleFile(file) {
+  var info = document.getElementById('upInfo');
+  info.className = 'dz-info load';
+  info.textContent = '⏳ Processando ' + file.name + '...';
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(e.target.result, {type:'array'});
+      var ws = wb.Sheets[wb.SheetNames[0]];
+      var all = XLSX.utils.sheet_to_json(ws, {header:1});
+      if (all.length < 2) throw new Error('Planilha sem dados.');
+      var dataRows = all.slice(1).filter(function(r){ return r[0]; });
+      if (!dataRows.length) throw new Error('Nenhuma resposta encontrada.');
+      if (all[0].length < 20) throw new Error('Formato inválido — verifique se é a planilha correta.');
+      var m = calc(dataRows);
+      if (!m) throw new Error('Não foi possível calcular os indicadores.');
+      render(m);
+      var now = new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      info.className = 'dz-info ok';
+      info.textContent = '✅ ' + dataRows.length + ' respostas carregadas · ' + m.nEscolas + ' escolas · ' + m.nUbs + ' UBS · Atualizado em ' + now;
+      setText('bdgAtu', '🕐 Atualizado: ' + now);
+    } catch(err) {
+      info.className = 'dz-info err';
+      info.textContent = '❌ Erro: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+var dz = document.getElementById('dz');
+dz.addEventListener('dragover', function(e){ e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', function(){ dz.classList.remove('over'); });
+dz.addEventListener('drop', function(e){
+  e.preventDefault(); dz.classList.remove('over');
+  var f = e.dataTransfer.files[0];
+  if (f && (f.name.endsWith('.xlsx')||f.name.endsWith('.xls'))) handleFile(f);
+  else {
+    var info=document.getElementById('upInfo');
+    info.className='dz-info err'; info.textContent='❌ Use um arquivo .xlsx ou .xls';
+  }
+});
+dz.addEventListener('click', function(){ document.getElementById('fi').click(); });
+document.getElementById('fi').addEventListener('change', function(e){ if(e.target.files[0]) handleFile(e.target.files[0]); });
+
+// ═══════════════════════════════════════════════════════
+//  DEFAULT DATA (análise da planilha original)
+// ═══════════════════════════════════════════════════════
+Chart.defaults.font.family = "'Segoe UI', Arial, sans-serif";
+Chart.defaults.font.size = 11;
+
+var DEF = {n:126,nEscolas:126,nUbs:49,satMean:4.26,sat5:50,sat4:69,sat3:0,sat2:4,sat1:3,satPctPos:94.4,
+  q17s:97,q17p:24,q17n:5,q16s:79,q16p:24,q16n:23,q5s:69,q5p:50,q5n:7,
+  q9s:72,q9n:22,q9no:28,q9ns:4,q10s:30,q10n:38,q10no:50,q10ns:8,q11s:8,q11n:1,q11no:111,q11ns:6,
+  q12s:69,q12n:57,q13s:119,q13n:7,sem5:46,sem4:52,sem3:0,sem2:9,sem1:6,semNS:13,
+  q7b:102,q7v:83,q7a:75,q7ns:16,
+  q19:[['Combate Aedes aegypti',107],['Alimentação Saudável',103],['Saúde Bucal (escovação)',96],['Atividade Física',94],['Saúde Bucal (avaliação)',93],['Teste Snellen',88],['Cultura de Paz / Cidadania',87],['Saúde Ambiental',85],['Prevenção COVID-19',61],['Saúde Mental Escolar',59],['Consulta Oftalmológica',55],['Prevenção Violências',45],['Prev. Álcool/Drogas',33],['Saúde Auditiva',31],['Saúde Sexual / IST',28],['Teste Olhinho',25],['Teste Orelhinha',23],['Prev. Doenças Negligenc.',19]],
+  q20plan:97,q20esp:97,q20rec:81,q20ac:76,q21s:115,q21p:6,q21n:1,q21na:4,q22s:61,q22n:65,q23s:27,q23n:40,q23na:30,q23ns:29,
+  corr:0.33,satByC:{Sim:4.41,Parcialmente:3.79,Não:3.60},
+  g51:{'Falta de Tempo':26,'Outro':24,'Falta de RH':8,'Comunicação':7},
+  g171:{'Outro':25,'Falta de Tempo':3,'Falta de RH':1},
+  wq1:[['saúde',68],['unidade',42],['parceria',41],['comunicação',35],['ações',27],['crianças',27],['escolar',21],['famílias',20],['atendimento',17],['vacinação',16],['escola',15],['prevenção',15],['bucal',14],['alunos',11],['orientações',9],['integral',9],['encaminhamentos',9],['diálogo',8],['promoção',8]],
+  wq2:[['falta',35],['saúde',27],['unidade',26],['ações',22],['parceria',21],['profissionais',18],['atendimento',18],['demanda',17],['famílias',16],['comunicação',15],['crianças',13],['escola',12],['demandas',11],['fragilidades',11],['trabalho',10],['dificuldade',10]],
+  wq3:[['falta',31],['unidade',29],['saúde',22],['profissionais',18],['tempo',17],['parceria',17],['comunicação',16],['ações',16],['articulação',15],['barreira',14],['escola',14],['desafio',10],['atendimento',10],['demanda',9],['dificuldade',8]],
+  wq4:[['saúde',40],['unidade',30],['ações',23],['reuniões',19],['crianças',17],['escolar',14],['parceria',13],['atendimento',13],['escola',12],['encontros',12],['comunicação',11],['famílias',11],['alinhamento',9]],
+  baixaSat:[{escola:'CEI Espaço da Criança',ubs:'UBSF ADHEMAR GARCIA',sat:'Completamente insatisfeito'},{escola:'CEI José do Patrocínio',ubs:'UBSF CANTO DO RIO',sat:'Completamente insatisfeito'},{escola:'EM Lacy Luiza da Cruz Flores',ubs:'UBSF ITINGA',sat:'Completamente insatisfeito'},{escola:'CEI Alegria de Viver',ubs:'UBSF PARANAGUAMIRIM',sat:'Parcialmente insatisfeito'},{escola:'CEI Bem-me-quer',ubs:'UBSF JARDIM PARAÍSO',sat:'Parcialmente insatisfeito'},{escola:'CEI Lírio do Campo',ubs:'UBSF FÁTIMA',sat:'Parcialmente insatisfeito'},{escola:'EM Maria Regina Leal',ubs:'UBSF DA ILHA',sat:'Parcialmente insatisfeito'}],
+  topAlertas:[{escola:'CEI Alegria de Viver',ubs:'UBSF PARANAGUAMIRIM',alertas:3,sat:'Parcialmente insatisfeito',q17:'Parcialmente'},{escola:'CEI José do Patrocínio',ubs:'UBSF CANTO DO RIO',alertas:3,sat:'Completamente insatisfeito',q17:'Parcialmente'},{escola:'CEI Lírio do Campo',ubs:'UBSF FÁTIMA',alertas:3,sat:'Parcialmente insatisfeito',q17:'Parcialmente'},{escola:'CEI Bem-me-quer',ubs:'UBSF JARDIM PARAÍSO',alertas:2,sat:'Parcialmente insatisfeito',q17:'Sim'},{escola:'CEI Hubert Hübener',ubs:'UBSF RIO DA PRATA',alertas:2,sat:'Parcialmente satisfeito',q17:'Parcialmente'},{escola:'CEI Miraci Dereti',ubs:'UBSF DA ILHA',alertas:2,sat:'Parcialmente satisfeito',q17:'Parcialmente'},{escola:'CEI Sol Nascente',ubs:'UBSF ITAUM',alertas:2,sat:'Parcialmente satisfeito',q17:'Não'},{escola:'EM Alire Carneiro',ubs:'UBSF JARDIM PARAÍSO',alertas:2,sat:'Parcialmente satisfeito',q17:'Parcialmente'}]
+};
+
+render(DEF);
+</script>
+</body>
+</html>

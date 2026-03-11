@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Análise Qualitativa Q6 — Encaminhamentos PSE 2025</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --v:#1a7f4b;--v2:#2fa866;--v3:#e8f5ee;
+  --a:#1a4e8f;--a2:#2d72d2;--a3:#e8f0fb;
+  --l:#d97706;--l3:#fef3c7;
+  --r:#dc2626;--r2:#b91c1c;--r3:#fef2f2;
+  --g:#6b7280;--g2:#f3f4f6;--g3:#e5e7eb;
+  --tx:#111827;--tx2:#4b5563;
+  --t:#0891b2;--t3:#e0f2fe;
+  --p:#6366f1;--p3:#ede9fe;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:var(--tx);font-size:14px}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#0d4f2e 0%,#1a7f4b 55%,#2d72d2 100%);color:#fff;padding:22px 36px 18px}
+.hdr-in{max-width:1360px;margin:0 auto}
+.hdr h1{font-size:19px;font-weight:700;margin-bottom:4px;line-height:1.3}
+.hdr .sub{font-size:12px;opacity:.85;margin-bottom:12px;line-height:1.5}
+.bdgs{display:flex;gap:7px;flex-wrap:wrap}
+.bdg{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:600}
+
+/* WRAP */
+.wrap{max-width:1360px;margin:0 auto;padding:22px 18px}
+
+/* SYNTHESIS */
+.synthesis{background:linear-gradient(135deg,#0d4f2e,#1a7f4b);color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:24px}
+.synthesis h2{font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.syn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+@media(max-width:860px){.syn-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.syn-grid{grid-template-columns:1fr}}
+.syn-card{background:rgba(255,255,255,.13);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.18)}
+.syn-card strong{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;opacity:.72;margin-bottom:4px}
+.syn-card p{font-size:11.5px;opacity:.92;line-height:1.55}
+
+/* OVERVIEW CHARTS */
+.ov-row{display:grid;grid-template-columns:1.1fr 0.9fr;gap:16px;margin-bottom:20px}
+@media(max-width:760px){.ov-row{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.09)}
+.ct{font-size:10.5px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+
+/* SECTION TITLE */
+.stitle{font-size:14.5px;font-weight:700;color:var(--a);margin:24px 0 12px;display:flex;align-items:center;gap:7px;border-bottom:2px solid var(--a2);padding-bottom:6px}
+
+/* CATEGORY CARDS */
+.cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:22px}
+@media(max-width:1060px){.cats-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cats-grid{grid-template-columns:1fr}}
+.cat-card{background:#fff;border-radius:11px;padding:17px;box-shadow:0 1px 4px rgba(0,0,0,.09);border-top:5px solid;display:flex;flex-direction:column;gap:9px}
+.cat-head{display:flex;align-items:flex-start;gap:9px}
+.cat-icon{font-size:24px;flex-shrink:0;line-height:1}
+.cat-name{font-weight:700;font-size:13px;line-height:1.3}
+.cat-sub{font-size:11px;color:var(--g);margin-top:2px}
+.cat-count{font-size:28px;font-weight:800;line-height:1}
+.cat-count span{font-size:13px;font-weight:500;color:var(--g);margin-left:3px}
+.bar-wrap{height:8px;background:var(--g2);border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:5px}
+.cat-desc{font-size:12px;color:var(--tx2);line-height:1.55;border-left:3px solid;padding-left:8px}
+.kw-row{display:flex;flex-wrap:wrap;gap:4px}
+.kw{font-size:10px;background:var(--g2);border-radius:3px;padding:2px 6px;color:var(--tx2);font-weight:600}
+.quotes{border-top:1px solid var(--g3);padding-top:9px;display:flex;flex-direction:column;gap:6px}
+.ql{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--g);margin-bottom:2px;letter-spacing:.4px}
+.q{font-size:11.5px;color:var(--tx2);line-height:1.6;padding:7px 10px;background:var(--g2);border-radius:6px;border-left:4px solid;font-style:italic}
+.q-sch{font-size:10px;font-weight:700;color:var(--g);margin-top:3px;font-style:normal}
+
+/* ALERT */
+.alrt{border-radius:7px;padding:10px 13px;border-left:4px solid}
+.al-r{background:#fff1f0;border-color:var(--r)}.al-l{background:#fffbeb;border-color:var(--l)}
+.al-g{background:#f0fdf4;border-color:var(--v)}.al-a{background:#eff6ff;border-color:var(--a2)}
+.alrt-t{font-size:11.5px;font-weight:700;margin-bottom:2px}
+.al-r .alrt-t{color:var(--r)}.al-l .alrt-t{color:var(--l)}
+.al-g .alrt-t{color:var(--v)}.al-a .alrt-t{color:var(--a2)}
+.alrt-b{font-size:11px;color:var(--tx2);line-height:1.5}
+
+/* FLOW */
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin:10px 0}
+.fstep{background:var(--g2);border-radius:7px;padding:6px 11px;font-size:11.5px;font-weight:600;color:var(--tx)}
+.farr{font-size:15px;color:var(--g)}
+.fstep.hl{background:var(--a3);color:var(--a)}
+.fstep.ok{background:var(--v3);color:var(--v)}
+.fstep.err{background:var(--r3);color:var(--r)}
+.fstep.warn{background:var(--l3);color:var(--l)}
+
+/* INSIGHTS */
+.ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+@media(max-width:680px){.ins-grid{grid-template-columns:1fr}}
+.ins-card{background:#fff;border-radius:10px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,.09)}
+.ins-card h3{font-size:12.5px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ins-card p{font-size:12px;color:var(--tx2);line-height:1.6}
+
+/* SEM PROCESS TABLE */
+.sem-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.sem-tbl th{background:var(--r3);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--r)}
+.sem-tbl td{padding:7px 10px;border-bottom:1px solid #fecaca;vertical-align:top;line-height:1.5}
+.sem-tbl tr:hover td{background:#fff5f5}
+
+/* FULL TABLE */
+.srch{width:100%;padding:9px 13px;border:1.5px solid var(--g3);border-radius:7px;font-size:13px;margin-bottom:11px;font-family:inherit;outline:none;transition:border-color .2s}
+.srch:focus{border-color:var(--a2)}
+.tbl-wrap{max-height:520px;overflow-y:auto;border:1px solid var(--g3);border-radius:8px}
+.rtbl{width:100%;border-collapse:collapse;font-size:12px}
+.rtbl th{background:var(--g2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--tx2);position:sticky;top:0;z-index:1}
+.rtbl td{padding:7px 10px;border-bottom:1px solid var(--g3);vertical-align:top;line-height:1.55}
+.rtbl tr:hover td{background:#fafafa}
+.pill{display:inline-block;border-radius:4px;padding:2px 7px;font-size:10.5px;font-weight:700;white-space:nowrap}
+.e-col{font-weight:600;color:var(--a);min-width:155px}
+.u-col{font-size:11px;color:var(--g);min-width:130px}
+
+/* FORMALIZATION ROW */
+.fl-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.fl-dot{width:11px;height:11px;border-radius:2px;flex-shrink:0}
+
+.foot{background:#1a2535;color:#9ca3af;text-align:center;padding:13px;font-size:11.5px;margin-top:26px}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-in">
+    <h1>🔄 Análise Qualitativa — Q6: Como são feitos os Encaminhamentos Combinados entre as Unidades</h1>
+    <p class="sub">Questão 6 — "Descreva resumidamente como são feitos os encaminhamentos combinados entre as unidades" &nbsp;·&nbsp; 166 respostas analisadas e categorizadas &nbsp;·&nbsp; PSE 2025 · Joinville-SC</p>
+    <div class="bdgs">
+      <span class="bdg">📊 166 Unidades Escolares</span>
+      <span class="bdg">🏷️ 6 Categorias Identificadas</span>
+      <span class="bdg">🔴 14 Sem Processo Definido (8,4%)</span>
+      <span class="bdg">✅ 7 Com Protocolo Formal (4,2%)</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- SYNTHESIS -->
+<div class="synthesis">
+  <h2>📌 Diagnóstico Geral — O que a análise revela sobre os encaminhamentos</h2>
+  <div class="syn-grid">
+    <div class="syn-card">
+      <strong>📄 Padrão Dominante</strong>
+      <p>Em 47% das escolas o mecanismo é o relatório pedagógico entregue pela família à UBS. A escola elabora, a família transporta — <em>sem confirmação de que o atendimento ocorreu</em>.</p>
+    </div>
+    <div class="syn-card">
+      <strong>📱 Informalidade Institucionalizada</strong>
+      <p>WhatsApp, telefone e e-mail são o segundo método mais citado (25%). Funcionam bem, mas dependem de vínculos pessoais com profissionais nomeados — frágeis à rotatividade.</p>
+    </div>
+    <div class="syn-card">
+      <strong>🔴 Lacuna Crítica</strong>
+      <p>14 escolas (8,4%) declararam explicitamente não ter nenhum processo combinado — ausência total de articulação intersetorial nos encaminhamentos.</p>
+    </div>
+    <div class="syn-card">
+      <strong>✅ Boas Práticas Emergentes</strong>
+      <p>7 escolas (4,2%) já operam com protocolo formal: formulário com campo de retorno, Drive compartilhado ou ATA registrada — modelos replicáveis para toda a rede.</p>
+    </div>
+    <div class="syn-card">
+      <strong>🔁 Elo Perdido: o Retorno</strong>
+      <p>A maioria não menciona nenhum mecanismo de confirmação de que a família foi atendida após o encaminhamento. O processo termina na entrega do documento — o destino é desconhecido.</p>
+    </div>
+    <div class="syn-card">
+      <strong>👥 SOE e AS como Articuladores</strong>
+      <p>Em 13% das escolas o SOE, Assistente Social ou AEE faz a mediação — processo descrito como mais completo e com maior acompanhamento da família. Modelo a ser ampliado.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CHARTS -->
+<div class="ov-row">
+  <div class="card">
+    <div class="ct">Distribuição por Tipo de Processo de Encaminhamento (Q6 · n=166)</div>
+    <div style="height:275px"><canvas id="chMain"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ct">Grau de Formalização dos Processos</div>
+    <div style="height:160px"><canvas id="chForm"></canvas></div>
+    <div style="margin-top:13px">
+      <div class="fl-row"><div class="fl-dot" style="background:var(--v)"></div>
+        <span style="font-size:11.5px">Processo <strong>estruturado</strong> — protocolo, drive, retorno formal</span>
+        <span style="margin-left:auto;font-weight:700;color:var(--v);font-size:12px">7 · 4%</span></div>
+      <div class="fl-row"><div class="fl-dot" style="background:var(--l)"></div>
+        <span style="font-size:11.5px">Processo <strong>semiformal</strong> — relatório + contato + SOE</span>
+        <span style="margin-left:auto;font-weight:700;color:var(--l);font-size:12px">145 · 87%</span></div>
+      <div class="fl-row"><div class="fl-dot" style="background:var(--r)"></div>
+        <span style="font-size:11.5px">Processo <strong>ausente ou indefinido</strong></span>
+        <span style="margin-left:auto;font-weight:700;color:var(--r);font-size:12px">14 · 8%</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORY CARDS -->
+<div class="stitle">🏷️ Análise por Categoria — Processos Identificados</div>
+<div class="cats-grid">
+
+  <!-- RELATÓRIO -->
+  <div class="cat-card" style="border-top-color:#0891b2">
+    <div class="cat-head"><span class="cat-icon">📄</span><div>
+      <div class="cat-name" style="color:#0891b2">Relatório Pedagógico via Família</div>
+      <div class="cat-sub">Mecanismo mais frequente · Semiformal</div>
+    </div></div>
+    <div class="cat-count" style="color:#0891b2">78 <span>escolas · 47%</span></div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:47%;background:#0891b2"></div></div>
+    <div class="cat-desc" style="border-color:#0891b2">A escola elabora um relatório pedagógico/comportamental e orienta a família a levá-lo à UBS. Não há contato direto entre as unidades — a família é o único elo de transmissão, sem garantia de efetivação do atendimento.</div>
+    <div class="kw-row">
+      <span class="kw">relatório</span><span class="kw">família leva</span><span class="kw">parecer descritivo</span>
+      <span class="kw">bilhete</span><span class="kw">orientamos os pais</span><span class="kw">relatório pedagógico</span>
+    </div>
+    <div class="quotes">
+      <div class="ql">📝 Exemplos de respostas reais</div>
+      <div class="q" style="border-color:#0891b2">"Encaminhamos relatórios comportamentais das crianças pelos pais/responsáveis para que o médico tenha conhecimento de características específicas da criança, e encaminhamos o mesmo relatório para o e-mail do posto também."
+        <div class="q-sch">CEI Aventuras de Criança / UBSF AVENTUREIRO III</div></div>
+      <div class="q" style="border-color:#0891b2">"Fazemos um relatório do aluno e entregamos para a família apresentar na UBS."
+        <div class="q-sch">EM Alire Carneiro / UBSF JARDIM PARAÍSO - VILA DA SAÚDE</div></div>
+      <div class="q" style="border-color:#0891b2">"A escola encaminha os relatórios por email para a UBS e após a consulta, a enfermeira ou a médica retorna para o setor de orientação quais foram os encaminhamentos dados à família."
+        <div class="q-sch">EM João de Oliveira / UBSF FÁTIMA — ✅ único com retorno confirmado</div></div>
+      <div class="q" style="border-color:#0891b2">"Os encaminhamentos são feitos para as famílias procurarem o posto. As famílias relatam que são sempre bem acolhidas e que a documentação (parecer descritivo) são fundamentais para o processo de atendimento."
+        <div class="q-sch">CEI Monteiro Lobato / UBSF PARANAGUAMIRIM</div></div>
+    </div>
+    <div class="alrt al-l">
+      <div class="alrt-t">⚠️ Circuito aberto — sem confirmação de atendimento</div>
+      <div class="alrt-b">A escola perde o rastro após entregar o relatório. Em 77 das 78 escolas desta categoria não há menção a retorno da UBS.</div>
+    </div>
+  </div>
+
+  <!-- DIGITAL -->
+  <div class="cat-card" style="border-top-color:#6366f1">
+    <div class="cat-head"><span class="cat-icon">📱</span><div>
+      <div class="cat-name" style="color:#6366f1">WhatsApp, Telefone e E-mail</div>
+      <div class="cat-sub">Segundo método mais citado · Informal</div>
+    </div></div>
+    <div class="cat-count" style="color:#6366f1">42 <span>escolas · 25%</span></div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:25%;background:#6366f1"></div></div>
+    <div class="cat-desc" style="border-color:#6366f1">Comunicação direta via WhatsApp, telefone ou e-mail entre gestores e coordenadores. Ágil e eficaz quando o vínculo existe — mas vulnerável a trocas de profissionais, pois depende de números pessoais e contatos nomeados.</div>
+    <div class="kw-row">
+      <span class="kw">whatsapp</span><span class="kw">telefone</span><span class="kw">e-mail</span>
+      <span class="kw">ligação</span><span class="kw">contato direto</span><span class="kw">mensagem</span>
+    </div>
+    <div class="quotes">
+      <div class="ql">📝 Exemplos de respostas reais</div>
+      <div class="q" style="border-color:#6366f1">"Após definida as prioridades e demandas, mesmo as que surgem de forma emergencial, nós comunicamos via WhatsApp ou por ligação de forma rápida e eficaz."
+        <div class="q-sch">CEI Célio Gomes de Oliveira / UBSF KM 4</div></div>
+      <div class="q" style="border-color:#6366f1">"São enviados via WhatsApp ou solicitados via ligação telefônica e e-mail — normalmente direto para a coordenadora Tatiane, que sempre nos responde prontamente."
+        <div class="q-sch">CEI Girassol / UBSF COSTA E SILVA</div></div>
+      <div class="q" style="border-color:#6366f1">"A enfermeira do posto entra em contato com a direção ou orientação da escola, ou vice-versa, geralmente por meio do WhatsApp. A situação é analisada e organizada em conjunto."
+        <div class="q-sch">EM Paul Harris / UBSF SÃO MARCOS</div></div>
+    </div>
+    <div class="alrt al-l">
+      <div class="alrt-t">⚠️ Dependência de vínculos pessoais</div>
+      <div class="alrt-b">Respostas nomeiam profissionais pelo nome ("coordenadora Tatiane", "Enfermeira Vanessa"). Quando há rotatividade, o canal informal desaparece sem aviso.</div>
+    </div>
+  </div>
+
+  <!-- SOE / AS -->
+  <div class="cat-card" style="border-top-color:#059669">
+    <div class="cat-head"><span class="cat-icon">👥</span><div>
+      <div class="cat-name" style="color:#059669">Via SOE / Assist. Social / AEE / Psicólogo</div>
+      <div class="cat-sub">Mediação por especialista · Semiformal</div>
+    </div></div>
+    <div class="cat-count" style="color:#059669">22 <span>escolas · 13%</span></div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:13%;background:#059669"></div></div>
+    <div class="cat-desc" style="border-color:#059669">Assistente social, psicólogo, orientador do SOE, professor do AEE ou agente comunitário de saúde faz a mediação ativa entre escola e UBS. Processo mais qualificado — mas concentrado onde esses profissionais existem.</div>
+    <div class="kw-row">
+      <span class="kw">assistente social</span><span class="kw">SOE</span><span class="kw">orientação escolar</span>
+      <span class="kw">psicóloga</span><span class="kw">AEE</span><span class="kw">agente comunitária</span>
+    </div>
+    <div class="quotes">
+      <div class="ql">📝 Exemplos de respostas reais</div>
+      <div class="q" style="border-color:#059669">"Quem faz é a assistente social e psicóloga, realizando entrevista com a família."
+        <div class="q-sch">CEI Espaço da Criança / UBSF ADHEMAR GARCIA</div></div>
+      <div class="q" style="border-color:#059669">"São realizados através do SOE (Serviço de Orientação Escolar) que verifica a situação e entra em contato a fim de marcar alguma conversa ou relatório para análise."
+        <div class="q-sch">EM Sylvio Sniecikovski / UBSF JARDIM PARAÍSO - VILA DA SAÚDE</div></div>
+      <div class="q" style="border-color:#059669">"Os encaminhamentos sempre são realizados junto ao setor de orientação escolar, que acompanha a família e entra em contato com a unidade de saúde repassando as dificuldades. Desta forma a agente comunitária já entra com suas ações."
+        <div class="q-sch">EM Valentim João da Rocha / UBSF VILA NOVA I</div></div>
+      <div class="q" style="border-color:#059669">"Após a entrevista da prof. do AEE com as famílias, é entregue uma cópia para a família que espera-se que procure a UBS. A U.E. envia por email à UBS uma cópia do encaminhamento da professora do AEE para arquivar e acompanhar o caso."
+        <div class="q-sch">CEI Hubert Hübener / UBSF RIO DA PRATA</div></div>
+    </div>
+    <div class="alrt al-g">
+      <div class="alrt-t">✅ Boa prática — mediação qualificada</div>
+      <div class="alrt-b">Onde há SOE ou AS, o processo inclui escuta ativa, registro e acompanhamento da família. Modelo a ser formalizado e ampliado na rede.</div>
+    </div>
+  </div>
+
+  <!-- SEM -->
+  <div class="cat-card" style="border-top-color:#dc2626">
+    <div class="cat-head"><span class="cat-icon">❌</span><div>
+      <div class="cat-name" style="color:#dc2626">Sem Processo Definido / Não Realizado</div>
+      <div class="cat-sub">Ausência de articulação · CRÍTICO</div>
+    </div></div>
+    <div class="cat-count" style="color:#dc2626">14 <span>escolas · 8%</span></div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:8%;background:#dc2626"></div></div>
+    <div class="cat-desc" style="border-color:#dc2626">Escolas que declararam explicitamente não ter processo combinado com a UBS, nunca ter realizado encaminhamentos articulados ou não ter nenhum acordo estabelecido. Representa ruptura total no cuidado intersetorial.</div>
+    <div class="kw-row">
+      <span class="kw">não acontece</span><span class="kw">nunca foi feito</span>
+      <span class="kw">não realizamos</span><span class="kw">não temos combinados</span><span class="kw">não houve</span>
+    </div>
+    <div class="quotes">
+      <div class="ql">📝 Citações diretas das respostas</div>
+      <div class="q" style="border-color:#dc2626">"Não acontece."
+        <div class="q-sch">CEI Alegria de Viver / UBSF PARANAGUAMIRIM</div></div>
+      <div class="q" style="border-color:#dc2626">"Nunca foi feito em minha gestão."
+        <div class="q-sch">CEI Pedro Ivo Figueiredo de Campos / UBSF FÁTIMA</div></div>
+      <div class="q" style="border-color:#dc2626">"Não existem combinados entre os setores sobre encaminhamentos à família. A escola orienta a família a comparecer à UBS conforme a necessidade. Não existem registro ou diálogo entre os setores para haver o atendimento."
+        <div class="q-sch">EM José Antônio Navarro Lins / UBSF CAIC VILA PARANAENSE</div></div>
+      <div class="q" style="border-color:#dc2626">"Nós não encaminhamos alunos para a UBS, não temos permissão para isso. A escola apenas sugere aos pais que busquem auxílio quando necessário."
+        <div class="q-sch">EM Amador Aguiar / UBSF ULYSSES GUIMARAES</div></div>
+      <div class="q" style="border-color:#dc2626">"Não temos combinados entre escola e UBS. O último encontro entre escola e coordenadores de UBS-2025, o representante não foi."
+        <div class="q-sch">EM Maria Regina Leal / UBSF DA ILHA</div></div>
+    </div>
+    <div class="alrt al-r">
+      <div class="alrt-t">🔴 Intervenção imediata da gestão necessária</div>
+      <div class="alrt-b">As 14 unidades precisam de visita técnica para estabelecer minimamente um fluxo com a UBS. Caso da EM Amador Aguiar exige esclarecimento normativo urgente — a crença de que não há "permissão" para encaminhar é equivocada e prejudica as crianças.</div>
+    </div>
+  </div>
+
+  <!-- PROTOCOLO -->
+  <div class="cat-card" style="border-top-color:#1a7f4b">
+    <div class="cat-head"><span class="cat-icon">📋</span><div>
+      <div class="cat-name" style="color:#1a7f4b">Protocolo Formal / Documento Padronizado</div>
+      <div class="cat-sub">Processo mais estruturado · Formal</div>
+    </div></div>
+    <div class="cat-count" style="color:#1a7f4b">7 <span>escolas · 4%</span></div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:4%;background:#1a7f4b"></div></div>
+    <div class="cat-desc" style="border-color:#1a7f4b">Formulário padronizado de encaminhamento, pasta compartilhada no Drive, ATA registrada ou fluxo com retorno formal da UBS. Único nível que permite rastrear o encaminhamento do início ao fim.</div>
+    <div class="kw-row">
+      <span class="kw">protocolo</span><span class="kw">drive compartilhado</span><span class="kw">ATA</span>
+      <span class="kw">cientificação</span><span class="kw">registro formal</span><span class="kw">formulário</span>
+    </div>
+    <div class="quotes">
+      <div class="ql">📝 Exemplos de respostas reais</div>
+      <div class="q" style="border-color:#1a7f4b">"Temos um protocolo de encaminhamento à UBS. Há um campo de preenchimento da escola que informa superficialmente os motivos do encaminhamento. Há uma parte para cientificação da UBS que as famílias devem trazer novamente na escola para termos retorno do atendimento inicial."
+        <div class="q-sch">EM Orestes Guimarães / UBSF BOEHMERWALD ✅ modelo com circuito fechado</div></div>
+      <div class="q" style="border-color:#1a7f4b">"Temos uma pasta no drive compartilhada, em que já adiantamos o processo e deixamos um relatório. Os demais, dialogamos via whatsapp sempre que necessário algum ajuste."
+        <div class="q-sch">CEI Maria Laura Cardoso Eleotério / UBSF ULYSSES GUIMARAES</div></div>
+      <div class="q" style="border-color:#1a7f4b">"Contato telefônico para confirmação do fluxo; Orientação à família; Produção de relatório informativo para levar à UBSF. Nos casos de saúde mental: Preenchimento do Formulário de Incidentes de Saúde Mental; Encaminhamento via e-mail à UBSF."
+        <div class="q-sch">EM Sebastião Scarzello / UBSF ITAUM</div></div>
+    </div>
+    <div class="alrt al-g">
+      <div class="alrt-t">✅ Referências para padronização de toda a rede</div>
+      <div class="alrt-b">Apenas 4% operam neste nível. O modelo da EM Orestes Guimarães — com campo de retorno obrigatório — é de custo zero e pode ser adotado imediatamente por todas as 166 escolas.</div>
+    </div>
+  </div>
+
+  <!-- REUNIÃO -->
+  <div class="cat-card" style="border-top-color:#d97706">
+    <div class="cat-head"><span class="cat-icon">🤝</span><div>
+      <div class="cat-name" style="color:#d97706">Reunião Presencial entre Equipes</div>
+      <div class="cat-sub">Articulação direta · Semiformal</div>
+    </div></div>
+    <div class="cat-count" style="color:#d97706">3 <span>escolas · 2%</span></div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:2%;background:#d97706"></div></div>
+    <div class="cat-desc" style="border-color:#d97706">Encontros presenciais periódicos entre equipes da escola e da UBS para alinhamento de demandas e encaminhamentos. Forma mais robusta de articulação direta — praticada por apenas 3 escolas.</div>
+    <div class="kw-row">
+      <span class="kw">reunião de alinhamento</span><span class="kw">1 vez por mês</span><span class="kw">reunião com enfermeira</span>
+    </div>
+    <div class="quotes">
+      <div class="ql">📝 Exemplos de respostas reais</div>
+      <div class="q" style="border-color:#d97706">"Reunião 1 vez por mês ou pelo whatsapp."
+        <div class="q-sch">CEI Estrelinha Brilhante / UBSF JOÃO COSTA</div></div>
+      <div class="q" style="border-color:#d97706">"Levantamento das necessidades da escola, reunião com os pais, reunião de alinhamento com a UBS."
+        <div class="q-sch">EM Eugênio Klug / UBSF PIRABEIRABA</div></div>
+      <div class="q" style="border-color:#d97706">"Reunião com a Enfermeira, levando demandas específicas de alguns alunos negligenciados pela família e articulando juntas com o Serviço Social, se necessário Conselho Tutelar."
+        <div class="q-sch">EM Fritz Benkendorf / UBSF PIRABEIRABA</div></div>
+    </div>
+    <div class="alrt al-a">
+      <div class="alrt-t">ℹ️ Convergência com as sugestões da Q4</div>
+      <div class="alrt-b">Reuniões periódicas foi a sugestão mais citada na Q4 — e representa apenas 2% da prática atual. Há fortíssima demanda reprimida por este formato.</div>
+    </div>
+  </div>
+
+</div><!-- /cats-grid -->
+
+<!-- 14 SEM PROCESSO -->
+<div class="stitle">🚨 14 Unidades sem Processo de Encaminhamento Definido</div>
+<div class="card" style="margin-bottom:22px;overflow-x:auto">
+  <table class="sem-tbl">
+    <thead><tr><th>#</th><th>Unidade Escolar</th><th>UBS de Referência</th><th>Resposta Declarada</th></tr></thead>
+    <tbody id="semTbody"></tbody>
+  </table>
+</div>
+
+<!-- FLUXO -->
+<div class="stitle">🗺️ Fluxograma: Modelo Dominante × Modelo Ideal</div>
+<div class="card" style="margin-bottom:22px">
+  <div class="ct">Modelo dominante (47% das escolas) — relatório via família, sem retorno à escola</div>
+  <div class="flow">
+    <div class="fstep">👁️ Escola identifica demanda</div><div class="farr">→</div>
+    <div class="fstep">🗣️ Conversa com família</div><div class="farr">→</div>
+    <div class="fstep hl">📄 Elabora relatório pedagógico</div><div class="farr">→</div>
+    <div class="fstep warn">👨‍👩‍👧 Família leva ao posto</div><div class="farr">→</div>
+    <div class="fstep err">❓ Escola perde o rastro</div>
+  </div>
+  <div style="margin-top:9px;font-size:12px;color:var(--tx2);line-height:1.6;background:var(--l3);border-radius:7px;padding:10px 13px;border-left:4px solid var(--l)">
+    <strong style="color:var(--l)">Gargalo crítico:</strong> A cadeia de cuidado termina na entrega do relatório à família. Não há confirmação de comparecimento nem retorno sobre o atendimento. O destino do encaminhamento é desconhecido pela escola em praticamente todos os casos desta categoria.
+  </div>
+  <div style="margin-top:16px">
+    <div class="ct">Modelo ideal — praticado por 4% das escolas (ex: EM Orestes Guimarães / UBSF BOEHMERWALD)</div>
+    <div class="flow">
+      <div class="fstep">👁️ Identifica demanda</div><div class="farr">→</div>
+      <div class="fstep hl">📱 Contato prévio com UBS</div><div class="farr">→</div>
+      <div class="fstep hl">📋 Formulário padronizado</div><div class="farr">→</div>
+      <div class="fstep hl">👨‍👩‍👧 Família vai com respaldo</div><div class="farr">→</div>
+      <div class="fstep ok">✅ UBS confirma atendimento</div><div class="farr">→</div>
+      <div class="fstep ok">🔄 Retorno formal à escola</div>
+    </div>
+  </div>
+</div>
+
+<!-- RECOMENDAÇÕES -->
+<div class="stitle">💡 Recomendações para a Gestão Municipal</div>
+<div class="ins-grid">
+  <div class="ins-card">
+    <h3><span style="font-size:17px">📋</span> Criar Formulário Único de Encaminhamento com Retorno</h3>
+    <p>Adotar o modelo da EM Orestes Guimarães: formulário de preenchimento da escola + campo de cientificação da UBS que a família deve devolver à escola após o atendimento. Custo zero — apenas padronização e instrução às 166 unidades.</p>
+  </div>
+  <div class="ins-card">
+    <h3><span style="font-size:17px">📁</span> Escalar o Drive Compartilhado</h3>
+    <p>O CEI Maria Laura Cardoso Eleotério já usa pasta no Google Drive compartilhada com a UBS, disponibilizando relatórios antes da consulta. Este modelo de baixíssimo custo pode ser replicado para toda a rede sem necessidade de sistema próprio — basta criar uma estrutura de pastas padronizada.</p>
+  </div>
+  <div class="ins-card">
+    <h3><span style="font-size:17px">📱</span> Formalizar os Canais de WhatsApp</h3>
+    <p>O WhatsApp já funciona — mas por números pessoais. Criar grupos institucionais com ponto focal nomeado por cargo (não por nome pessoal) em cada escola e UBS, com protocolo de resposta em até 48h, transforma a prática informal em canal oficial e resiliente à rotatividade de profissionais.</p>
+  </div>
+  <div class="ins-card">
+    <h3><span style="font-size:17px">🚨</span> Intervenção Prioritária nas 14 Escolas Sem Processo</h3>
+    <p>Visita técnica urgente para diagnóstico e apoio ao estabelecimento de um fluxo mínimo. Atenção especial à EM Amador Aguiar, que acredita não ter "permissão" para encaminhar alunos — barreira normativa equivocada que precisa ser corrigida pela gestão municipal imediatamente.</p>
+  </div>
+  <div class="ins-card">
+    <h3><span style="font-size:17px">👥</span> Ampliar o Papel do SOE como Articulador Intersetorial</h3>
+    <p>Nas 22 escolas com SOE/AS mediando os encaminhamentos, o processo é descrito como mais efetivo. Formalizar esses profissionais como articuladores intersetoriais, criar protocolo específico para sua atuação no fluxo escola-UBS e garantir sua presença no planejamento conjunto do PSE.</p>
+  </div>
+  <div class="ins-card">
+    <h3><span style="font-size:17px">🤝</span> Instituir Reuniões Periódicas Escola-UBS</h3>
+    <p>Apenas 3 escolas praticam reuniões presenciais entre equipes — mas foi a sugestão mais citada na Q4. Uma reunião mensal ou bimestral entre gestores da escola e coordenadores da UBS permitiria alinhar encaminhamentos, discutir casos e construir protocolos em conjunto, fortalecendo a articulação estrutural.</p>
+  </div>
+</div>
+
+<!-- TABELA COMPLETA -->
+<div class="stitle">📋 Todas as 166 Respostas — Categorização Individual</div>
+<div class="card">
+  <input class="srch" id="srch" type="text" placeholder="🔍 Buscar por escola, UBS, categoria ou trecho da resposta...">
+  <div class="tbl-wrap">
+    <table class="rtbl">
+      <thead><tr><th style="width:32px">#</th><th>Unidade Escolar</th><th>UBS</th><th>Resposta Q6</th><th style="width:180px">Categoria</th></tr></thead>
+      <tbody id="rtbody"></tbody>
+    </table>
+  </div>
+  <div style="margin-top:8px;font-size:11.5px;color:var(--g)" id="rowCnt">166 respostas exibidas</div>
+</div>
+
+</div><!-- /wrap -->
+<div class="foot">🔄 Análise Qualitativa Q6 — Encaminhamentos Combinados entre as Unidades · PSE 2025 · Secretaria Municipal de Educação · Joinville-SC · 166 Unidades Escolares</div>
+
+<script>
+Chart.defaults.font.family = "'Segoe UI', Arial, sans-serif";
+Chart.defaults.font.size = 11;
+
+new Chart(document.getElementById('chMain'),{
+  type:'doughnut',
+  data:{
+    labels:['Relatório + Família (78)','WhatsApp / Tel. / E-mail (42)','Via SOE / AS / AEE (22)','Sem Processo Definido (14)','Protocolo Formal (7)','Reunião Presencial (3)'],
+    datasets:[{data:[78,42,22,14,7,3],backgroundColor:['#0891b2','#6366f1','#059669','#dc2626','#1a7f4b','#d97706'],borderWidth:2,borderColor:'#fff'}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'63%',
+    plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10},padding:10}},
+    tooltip:{callbacks:{label:function(c){return ' '+c.raw+' escolas ('+((c.raw/166)*100).toFixed(1)+'%)';}}}}}
+});
+
+new Chart(document.getElementById('chForm'),{
+  type:'bar',
+  data:{labels:['Estruturado','Semiformal','Ausente'],
+    datasets:[{data:[7,145,14],backgroundColor:['#1a7f4b','#d97706','#dc2626'],borderRadius:5}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.raw+' escolas';}}}},
+    scales:{y:{max:160,ticks:{font:{size:9}}},x:{ticks:{font:{size:10}}}}}
+});
+
+var CI={
+  relatorio:{label:'Relatório + Família',color:'#0891b2',bg:'#e0f2fe'},
+  digital:  {label:'WhatsApp / Tel. / E-mail',color:'#6366f1',bg:'#ede9fe'},
+  soe:      {label:'Via SOE / AS / AEE',color:'#059669',bg:'#d1fae5'},
+  sem:      {label:'Sem Processo Definido',color:'#dc2626',bg:'#fef2f2'},
+  protocolo:{label:'Protocolo Formal',color:'#1a7f4b',bg:'#e8f5ee'},
+  reuniao:  {label:'Reunião Presencial',color:'#d97706',bg:'#fef3c7'}
+};
+</script>
+<script>
+// All 166 records — real names from spreadsheet
+var DATA=[["CEI Abdon da Silveira", "UBSF JARIVATUBA", "As vezes que foram necessárias, o contato foi pelo whatsApp, telefone e e-mail.", "digital"], ["CEI Adhemar Garcia", "UBSF ADHEMAR GARCIA", "A nossa assistente social percebendo a necessidade encaminha até a UBS", "soe"], ["CEI Adolfo Artmann", "UBSF BOM RETIRO", "Nosso contato é direto com a dentista ou com a enfª Núbia e nesse ano também com a enfermeira Fabiana", "relatorio"], ["CEI Alegria de Viver", "UBSF PARANAGUAMIRIM", "Não acontece", "sem"], ["CEI Alzelir Teresinha Gonçalves Pacheco", "UBSF COSTA E SILVA", "Quando há uma criança de família mais carente, sem plano de saúde pedimos uma prioridade em consultas para encaminhamentos e ajudar a criança em seu desenvolvimento.", "relatorio"], ["CEI Amandos Finder", "UBSF DOM GREGÓRIO", "Primeiramente a criança é o Observada pela equipe docente, gestão, psicologo e assistente social em seguida é agendado uma reunião com a familia para expor as dificuldades da criança (saude), feito tegistro e relatorio do desenvolvimento da criança e encaminhado ao OBS.", "soe"], ["CEI Antônio Brühmüller", "UBSF JARIVATUBA", "Conversamos por telefone ligações e WhatsApp", "digital"], ["CEI Arte e Vida", "UBSF PARQUE JOINVILLE", "Quando realizamos reuniões com as famílias e vemos a necessidade de encaminhamentos relacionados à saúde, organizamos um relatório para a família levar ao posto de saúde com nossas observações e alinhamentos realizados com a família. Estes são atendidos. Também a unidade de saúde nos procura para realizar as campanhas de vacinação em parceria com o CEI e já aconteceram algumas intervenções pedagógicas, onde também o posto se colocou para realizar com as crianças.", "relatorio"], ["CEI Aventuras de Criança", "UBSF AVENTUREIRO III", "Encaminhamos relatórios comportamentais das crianças pelos pais/responsáveis para que o médico tenha conhecimento de características específicas da criança, e encaminhamos o mesmo relatório para o e mail do posto também.", "relatorio"], ["CEI Beija-Flor", "UBSF EDLA JORDAN", "A unidade Escolar vai até a Unidade de saúde para conversar com o coordenador.", "relatorio"], ["CEI Bem-me-quer", "UBSF JARDIM PARAÍSO - VILA DA SAÚDE", "Contato com a UBS, pessoalmente ou por meio de telefone.", "digital"], ["CEI Bianca Carolina Pinheiro", "UBSF VILA NOVA I", "Solicitamos que a família vá até a unidade de saúde para agendar consulta com  o Pediatra, dentista, psicólogo...)", "soe"], ["CEI Botãozinho de Rosa", "UBSF ITAUM", "Contato direto com a UBS após o consentimento da família.", "digital"], ["CEI Branca de Neve", "UBSF COSTA E SILVA", "A direção após identificar alguma demanda específica junto com a equipe pedagógica ou em reunião com a família, faz a comunicação sobre a demanda com a coordenação do posto que viabiliza o atendimento ou o encaminhamento necessário.", "relatorio"], ["CEI Cachinhos de Ouro", "UBSF PIRABEIRABA", "Encaminhamos um relatório de observação e em conversa com a família a mesma agenda o atendimento na UBS. Em alguns casos entramos também com contato com a coordenação da UBS buscando auxilio.", "relatorio"], ["CEI Cachinhos de Ouro Extensão", "UBSF CANELA", "Enviando um relatório da criança e por vezes explicando por telefone situações mais delicadas com o Coordenador.", "relatorio"], ["CEI Castelo Branco", "UBSF AVENTUREIRO I", "O CEI observa a situação  e quando suspeita de alguma dificuldades de aprendizagem, questões emocionais, problema visual, auditivo ou de nutrição entre outras. Conversa com a família e orienta procurar a UBS de referência.", "relatorio"], ["CEI Célio Gomes de Oliveira", "UBSF KM 4", "Após definida as prioridades e demandas, mesmo as que surgem de forma emergencial nós comunicamos via WhatsApp ou por ligação de forma rápida e eficaz.", "digital"], ["CEI Ciranda Cirandinha", "UBSF DOM GREGÓRIO", "Como expliquei acima, as agentes de saúde visitam a unidade,  e fazem o encaminhamento para as crianças que elas percebem a necessidade.", "soe"], ["CEI Débora Cristina Neves da Silva Ruiz Paloma", "UBSF BOM RETIRO", "A articulação é feita por mensagem pelo celular dos gestores ou por ligações nas unidades, onde uma ou outra unidade pede apoio em situações específicas. (Dentistas, campanhas vacinais, testes de snellen).", "digital"], ["CEI Doce Infância", "UBSF NOVA BRASÍLIA", "A equipe gestora entra em contato com a coordenação do posto, via mensagem ou pessoalmente, pois a unidade de saúde é ao lado da unidade escolar.", "digital"], ["CEI Eliane Krüger", "UBSF BOEHMERWALD", "Solicitamos uma demanda para a coordenadora e a mesma nos respondeu e tentou ajudar.", "relatorio"], ["CEI Espaço da Criança", "UBSF ADHEMAR GARCIA", "quem faz é a assistente social e psicóloga, realizando entrevista com a família.", "soe"], ["CEI Espaço Encantado", "UBSF BUCAREIN", "Através de ligação telefônica para a coordenadora da UBS ou mensagem de texto no WhatsApp.", "digital"], ["CEI Esperança", "UBSF CAIC VILA PARANAENSE", "As famílias têm relatado que o tempo de espera para atendimento pediátrico tem sido longo, o que gera preocupação, principalmente em situações que envolvem crianças pequenas que necessitam de avaliação mais rápida. Em alguns casos, a escola acaba sendo o primeiro espaço onde sinais de vulnerabilidade ou necessidade de acompanhamento são percebidos, e a demora no atendimento pode dificultar o encaminhamento e o acompanhamento adequado dessas situações. Como sugestão, poderia ser pensado em um fluxo de encaminhamento ou em momentos de articulação entre a Unidade Escolar e a Unidade Básica de Saúde para avaliar casos que demandam maior prioridade, especialmente relacionados à primeira infância. Essa organização poderia contribuir para agilizar alguns atendimentos e fortalecer o cuidado preventivo e integral às crianças.", "relatorio"], ["CEI Espinheiros", "UBSF CAIC VILA PARANAENSE", "Geralmente entramos em contato com o responsável da equipe de saúde antes, passamos o caso e então se necessário encaminhamos. Temos muito acesso com a coordenação então como foi relatado acima, sempre conversamos antes para alinharmos cada situação.", "relatorio"], ["CEI Estrelinha Brilhante", "UBSF JOÃO COSTA", "Reunião 1 vez por mês ou pelo whatsapp", "reuniao"], ["CEI Fátima", "UBSF JARIVATUBA", "geralmente entramos em contato via whatsapp para conversar sobre a demanda, assim alinhamos o que cada unidade consegue realizar e assim decidimos os encaminhamentos", "digital"], ["CEI Felicia Cardoso Vieira", "UBSF PARQUE DOUAT", "Geralmente, são poucos os encaminhamentos realizados.", "relatorio"], ["CEI Girassol", "UBSF COSTA E SILVA", "São enviados via WhatsApp ou solicitados via ligação telefônica e e-mail (normalmente direto para a coordenadora Tatiane qual sempre nos responde prontamente dando posicionamento positivo ou negativo ou de aguardo/agendamentos)", "digital"], ["CEI Gustavo Zietz", "UBSF RIO BONITO", "Primeiramente conversa com as famílias interessadas, depois elaboração de relatórios e encaminhamentos das famílias com suas necessidades á unidade de saúde.", "relatorio"], ["CEI Herondina da Silva Vieira", "UBSF FLORESTA", "Primeiramente orientamos aos responsáveis que busquem auxílio na UBS, casos estrememos (poucos) tentamos contato por telefone.", "digital"], ["CEI Hubert Hübener", "UBSF RIO DA PRATA", "Após a entrevista da prof. do AEE com a famílias é entregue uma cópia para a família que espera-se que procure a UBS. Mesmo assim a U.E. envia por email à UBS uma cópia do encaminhamento da professora do AEE para arquivar e acompanhar o caso.", "soe"], ["CEI Iraci Schmidlin", "UBSF JARIVATUBA", "Geralmente e-mail ou telefone.", "digital"], ["CEI Itaum", "UBSF FLORESTA", "através de contatos por e-mails e wahatsapp", "digital"], ["CEI Ivan Rodrigues", "UBSF LEONARDO SCHILICKMANN", "A equipe do CEI elabora relatórios sobre as crianças ou entra em contato por telefone para repassar informações importantes. Dessa forma, as unidades mantêm alinhamento constante, garantindo que as necessidades de cada criança sejam acompanhadas e atendidas de maneira integrada.", "relatorio"], ["CEI Jardim Sofia", "UBSF JARDIM SOFIA", "Diálogo direto com a unidade saúde via telefone sobre a criança/família e após, enviado relatório assinado sobre a demanda. O combinado é sempre existir encaminhamentos implicados, ou seja, acompanhar a situação.", "relatorio"], ["CEI Jorge Luiz Vanderwegen", "UBSF ITAUM", "Em alguns casos o primeiro contato acontece por telefone para a enfermeira responsável.", "digital"], ["CEI José do Patrocínio", "UBSF CANTO DO RIO", "O pessoal  do posto vieram até a unidade escolar e fizemos um cronograma, porém não foi cumprido por eles.", "relatorio"], ["CEI José Francisco Vieira", "UBSF AVENTUREIRO III", "A psicóloga auxiliou em alguns momentos passando as demandas da unidade para a UBS. Recebemos solicitações para preencher dados em planilhas, como também direcionar os familiares para atualizarem a caderneta de vacinação das crianças.", "soe"], ["CEI Juarez Machado", "UBSF EDLA JORDAN", "Whatsapp, porém esse ano todos os encaminhamos estaremos fazendo por e-mail", "digital"], ["CEI Juliana de Carvalho Vieira", "UBSF ITINGA", "O CEI convoca a família para dialogar sobre as demandas observadas na criança e orienta que procure a Unidade Básica de Saúde para agendar consulta com o médico pediatra. Durante o atendimento, os responsáveis são orientados a relatar as questões discutidas na reunião. Caso o médico considere necessário, o CEI e as professoras se colocam à disposição para elaborar relatório pedagógico conforme a solicitação.", "relatorio"], ["CEI Justina Rosa Fachini", "UBSF LAGOINHA", "É realizada conversa com a família, registrado, depois conversamos com o responsável da UBS para alinhamento, e depois são realizadas as orientações novamente com a família.", "relatorio"], ["CEI Lírio do Campo", "UBSF FÁTIMA", "Algumas situações bem pontuais e emergenciais entramos em contato solicitando uma atenção e urgência.", "relatorio"], ["CEI Luiza Maria Veiga", "UBSF BUCAREIN", "Através de contato na unidade, telefônico e e-mail. Ex: Visita do dentista. Após avaliação a unidade faz o diálogo com a família e a entrega o bilhete solicitando a este ao comparecimento na unidade de saúde.", "relatorio"], ["CEI Luzia Pesky", "UBSF MORRO DO MEIO", "Em contato telefônico/whatsapp os combinados foram realizados, inclusive atendimento a famílias que alegavam não ter médico. Todas as solicitações foram atendidas.", "digital"], ["CEI Manoel Antônio da Rosa", "UBSF COMASA", "Os encaminhamentos entre as unidades são realizados conforme a necessidade identificada pela equipe escolar, com comunicação formal à Unidade Básica de Saúde e orientação às famílias para busca do atendimento.", "relatorio"], ["CEI Maria Laura Cardoso Eleotério", "UBSF ULYSSES GUIMARAES", "Com relação a crianças em que acreditamos ser necessário alguma investigação mais detalhada por parte de pediatras, temos uma pasta no drive compartilhada, em que já adiantamos o processo e deixamos lá um relatório. Os demais, dialogamos via whatsapp sempre que necessário algum ajuste, ou atendimento de encaixe no dia, conforme escuta.", "protocolo"], ["CEI Marilene dos Passos Santos", "UBSF JARDIM EDILENE", "Não temos um combinado especifico, quando necessário. Orientamos as famílias a buscar o atendimento e fornecemos um encaminhamento redigido por nós.", "relatorio"], ["CEI Mário Avancini", "UBSF LEONARDO SCHILICKMANN", "Após diagnosticadas as necessidades (durante as ações realizadas) o agendamento é efetuado e as famílias encaminhadas para o atendimento  (Ex. atendimento odontológico,  oftalmológico e antropometria).", "relatorio"], ["CEI Meu Pequeno Mundo", "UBSF ADHEMAR GARCIA", "Através de relatórios", "relatorio"], ["CEI Miosótis", "UBSF FÁTIMA", "Houve apenas no \"surto\" de pé, mão e boca. Onde a UBS nos informou para encaminhar as crianças diretamente pra lá e as famílias foram atendidas.", "relatorio"], ["CEI Miraci Dereti", "UBSF DA ILHA", "Ainda não temos essa questão bem alinhada.", "sem"], ["CEI Monteiro Lobato", "UBSF PARANAGUAMIRIM", "Os encaminhamentos são feitos para as famílias procurarem o posto para atendimento, as famílias relatam que são sempre bem acolhidas e que a documentação (parecer descritivo) são fundamentais para o processo de atendimento.", "relatorio"], ["CEI Mundo Azul", "UBSF SÃO MARCOS", "Conversamos por whatsApp combinando as ações e há um bom relacionamento entre as unidades.", "digital"], ["CEI Namir Alfredo Zattar", "UBSF AVENTUREIRO II", "Geralmente entramos em contato com o Posto de Saúde, por meio da enfermeira e avisamos que solicitamos para a família de determinada criança compareça ao posto de saúde devido ao problemas de obesidade, atraso de fala, atraso de desenvolvimento, problemas de aprendizagem e de impulsividade.", "relatorio"], ["CEI Odorico Fortunato", "UBSF PARQUE JOINVILLE", "Contato direto com a Enfermeira Vanessa e com a Coordenadora Lucimar", "digital"], ["CEI Pão de Mel", "UBSF JARDIM EDILENE", "Entregamos (via e-mail) relatórios  solicitados pela equipe médica, organizamos e entregamos relação de alunos, fazemos a distribuição de avisos referente as vacinas - esses são entregues pela UBS diretamente na secretaria do CEI. Organizamos em parceria, as ações de saúde bucal. Quando necessário, agendamos para conversas sobre casos específicos de crianças da unidade.", "relatorio"], ["CEI Paraíso da Criança", "UBSF JARDIM PARAÍSO - VILA DA SAÚDE", "Em casos menos urgentes, encaminha-se as famílias diretamente a UBS para atendimento, onde normalmente acaba resolvendo a situação. Em casos mais urgentes e delicados, a gestão escolar e a Coordenadora Rubia (por celular) acabam entrando em contato uma com a outra e agilizando o atendimento e demais encaminhamentos.", "relatorio"], ["CEI Parque Guarani", "UBSF PARQUE GUARANI", "quando as crianças apresentem problemas de saúde encaminhamos a unidade e são atendidos na demanda livre.", "relatorio"], ["CEI Pedacinho do Céu", "UBSF BAKHITA", "Diretamente com a UBS por meio de whatsapp com as enfermeiras responsáveis.", "digital"], ["CEI Pedro Ivo Figueiredo de Campos", "UBSF FÁTIMA", "Nunca foi feito em minha gestão.", "sem"], ["CEI Pedro Paulo Hings Colin", "UBSF ITINGA", "São realizados através de email.", "digital"], ["CEI Pequena Sereia", "UBSF WILLY SCHOSSLAND", "A unidade escolar, reúne a família para diálogo levantando os pontos observados e elabora encaminhamento para ser entregue ao posto através da família para agendamento de consulta, a unidade avisa o posto do encaminhamento.  Acompanhamos a família quanto o retorno do agendamento.", "relatorio"], ["CEI Pequeno Príncipe", "UBSF PROFIPO", "Através de bilhetes", "relatorio"], ["CEI Peter Pan", "UBSF GLÓRIA", "Geralmente é feita uma ligação e conversado pessoalmente com a coordenação da UBS para que a coordenação identifique a necessidade dos encaminhamentos dentro da UBS para determinada família. Isto ocorre, em casos emergenciais, em outros momentos, encaminhamos o diálogo via whatsapp das demandas, tais como, dentista, teste de Snelen, ação com a psicóloga, comprovante da vacinação entre outros.", "soe"], ["CEI Ponte Serrada", "UBSF COMASA", "Primeiro contato via telefone, após encaminhamos a família ao posto.", "digital"], ["CEI Raio de Sol", "UBSF VILA NOVA I", "são feitos pela assistente social mas deveria ter a possibilidade de serem encaminhados pela equipe gestora.", "soe"], ["CEI Salete Konecki", "UBSF VILA NOVA", "Não realizamos", "sem"], ["CEI Sementinha", "UBSF COMASA", "Os encaminhamentos combinados entre as unidades são realizados, em geral, por meio de comunicação direta entre os profissionais, seja por contato telefônico, mensagens institucionais. Quando identificado algum caso que demanda acompanhamento, a escola informa a Unidade Básica de Saúde, encaminhando o estudante com registro da situação observada. A UBS, por sua vez, realiza o acolhimento, avaliação e, quando necessário, acompanhamento ou encaminhamento para outros serviços da rede. Posteriormente, ocorre a devolutiva à escola, respeitando os aspectos éticos e de sigilo, para que o acompanhamento possa ser feito de forma articulada.", "relatorio"], ["CEI Sigelfrid Poffo", "UBSF VILA NOVA I", "Comunicamos via WhatsApp ou contato telefônico, relatando as particularidades da família em questão.", "digital"], ["CEI Silvia Regina Cavalheiro", "UBSF PARQUE GUARANI", "quando é caso de doença ou febre, ligamos para unidade e eles conseguem agendar o atendimento, quando é com dentista elas fazem a triagem e nos enviam os nomes das crianças que precisam de atendimento. Quando há dúvidas quanto a doenças infectocontagiosas a diretora pergunta para a coordenadora e sana as dúvidas, para garantir a segurança de todos;", "relatorio"], ["CEI Sol Nascente", "UBSF ITAUM", "Encaminhamos via email as informações para a UBS, contato telefônico e whatsapp", "digital"], ["CEI Sonho de Criança", "UBSF PARQUE DOUAT", "Não foram efetivamente combinados, mas há momentos em que há a intervenção da Assistente Social com a Saúde e foram, na medida do possível, atendidas.", "sem"], ["CEI Teresa Campregher Moreira", "UBSF DOM GREGÓRIO", "É realizado uma reunião com a família, e assim que discutido a visão do professor e família, elaboramos um encaminhamento para Unidade Básica de saúde com pequenos tópicos de características da criança para ser avaliado pelo médico.", "relatorio"], ["CEI Zé Carioca", "UBSF ITAUM", "Normalmente, a equipe gestora faz um encaminhamento solicitando algum tipo de atendimento e encaminhamos junto com a família. Se for algo mais serio, ligamos e conversamos sobre a melhor forma de estarmos resolvendo a situação.", "relatorio"], ["CEI Zelândia Thomazi Bratti", "UBSF COMASA", "Os que fizemos foi com assistente social com o postinho", "soe"], ["CEI Zilda Arns Neumann", "UBSF JOÃO COSTA", "Via contato direto pelo WhatsApp do coordenador ou da enfermeira da unidade.", "digital"], ["EM Abdon Baptista", "UBSF EDLA JORDAN", "Esse encaminhamento é realizado pelo Serviço de Orientação Escolar junto aos familiares e os atendimentos ocorrem conforme a organização da UBS", "soe"], ["EM Ada Sant'Anna da Silveira", "UBSF PARANAGUAMIRIM", "Não tem combinados.", "sem"], ["EM Adolpho Bartsch", "UBSF PIRABEIRABA", "Via comunicação email ou whats", "digital"], ["EM Alfonso Fiedler", "UBSF CANTO DO RIO", "A Unidade Escolar possui contato direto com os diferentes profissionais da UBSF e qualquer demanda que surge logo conseguimos resolver.", "digital"], ["EM Alfredo Germano Henrique Hardt", "UBSF PIRABEIRABA", "Primeiramente a unidade escolar faz uma anamnese com o aluno e investigação com a família referente as causas da dificuldade do aluno. Casos que demandam investigação, são encaminhados ao setor de saúde com relatório de aprendizagem do aluno para análise.", "relatorio"], ["EM Alire Carneiro", "UBSF JARDIM PARAÍSO - VILA DA SAÚDE", "Agendamos com a família na escola, conversamos com a mesma e solicitamos que procure a UBS para agendar uma consulta. Fazemos um relatório do aluno e entregamos para a família apresentar na UBS.", "relatorio"], ["EM Aluizius Sehnem", "UBSF DA ILHA", "Não houve", "sem"], ["EM Amador Aguiar", "UBSF ULYSSES GUIMARAES", "Nós não encaminhamos alunos para a UBS, não temos permissão para isso. A escola apenas sugere aos pais que busquem auxílio quando necessário.", "sem"], ["EM Anaburgo", "UBSF ANABURGO", "Normalmente a escola conversa com as famílias, se necessário faz relatórios de aprendizagem e solicita que a família procure o posto para um primeiro atendimento. Em casos mais sérios a escola liga para a enfermeira do posto e explica a situação buscando ajuda, tirando dúvidas..", "relatorio"], ["EM Anita Garibaldi", "UBSF FLORESTA", "Geralmente a orientadora encaminha e a equipe da UBS entra contato com a escola para melhor esclarecimento.", "relatorio"], ["EM Anna Maria Harger", "UBSF ITAUM", "Os servidores da UBS Itaum vem presencialmente até a UE a fim de organizar o cronograma de atendimento.", "digital"], ["EM Arinor Vogelsanger", "UBSF VILA NOVA", "Não temos nenhum combinado com a nossa unidade de saúde de referência que é a UBS VIla Nova I. Mas nós sugerimos aos responsáveis por nossos alunos que procurem a UBS de referência em caso de doença, suspeita de transtornos e/ou deficiências.", "sem"], ["EM Arthur da Costa e Silva", "UBSF RIO BONITO", "Pelo whats da coordenadora.", "digital"], ["EM Avelino Marcante", "UBSF BOM RETIRO", "Os encaminhamentos são feitos por meio de conversa entre as equipes (via whatss), registro por escrito (relatórios) e comunicação direta com a unidade parceira (presencial). Quando necessário, também há contato com a família para orientar sobre os próximos passos.", "relatorio"], ["EM Baltasar Buschle", "UBSF PARQUE GUARANI", "Por telefone são feitos os agendamentos de dentista, psicólogo ou agentes de saúde para realizarem na escola os devidos atendimentos.", "soe"], ["EM Bernardo Tank", "UBSF VILA NOVA", "Somente a escola orienta os pais a procurarem a UBS", "relatorio"], ["EM Carlos Gomes de Oliveira", "UBSF AVENTUREIRO II", "Apenas são encaminhados casos sugeridos para Saúde mental, sem retorno. Outros encaminhamentos somente quando solicitados pelo posto. EX: Relatórios.", "sem"], ["EM Carlos Heins Funke", "UBSF COSTA E SILVA", "Escola encaminha solicitação da sugestão do profissional pelos pais que entregam na UBSF. Aí marcamos a consulta via olosth, e alguns encaminhamos entrevista com a enfermeira", "relatorio"], ["EM Castello Branco", "UBSF BAKHITA", "A escola as famílias a busca do atendimento.", "relatorio"], ["EM Castello Branco Extensão", "UBSF BAKHITA", "Através da visita in loco das equipes da UBSF ou encaminhamentos realizados pela equipe de orientação da escola", "relatorio"], ["EM Curt Alvino Monich", "UBSF AVENTUREIRO II", "Nossa Unidade, agenda ou encaminha via contato telefônico ou caso necessário presencialmente.", "digital"], ["EM de Jovens e Adultos", "UBSF ITAUM", "Primeiro contato telefônico e logo após o envio de e-mail.", "digital"], ["EM Edgar Monteiro Castanheira", "UBSF FÁTIMA", "A escola encaminha alunos com dificuldades de aprendizagem, comportamento ou emocionais para a UBS, para assim terem atendimento com um especialista. Se for preciso, mandamos também relatório do estudante.", "relatorio"], ["EM Eladir Skibinski", "UBSF PARQUE JOINVILLE", "orientações as famílias, caso urgência entramos em contato com a coordenação", "relatorio"], ["EM Elizabeth von Dreifuss", "UBSF MORRO DO MEIO", "Através de Reuniões e relatórios", "relatorio"], ["EM Emílio Paulo Roberto Hardt", "UBSF CANELA", "Sempre que necessário entramos em contato com a USB e eles sempre respondem prontamente auxiliando no encaminhamento", "relatorio"], ["EM Emílio Stock Júnior", "UBSF VILA NOVA RURAL", "Por meio de relatório pedagógico.", "relatorio"], ["EM Eugênio Klug", "UBSF PIRABEIRABA", "Levantamento das necessidades da escola, reunião com os pais, reunião de alinhamento com a UBS.", "reuniao"], ["EM Evaldo Koehler", "UBSF PIRABEIRABA", "São feito através de e-mail, whats ou contato telefônico.", "digital"], ["EM Francisco José Rodrigues de Oliveira", "UBSF CAIC VILA PARANAENSE", "Os encaminhamentos entre as unidades são realizados por meio de relatórios descritivos elaborados pela equipe escolar, nos quais são registradas as questões pedagógicas observadas, aspectos relacionados à saúde mental do estudante e as queixas apresentadas pela família. Após o levantamento das informações, a escola orienta os responsáveis a procurarem a Unidade Básica de Saúde ou o serviço competente, mantendo diálogo sempre que necessário para acompanhamento dos casos. Os combinados entre as unidades ocorrem conforme a demanda apresentada, priorizando o atendimento e o bem-estar do estudante.", "relatorio"], ["EM Francisco Rieper", "UBSF PIRABEIRABA", "A nossa professora do AEE faz entrevista com as famílias e encaminhadas para o postinho", "soe"], ["EM Fritz Benkendorf", "UBSF PIRABEIRABA", "Reunião com a Enfermeira, levando demandas específica de alguns alunos negligenciados pela família e articulando juntas com o Serviço Social, se necessário Conselho Tutelar.", "reuniao"], ["EM Geraldo Wetzel", "UBSF FÁTIMA", "Através de relatórios.", "relatorio"], ["EM Germano Lenschow", "UBSF RIO DA PRATA", "Geralmente obedecendo os protocolos da rede, em atendimento às demandas que chegam até a escola em comum acordo com as famílias.", "relatorio"], ["EM Hans Dieter Schmidt", "UBSF JARDIM PARAÍSO - VILA DA SAÚDE", "De acordo com a necessidade da escola ou UBSF  as ações de acompanhamento ou encaminhamentos são realizadas.", "relatorio"], ["EM Hans Müller", "UBSF GLÓRIA", "Nosso protocolo de atendimento se dá primeiramente com a família/professora e orientação escolar. Acolhemos as demandas, fazemos a observação em espaços abertos, sala de aula, enviamos um e-mail, mensagem em WhatsApp, ou, marcamos um horário na UBS para traçar estratégias de acordo com a necessidade do aluno e agilizar os atendimentos que são necessários.", "protocolo"], ["EM Heriberto Hülse", "UBSF BAKHITA", "Os encaminhamentos são realizados diretamente com os pais.", "relatorio"], ["EM Hermann Muller", "UBSF RIO BONITO", "Entramos em contato com a coordenadora da UBSF", "relatorio"], ["EM Hilda Anna Krisch", "UBSF DOM GREGÓRIO", "Através de e-mails para a coordenação ou WhatsApp.", "digital"], ["EM Honório Saldo", "UBSF RIO DA PRATA", "Geralmente a família leva um relatório pedagógico/comportamental ...", "relatorio"], ["EM Isabel Silveira Machado", "UBSF CUBATÃO", "Sempre que necessário entramos em contato com a coordenadora e pedimos auxílio e somos atendidos dentro de suas possibilidades de atendimento, podemos dizer que temos um ótimo relacionamento entre unidades.", "relatorio"], ["EM Jaime de Barros Câmara", "UBSF COMASA", "É enviado por email os combinados para a unidade e assim eles estarem cientes antes que a família os procure.", "digital"], ["EM João Bernardino da Silveira Jr.", "UBSF JOÃO COSTA", "São feitos através de telefone ou whatsapp de maneira rápida e certeira.", "digital"], ["EM João Costa", "UBSF JOÃO COSTA", "Relatorio para o médico", "relatorio"], ["EM João de Oliveira", "UBSF FÁTIMA", "A escola encaminha os relatórios por email para a UBS e após a consulta, ou a enfermeira ou a médica retorna para o setor de orientação quais foram os encaminhamentos dados a família.", "soe"], ["EM João Meerholz", "UBSF VILA NOVA RURAL", "Através de consultas realizadas pelos pais responsáveis na Unidade Básica de Saúde e  realizados  encaminhamentos.", "relatorio"], ["EM Joaquim Félix Moreira", "UBSF JARDIM EDILENE", "São encaminhados via relatório.", "relatorio"], ["EM José Antônio Navarro Lins", "UBSF CAIC VILA PARANAENSE", "Não existem combinados entre os setores sobre encaminhamentos a família. A escola orienta a família a comparecer a UBS conforme a necessidade. Não existem registro ou diálogo entre os setores para haver o atendimento.", "sem"], ["EM José Motta Pires", "UBSF KM 4", "Via whatts", "relatorio"], ["EM Julio Machado da Luz", "UBSF JATIVOCA", "Os encaminhamentos entre nossas unidades são realizados, principalmente, por meio de contato via WhatsApp, onde trocamos informações, alinhamos orientações e conseguimos resolver muitas demandas de forma ágil.  Além disso, em algumas ocasiões — especialmente quando a psicóloga e a assistente social estão na unidade — realizamos reuniões presenciais para discussão e acompanhamento dos casos, possibilitando uma análise mais detalhada e a definição conjunta de encaminhamentos e estratégias de intervenção.", "soe"], ["EM Karin Barkemeyer", "UBSF VILA NOVA", "Contato prévio com a coordenação da unidade e depois orientação a família.", "relatorio"], ["EM Karin Barkemeyer Extensão", "UBSF VILA NOVA", "Pessoalmente, via telefone ou e-mail.", "digital"], ["EM Lacy Luiza da Cruz Flores", "UBSF ITINGA", "São feitos através do Serviço de Orientação, para o Posto de Saúde, conforme a necessidade da escola e das famílias.", "soe"], ["EM Laura Andrade", "UBSF LEONARDO SCHILICKMANN", "orientadoras educacional repassam por email", "soe"], ["EM Lauro Carneiro de Loyola", "UBSF KM 4", "São realizados, após combinados, com celeridade e muito comprometimento. Em relação a pedidos feitos pela escola, a unidade de saúde é sempre muito acolhedora e muito proativa, e quando a unidade de saúde tem algum desafio a ser realizado encontra sempre apoio na unidade escolar. n", "relatorio"], ["EM Lea Maria Aguiar Lepper", "UBSF SAGUAÇÚ", "Reunião com as famílias sugerindo a busca pelo atendimento ou busca pela equipe da UBS para que realize intervenção com as famílias que não buscam atendimento. Também solicitamos parceria com palestras e ações dentro da unidade.", "relatorio"], ["EM Luiz Gomes", "UBSF ADHEMAR GARCIA", "Via relatório escolar, e-mail, mensagens via whatsapp.", "relatorio"], ["EM Maria Magdalena Mazzolli", "UBSF PIRABEIRABA", "Contato com a Unidade de saúde", "relatorio"], ["EM Maria Regina Leal", "UBSF DA ILHA", "Não temos combinados  entre escola e UBS. O ultimo encontro entre escola e coordenadores de UBS-2025, o representante não foi. Há relatos das familias que são os \"enfermeiros\" que na maioria dos casos fazem o atendimento, inclusive saude mental.", "sem"], ["EM Mariano Costa", "UBSF ADHEMAR GARCIA", "A UE orienta os responsáveis a se encaminharem a UBSF ou dependendo os casos, ao PA.", "relatorio"], ["EM Max Colin", "UBSF COMASA", "Através de relatórios que apontam as dificuldades apresentam as crianças.", "relatorio"], ["EM Nelson de Miranda Coutinho", "UBSF JARIVATUBA", "Ao identificar as necessidades dos estudantes e famílias, orientamos a busca pela UBS e em alguns casos pontuais, a própria unidade escolar articula o contato.", "relatorio"], ["EM Nilson Wilson Bender", "UBSF JARDIM EDILENE", "Os encaminhamentos são realizados mediante registro formal por escrito, com comunicação à família e orientação para comparecimento à UBS. Em situações específicas, ocorre contato telefônico prévio com a equipe de saúde para alinhamento do caso. Após atendimento, quando possível, há retorno informal de informações à unidade escolar, respeitando o sigilo profissional e a legislação vigente.", "protocolo"], ["EM Nove de Março", "UBSF ITINGA", "Feito o contato através de e-mail. Geralmente quando um profissional solicita algum tipo de relatório, envia-se direto para a enfermeira responsável pela a unidade básica.", "relatorio"], ["EM Orestes Guimarães", "UBSF BOEHMERWALD", "Temos um protocolo de encaminhamento à UBS. Há um campo de preenchimento da escola que informa superficialmente os motivos do encaminhamento. Há uma parte para cientificação da UBS que as famílias devem trazer novamente na escola pra termos retorno do  atendimento inicial.", "protocolo"], ["EM Oswaldo Cabral", "UBSF EDLA JORDAN", "Via email e via telefone", "digital"], ["EM Otto Ristow Filho", "UBSF PIRABEIRABA", "Realizamos reunião com as famílias, registradas em ATA, onde relatamos as dificuldades e explanamos as possibilidades de resolução, um deles seria o encaminhamento para unidade básica de saúde a qual a família pertence. É entregue um relatório sobre o aluno para a família apresentar para o médico durante o atendimento.", "protocolo"], ["EM Paul Harris", "UBSF SÃO MARCOS", "Os encaminhamentos são realizados de forma direta e ágil. A enfermeira do posto entra em contato com a direção ou orientação da escola, ou vice-versa, geralmente por meio do WhatsApp, para comunicar a demanda. A partir desse contato, a situação é analisada e organizada em conjunto para que seja resolvida da melhor forma possível, garantindo rapidez e eficiência no atendimento.", "digital"], ["EM Pauline Parucker", "UBSF BOEHMERWALD", "Após solicitação de presença da família na escola, quando solicitado pela família, o serviço de orientação educacional faz encaminhamentos para a UBS. Também quando acordado com o serviço de orientação educacional, agendam palestras de acordo com a necessidade dos alunos.", "soe"], ["EM Pedro Ivo Campos", "UBSF PARQUE DOUAT", "Todo encaminhamento é realizado primeiramente via telefone e na sequencia feito o registro formal via e-mail.", "protocolo"], ["EM Plácido Xavier Vieira", "UBSF KM 4", "As demandas são discutidas por meio de reunião, contato telefônico, WhatsApp e e-mail.", "digital"], ["EM Reinaldo Pedro de França", "UBSF MORRO DO AMARAL", "Temos uma ótima comunicação, e dependendo o caso ou família, vamos até a UBS ou enviamos mensagens por watts para os colaboradores e relatamos algum caso especial que necessitamos de apoio médico. Caso aconteça alguma situação de emergência onde a criança se machucou ou passou mal, já tivemos caso de aluno convulsionar e ser prontamente atendido. A equipe já veio por diversas vezes até a unidade palestrar e conscientizar as famílias com temas relevantes como vacinação, dengue, saude bucal, saude sexual, (palestra para as professoras) entre outros..", "digital"], ["EM Rosa Maria Berezoski Demarchi", "UBSF JARDIM PARAÍSO - VILA DA SAÚDE", "Orientamos os pais e fazemos relatórios quando solicitados.", "relatorio"], ["EM Rosangela Martinowsky Baptista", "UBSF JARDIM EDILENE", "Não houve comunicação entre as unidades.", "sem"], ["EM Ruben Roberto Schmidlin", "UBSF LAGOINHA", "Encaminhamos a família com um relatório prévio do aluno solicitado pela UBS.", "relatorio"], ["EM Sadalla Amin Ghanem", "UBSF PARQUE GUARANI", "Normalmente a unidade escolar faz a escuta ativa da família e do estudante com alguma necessidade do atendimento de saúde, e encaminha pela própria família um relatório escolar, a ser entregue ao médico na consulta, com o objetivo de contribuir para que o acompanhamento médico ocorra o mais breve possível.", "relatorio"], ["EM Saul Sant'Anna de Oliveira Dias", "UBSF JARIVATUBA", "A equipe do posto de saúde entra em contato com a unidade escolar e realiza os agendamentos das visitas e posteriormente as ações a serem contempladas com a comunidade.", "relatorio"], ["EM Sebastião Scarzello", "UBSF ITAUM", "Contato telefônico para confirmação do fluxo;  Orientação à família sobre os fluxos em saúde;  Quando necessário, produção de relatório informativo para a família levar consigo à UBSF.  Nos casos de saúde mental:  Preenchimento do Formulário de Incidentes de Saúde Mental; Encaminhamento via e-mail à UBSF.", "protocolo"], ["EM Senhorinha Soares", "UBSF VILA NOVA RURAL", "No último ano não houve encaminhamentos a unidade Básica de Saúde.", "sem"], ["EM Sete de Setembro", "UBSF RIO BONITO", "a partir da necessidade apontada pela unidade escolar, busca-se respostas na área da saúde por meio de relatórios ou de contato orientativo como o PSF.", "relatorio"], ["EM Sylvio Sniecikovski", "UBSF JARDIM PARAÍSO - VILA DA SAÚDE", "São realizado através do SOE (Serviço de Orientação Escolar) que verifica a situação e entra em contato a fim de marcar alguma conversa ou relatório para análise.", "soe"], ["EM Thereza Mazzolli Hreisemnou", "UBSF CANTO DO RIO", "Temos contato direto com o coordenador da UBS e na maioria das vezes já é solucionada no momento do contato.", "digital"], ["EM Valente Simioni", "UBSF COMASA", "Via telefone e articulação coma psicóloga escolar", "soe"], ["EM Valentim João da Rocha", "UBSF VILA NOVA I", "Os encaminhamentos sempre são realizados junto ao setor de orientação escolar, que acompanha a família e entra em contato com a unidade de saúde repassando as dificuldades. Desta forma a agente comunitária já entra com suas ações.", "soe"], ["EM Valesca May Engelmann", "UBSF VILA NOVA", "Fazemos reuniões com a família e solicitamos que busquem a UBSF, quando atendidos pelo pediatra ou psicólogo, estes fazem a solicitação de um Relatório/Parecer do aluno, que fazemos em conjunto entre os professores que atuam com a criança e este relatório é apresentado pela família para o médico", "soe"], ["EM Virgínia Soares", "UBSF FLORESTA", "O contato é feito entre servidores das duas unidades, por telefone.", "digital"], ["EM Wittich Freitag", "UBSF PARQUE JOINVILLE", "Via relatório pedagógico", "relatorio"], ["EM Zulma do Rosário Miranda", "UBSF WILLY SCHOSSLAND", "Por e-mail", "digital"]];
+
+// Sem process table
+var semRows=DATA.filter(function(r){return r[3]==='sem';});
+document.getElementById('semTbody').innerHTML=semRows.map(function(r,i){
+  return '<tr><td style="color:var(--g);text-align:center">'+(i+1)+'</td>'
+    +'<td style="font-weight:600;color:var(--r)">'+r[0]+'</td>'
+    +'<td style="font-size:11px;color:var(--g)">'+r[1]+'</td>'
+    +'<td style="font-style:italic">'+r[2]+'</td></tr>';
+}).join('');
+
+// Full table
+var allRows=DATA.map(function(r,i){
+  var ci=CI[r[3]];
+  return {num:i+1,escola:r[0],ubs:r[1],resp:r[2],cat:r[3],label:ci.label,color:ci.color,bg:ci.bg};
+});
+var tbody=document.getElementById('rtbody');
+var cntEl=document.getElementById('rowCnt');
+function buildTable(rows){
+  tbody.innerHTML=rows.map(function(r){
+    return '<tr><td style="color:var(--g);font-size:11px;text-align:center">'+r.num+'</td>'
+      +'<td class="e-col">'+r.escola+'</td>'
+      +'<td class="u-col">'+r.ubs+'</td>'
+      +'<td>'+r.resp+'</td>'
+      +'<td><span class="pill" style="background:'+r.bg+';color:'+r.color+'">'+r.label+'</span></td></tr>';
+  }).join('');
+  cntEl.textContent=rows.length+' resposta'+(rows.length!==1?'s':'')+' exibida'+(rows.length!==1?'s':'');
+}
+buildTable(allRows);
+document.getElementById('srch').addEventListener('input',function(){
+  var q=this.value.toLowerCase().trim();
+  buildTable(q?allRows.filter(function(r){
+    return r.escola.toLowerCase().includes(q)||r.resp.toLowerCase().includes(q)||r.label.toLowerCase().includes(q)||r.ubs.toLowerCase().includes(q);
+  }):allRows);
+});
+</script>
+</body>
+</html>

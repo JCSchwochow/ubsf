@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Qualitativa - Articulação Saúde-Educação</title>
+    <!-- Tailwind CSS para Estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js para os Gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Plugin para rótulos de dados (datalabels) -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .print-break { page-break-before: always; }
+            body { background: white; }
+            .chart-container { height: 400px !important; }
+        }
+        canvas { max-height: 400px; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900 leading-relaxed">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 py-8 px-6 mb-8 shadow-sm">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-end gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Relatório de Articulação</h1>
+                <p class="text-slate-500 font-medium">Saúde-Educação • 166 Escolas Analisadas • Março 2026</p>
+            </div>
+            <div class="flex gap-3 no-print">
+                <button onclick="window.print()" class="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition-all shadow-lg">
+                    <span>Imprimir / Salvar PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 pb-12">
+        
+        <!-- Grid de Gráficos -->
+        <div class="grid grid-cols-1 gap-8">
+            
+            <!-- Questão 1 -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-emerald-700 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
+                        Q1: Pontos Fortes da Parceria
+                    </h2>
+                    <button onclick="exportCSV('q1')" class="no-print text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-wider">Exportar CSV</button>
+                </div>
+                <div class="chart-container relative h-[400px]">
+                    <canvas id="chartQ1"></canvas>
+                </div>
+            </section>
+
+            <!-- Questão 2 -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-rose-700 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-rose-500 rounded-full"></span>
+                        Q2: Fragilidades Identificadas
+                    </h2>
+                    <button onclick="exportCSV('q2')" class="no-print text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-wider">Exportar CSV</button>
+                </div>
+                <div class="chart-container relative h-[450px]">
+                    <canvas id="chartQ2"></canvas>
+                </div>
+            </section>
+
+            <!-- Questão 3 -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 print-break">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-amber-600 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-amber-500 rounded-full"></span>
+                        Q3: Desafios e Barreiras
+                    </h2>
+                    <button onclick="exportCSV('q3')" class="no-print text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-wider">Exportar CSV</button>
+                </div>
+                <div class="chart-container relative h-[450px]">
+                    <canvas id="chartQ3"></canvas>
+                </div>
+            </section>
+
+            <!-- Questão 4 -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-blue-700 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-blue-500 rounded-full"></span>
+                        Q4: Sugestões Prioritárias
+                    </h2>
+                    <button onclick="exportCSV('q4')" class="no-print text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-wider">Exportar CSV</button>
+                </div>
+                <div class="chart-container relative h-[400px]">
+                    <canvas id="chartQ4"></canvas>
+                </div>
+            </section>
+
+            <!-- Resumo Avaliativo Descritivo -->
+            <section class="bg-slate-900 text-white p-8 rounded-2xl shadow-xl mt-8 print-break">
+                <h2 class="text-2xl font-black mb-6 flex items-center gap-3">                 
+                    Resumo Avaliativo Integrado
+                </h2>
+                <div class="space-y-6 text-slate-300">
+                    <p class="leading-relaxed">
+                        A articulação entre as Unidades Básicas de Saúde (UBS) e as Unidades Escolares apresenta um cenário de <span class="text-emerald-400 font-bold">comunicação resiliente mas heterogênea</span>. Enquanto 31% das unidades celebram o diálogo aberto como principal pilar de sucesso (Q1), a mesma temática reaparece como barreira para 17% dos respondentes (Q3), indicando que a eficácia da parceria depende fortemente da proatividade das equipes locais.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
+                        <div class="border-l-2 border-rose-500 pl-4">
+                            <h4 class="text-white font-bold mb-2">Gargalos Operacionais (Q2 e Q3)</h4>
+                            <p class="text-sm">
+                                A sobrecarga de atendimento (21%) e a carência de profissionais especialistas (16% em fragilidades e 12% em barreiras) formam o nó crítico da rede. Estes fatores, somados à falta de tempo e agendas incompatíveis (16%), impedem que as ações preventivas (ponto forte para 20%) se transformem em um fluxo contínuo e estável.
+                            </p>
+                        </div>
+                        <div class="border-l-2 border-blue-500 pl-4">
+                            <h4 class="text-white font-bold mb-2">Caminhos de Melhoria (Q4)</h4>
+                            <p class="text-sm">
+                                A solução mais requisitada, com 25% de adesão, é a institucionalização de <span class="text-blue-400 font-bold">reuniões periódicas</span>. Os gestores sugerem que a simples formalização do planejamento conjunto (11%) e a melhoria de protocolos de feedback (14%) seriam suficientes para mitigar grande parte das falhas de comunicação identificadas.
+                            </p>
+                        </div>
+                    </div>
+                    <p class="text-sm italic border-t border-slate-700 pt-4">
+                        Conclusão: O fortalecimento da parceria não demanda necessariamente grandes investimentos financeiros, mas sim uma <span class="text-amber-400">reorganização de fluxo e agenda</span> que priorize o planejamento intersetorial e a manutenção dos canais de diálogo já existentes.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Insights Quick View -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4 no-print">
+                <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
+                    <h3 class="font-bold text-emerald-800 mb-2">Comunicação</h3>
+                    <p class="text-sm text-emerald-700 leading-relaxed">Fator determinante para o sucesso. Onde há diálogo aberto (31%), a parceria flui com agilidade.</p>
+                </div>
+                <div class="bg-rose-50 p-6 rounded-2xl border border-rose-100">
+                    <h3 class="font-bold text-rose-800 mb-2">Especialistas</h3>
+                    <p class="text-sm text-rose-700 leading-relaxed">A falta de RH especializado (16%) é o maior gargalo técnico da rede atualmente.</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                    <h3 class="font-bold text-blue-800 mb-2">Soluções</h3>
+                    <p class="text-sm text-blue-700 leading-relaxed">25% das escolas sugerem reuniões periódicas como forma de alinhar agendas e protocolos.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="py-8 text-center text-slate-400 text-xs uppercase tracking-widest border-t border-slate-200 mt-12">
+        Análise Intersetorial © 2026 • Gerência de Saúde e Educação
+    </footer>
+
+    <script>
+        // Dados das questões conforme selecionado
+        const data = {
+            q1: {
+                labels: ["Comunicação e Diálogo Aberto", "Ações Preventivas e Educativas", "Trabalho Conjunto", "Agilidade e Prontidão", "Relação Positiva com a UBS", "Odontologia", "Cuidado com Crianças e Famílias", "Não Ressalta Pontos Fortes", "Proximidade / Localização"],
+                values: [31, 20, 11, 9, 9, 8, 6, 4, 2],
+                counts: [52, 33, 18, 15, 15, 13, 10, 7, 3],
+                color: '#10b981'
+            },
+            q2: {
+                labels: ["Demora/Sobrecarga no Atendimento", "Sem Fragilidades ou Não se Aplica", "Falta de Profissionais Especializados", "Falhas na Comunicação e Devolutivas", "Dificuldade de Agendas e Planejamento", "Ausência de Ações/Visitas na Escola", "Falta de Atuação Conjunta", "Baixa Adesão das Famílias", "Rotatividade e Instabilidade", "Infraestrutura Limitada"],
+                values: [21, 17, 16, 13, 12, 8, 6, 3, 2, 2],
+                counts: [35, 28, 26, 21, 20, 13, 10, 5, 4, 4],
+                color: '#f43f5e'
+            },
+            q3: {
+                labels: ["Sem Barreiras ou Não se Aplica", "Falhas na Comunicação entre Setores", "Falta de Tempo e Agenda Incompatível", "Carência de Profissionais Especializados", "Alta Demanda × Capacidade Limitada", "Falta de Planejamento Conjunto", "Burocracia e Questões Estruturais", "Descompromisso das Famílias", "Rotatividade e Instabilidade de Equipe", "Falta de Treinamento e Orientações Específicas para Profissionais"],
+                values: [25, 17, 16, 12, 11, 8, 2, 1, 1, 1],
+                counts: [41, 29, 27, 20, 18, 14, 3, 2, 2, 1],
+                color: '#F59E0B'
+            },
+            q4: {
+                labels: ["Reuniões Periódicas entre Equipes", "Melhoria da Comunicação e Protocolos", "Ações Educativas e Preventivas", "Não se Aplica", "Cronograma e Planejamento Conjunto", "Mais Profissionais e Especialistas", "Atendimento Prioritário para os Estudantes", "Presença da Saúde na Escola", "Integração com Famílias e Comunidade", "Ampliação do Horário de Atendimento", "Estabilidade da Equipe"],
+                values: [25, 14, 13, 12, 11, 8, 7, 5, 3, 1, 1],
+                counts: [41, 24, 21, 20, 19, 13, 12, 9, 5, 1, 1],
+                color: '#3b82f6'
+            }
+        };
+
+        // Função para criar os gráficos com tratamento de erro e carregamento seguro
+        function createChart(id, config) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const ctx = el.getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: config.labels,
+                    datasets: [{
+                        label: 'Porcentagem (%)',
+                        data: config.values,
+                        backgroundColor: config.color,
+                        borderRadius: 8,
+                        barThickness: 25,
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'right',
+                            offset: 5,
+                            color: '#475569',
+                            font: { weight: '600', size: 11 },
+                            formatter: (value, context) => {
+                                const count = config.counts[context.dataIndex];
+                                return value + '% (' + count + ' resp.)';
+                            }
+                        }
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: { right: 85 } 
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: true },
+                        datalabels: {
+                            display: true
+                        }
+                    },
+                    scales: {
+                        x: { display: false, grid: { display: false } },
+                        y: { 
+                            grid: { display: false },
+                            ticks: { font: { size: 11, weight: '500' }, color: '#475569' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Inicializar Gráficos apenas quando o DOM e os scripts estiverem prontos
+        function initApp() {
+            if (typeof Chart === 'undefined') {
+                console.error("Chart.js ainda não carregou. Tentando novamente...");
+                setTimeout(initApp, 200);
+                return;
+            }
+
+            // Registrar o plugin se disponível
+            if (typeof ChartDataLabels !== 'undefined') {
+                Chart.register(ChartDataLabels);
+            }
+
+            createChart('chartQ1', data.q1);
+            createChart('chartQ2', data.q2);
+            createChart('chartQ3', data.q3);
+            createChart('chartQ4', data.q4);
+        }
+
+        window.addEventListener('load', initApp);
+
+        // Função de Exportação CSV
+        function exportCSV(qKey) {
+            const chartData = data[qKey];
+            let csv = "Categoria,Porcentagem,Respostas\n";
+            chartData.labels.forEach((label, i) => {
+                csv += `"${label}",${chartData.values[i]}%,${chartData.counts[i]}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute("download", `dados_${qKey}.csv`);
+            link.click();
+        }
+    </script>
+</body>
+</html>
