@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Qualitativa - Perspectiva das UBS</title>
+    <!-- Tailwind CSS para Estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js para os Gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Plugin para rótulos de dados (datalabels) -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .print-break { page-break-before: always; }
+            body { background: white; }
+            .chart-container { height: 400px !important; }
+        }
+        canvas { max-height: 400px; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900 leading-relaxed">
+
+    <!-- Header -->
+    <header class="bg-indigo-900 border-b border-indigo-800 py-8 px-6 mb-8 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-end gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-white tracking-tight uppercase">Visão das UBS sobre as Escolas</h1>
+                <p class="text-indigo-200 font-medium">Relatório de Articulação • 70 Respostas Analisadas • Março 2026</p>
+            </div>
+            <div class="flex gap-3 no-print">
+                <button onclick="window.print()" class="flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-900 rounded-xl text-sm font-bold hover:bg-indigo-50 transition-all shadow-lg">
+                    <span>Imprimir / Salvar PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 pb-12">
+        
+        <!-- Grid de Gráficos -->
+        <div class="grid grid-cols-1 gap-8">
+            
+            <!-- Questão 1 -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-emerald-700 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
+                        Q1: Pontos Fortes da Parceria
+                    </h2>
+                    <button onclick="exportCSV('q1')" class="no-print text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-wider">Exportar CSV</button>
+                </div>
+                <div class="chart-container relative h-[400px]">
+                    <canvas id="chartQ1"></canvas>
+                </div>
+            </section>
+
+            <!-- Questão 2 -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-rose-700 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-rose-500 rounded-full"></span>
+                        Q2: Fragilidades Identificadas
+                    </h2>
+                    <button onclick="exportCSV('q2')" class="no-print text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-wider">Exportar CSV</button>
+                </div>
+                <div class="chart-container relative h-[450px]">
+                    <canvas id="chartQ2"></canvas>
+                </div>
+            </section>
+
+            <!-- Questão 3 -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 print-break">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-amber-600 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-amber-500 rounded-full"></span>
+                        Q3: Desafios e Barreiras
+                    </h2>
+                    <button onclick="exportCSV('q3')" class="no-print text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-wider">Exportar CSV</button>
+                </div>
+                <div class="chart-container relative h-[450px]">
+                    <canvas id="chartQ3"></canvas>
+                </div>
+            </section>
+
+            <!-- Questão 4 -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-blue-700 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-blue-500 rounded-full"></span>
+                        Q4: Sugestões Prioritárias
+                    </h2>
+                    <button onclick="exportCSV('q4')" class="no-print text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-wider">Exportar CSV</button>
+                </div>
+                <div class="chart-container relative h-[400px]">
+                    <canvas id="chartQ4"></canvas>
+                </div>
+            </section>
+
+            <!-- Resumo Avaliativo Descritivo Adaptado para as Respostas das UBS -->
+            <section class="bg-indigo-950 text-white p-8 rounded-2xl shadow-xl mt-8 print-break">
+                <h2 class="text-2xl font-black mb-6 flex items-center gap-3">                 
+                    Análise da Perspectiva da Saúde
+                </h2>
+                <div class="space-y-6 text-indigo-100/80">
+                    <p class="leading-relaxed">
+                        A visão das Unidades Básicas de Saúde (UBS) sobre as Escolas revela que a <span class="text-emerald-400 font-bold">comunicação e o diálogo aberto</span> (31%) continuam sendo o principal pilar de sucesso da intersetorialidade, complementados por uma <span class="text-emerald-400 font-bold">relação positiva</span> (26%) mencionada pela maioria das equipes de saúde.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
+                        <div class="border-l-2 border-rose-500 pl-4">
+                            <h4 class="text-white font-bold mb-2">Desafios de Gestão (Q2 e Q3)</h4>
+                            <p class="text-sm">
+                                O principal "nó" identificado pela saúde não é interpessoal, mas organizacional: a <span class="text-rose-400 font-bold">dificuldade de agendas e planejamento</span> (27% em Q2 e Q3). A falta de tempo e as agendas incompatíveis aparecem como a barreira prática mais severa, impedindo que a boa vontade entre as equipes se traduza em ações sistêmicas.
+                            </p>
+                        </div>
+                        <div class="border-l-2 border-blue-500 pl-4">
+                            <h4 class="text-white font-bold mb-2">Propostas das UBS (Q4)</h4>
+                            <p class="text-sm">
+                                Para as equipes de saúde, a solução mais eficaz seria a formalização de <span class="text-blue-400 font-bold">reuniões periódicas</span> (29%) e o estabelecimento de um <span class="text-blue-400 font-bold">cronograma de planejamento conjunto</span> (16%). Há um desejo claro por maior organização institucional para superar a sobrecarga do dia a dia.
+                            </p>
+                        </div>
+                    </div>
+                    <p class="text-sm italic border-t border-indigo-800 pt-4">
+                        Conclusão: Enquanto as escolas reclamam da demora no atendimento, as UBS apontam a <span class="text-amber-400">falta de sincronia de agendas</span> como o maior limitador. O fortalecimento da rede depende da criação de espaços protegidos na agenda de ambos os setores para o planejamento comum.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="py-8 text-center text-slate-400 text-xs uppercase tracking-widest border-t border-slate-200 mt-12">
+        Análise Intersetorial © 2026 • Gerência de Saúde e Educação
+    </footer>
+
+    <script>
+        // Dados extraídos das imagens anexas (Visão das UBS sobre Escolas)
+        const data = {
+            q1: {
+                labels: ["Comunicação e Diálogo Aberto", "Relação Positiva com a UBS", "Ações Preventivas e Educativas", "Parceria e Trabalho Conjunto", "Não se Aplica", "Encaminhamentos e Acompanhamento", "Cuidado com Crianças e Famílias"],
+                values: [31, 26, 16, 10, 9, 6, 3],
+                counts: [22, 18, 11, 7, 6, 4, 2],
+                color: '#10b981'
+            },
+            q2: {
+                labels: ["Não se Aplica", "Dificuldade de Agendas e Planejamento", "Falhas na Comunicação e Devolutivas", "Demora e Sobrecarga no Atendimento", "Falta de Profissionais Especializados", "Rotatividade e Instabilidade de Equipe", "Baixa Adesão das Famílias", "Ausência de Ações/Visitas na Escola"],
+                values: [39, 27, 19, 9, 3, 1, 1, 1],
+                counts: [27, 19, 13, 6, 2, 1, 1, 1],
+                color: '#f43f5e'
+            },
+            q3: {
+                labels: ["Não se Aplica", "Falta de Tempo e Agenda Incompatível", "Falhas na Comunicação entre Setores", "Falta de Planejamento Conjunto", "Alta Demanda × Capacidade Limitada", "Carência de Profissionais Especializados"],
+                values: [40, 27, 11, 11, 7, 3],
+                counts: [28, 19, 8, 8, 5, 2],
+                color: '#F59E0B'
+            },
+            q4: {
+                labels: ["Reuniões Periódicas entre Equipes", "Não se Aplica", "Cronograma e Planejamento Conjunto", "Melhoria da Comunicação e Protocolos", "Capacitação e Formação Continuada", "Presença da Saúde na Escola", "Ações Educativas e Preventivas"],
+                values: [29, 23, 16, 11, 11, 7, 3],
+                counts: [20, 16, 11, 8, 8, 5, 2],
+                color: '#3b82f6'
+            }
+        };
+
+        function createChart(id, config) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const ctx = el.getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: config.labels,
+                    datasets: [{
+                        label: 'Porcentagem (%)',
+                        data: config.values,
+                        backgroundColor: config.color,
+                        borderRadius: 8,
+                        barThickness: 25,
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'right',
+                            offset: 5,
+                            color: '#475569',
+                            font: { weight: '600', size: 11 },
+                            formatter: (value, context) => {
+                                const count = config.counts[context.dataIndex];
+                                return value + '% (' + count + ' resp.)';
+                            }
+                        }
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: { right: 85 } 
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: true },
+                        datalabels: {
+                            display: true
+                        }
+                    },
+                    scales: {
+                        x: { display: false, grid: { display: false } },
+                        y: { 
+                            grid: { display: false },
+                            ticks: { font: { size: 11, weight: '500' }, color: '#475569' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initApp() {
+            if (typeof Chart === 'undefined') {
+                setTimeout(initApp, 200);
+                return;
+            }
+
+            if (typeof ChartDataLabels !== 'undefined') {
+                Chart.register(ChartDataLabels);
+            }
+
+            createChart('chartQ1', data.q1);
+            createChart('chartQ2', data.q2);
+            createChart('chartQ3', data.q3);
+            createChart('chartQ4', data.q4);
+        }
+
+        window.addEventListener('load', initApp);
+
+        function exportCSV(qKey) {
+            const chartData = data[qKey];
+            let csv = "Categoria,Porcentagem,Respostas\n";
+            chartData.labels.forEach((label, i) => {
+                csv += `"${label}",${chartData.values[i]}%,${chartData.counts[i]}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute("download", `dados_ubs_escola_${qKey}.csv`);
+            link.click();
+        }
+    </script>
+</body>
+</html>
