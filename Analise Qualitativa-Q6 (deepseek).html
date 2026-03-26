@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Análise Qualitativa Q6 — Avaliação das UBS sobre Encaminhamentos</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --v:#1a7f4b;--v2:#2fa866;--v3:#e8f5ee;
+  --a:#1a4e8f;--a2:#2d72d2;--a3:#e8f0fb;
+  --l:#d97706;--l3:#fef3c7;
+  --r:#dc2626;--r2:#b91c1c;--r3:#fef2f2;
+  --g:#6b7280;--g2:#f3f4f6;--g3:#e5e7eb;
+  --tx:#111827;--tx2:#4b5563;
+  --t:#0891b2;--t3:#e0f2fe;
+  --p:#6366f1;--p3:#ede9fe;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:var(--tx);font-size:14px}
+
+.hdr{background:linear-gradient(135deg,#0d4f2e 0%,#1a7f4b 55%,#2d72d2 100%);color:#fff;padding:22px 36px 18px}
+.hdr-in{max-width:1360px;margin:0 auto}
+.hdr h1{font-size:19px;font-weight:700;margin-bottom:4px;line-height:1.3}
+.hdr .sub{font-size:12px;opacity:.85;margin-bottom:12px;line-height:1.5}
+.bdgs{display:flex;gap:7px;flex-wrap:wrap}
+.bdg{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:600}
+
+.wrap{max-width:1360px;margin:0 auto;padding:22px 18px}
+
+.synthesis{background:linear-gradient(135deg,#0d4f2e,#1a7f4b);color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:24px}
+.synthesis h2{font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.syn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+@media(max-width:860px){.syn-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.syn-grid{grid-template-columns:1fr}}
+.syn-card{background:rgba(255,255,255,.13);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.18)}
+.syn-card strong{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;opacity:.72;margin-bottom:4px}
+.syn-card p{font-size:11.5px;opacity:.92;line-height:1.55}
+
+.ov-row{display:grid;grid-template-columns:1.1fr 0.9fr;gap:16px;margin-bottom:20px}
+@media(max-width:760px){.ov-row{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.09)}
+.ct{font-size:10.5px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+
+.stitle{font-size:14.5px;font-weight:700;color:var(--a);margin:24px 0 12px;display:flex;align-items:center;gap:7px;border-bottom:2px solid var(--a2);padding-bottom:6px}
+
+.cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:22px}
+@media(max-width:1060px){.cats-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cats-grid{grid-template-columns:1fr}}
+.cat-card{background:#fff;border-radius:11px;padding:17px;box-shadow:0 1px 4px rgba(0,0,0,.09);border-top:5px solid;display:flex;flex-direction:column;gap:9px}
+.cat-head{display:flex;align-items:flex-start;gap:9px}
+.cat-icon{font-size:24px;flex-shrink:0;line-height:1}
+.cat-name{font-weight:700;font-size:13px;line-height:1.3}
+.cat-sub{font-size:11px;color:var(--g);margin-top:2px}
+.cat-count{font-size:28px;font-weight:800;line-height:1}
+.cat-count span{font-size:13px;font-weight:500;color:var(--g);margin-left:3px}
+.bar-wrap{height:8px;background:var(--g2);border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:5px}
+.cat-desc{font-size:12px;color:var(--tx2);line-height:1.55;border-left:3px solid;padding-left:8px}
+.kw-row{display:flex;flex-wrap:wrap;gap:4px}
+.kw{font-size:10px;background:var(--g2);border-radius:3px;padding:2px 6px;color:var(--tx2);font-weight:600}
+.quotes{border-top:1px solid var(--g3);padding-top:9px;display:flex;flex-direction:column;gap:6px}
+.ql{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--g);margin-bottom:2px;letter-spacing:.4px}
+.q{font-size:11.5px;color:var(--tx2);line-height:1.6;padding:7px 10px;background:var(--g2);border-radius:6px;border-left:4px solid;font-style:italic}
+.q-sch{font-size:10px;font-weight:700;color:var(--g);margin-top:3px;font-style:normal}
+
+.alrt{border-radius:7px;padding:10px 13px;border-left:4px solid}
+.al-r{background:#fff1f0;border-color:var(--r)}.al-l{background:#fffbeb;border-color:var(--l)}
+.al-g{background:#f0fdf4;border-color:var(--v)}.al-a{background:#eff6ff;border-color:var(--a2)}
+.alrt-t{font-size:11.5px;font-weight:700;margin-bottom:2px}
+.al-r .alrt-t{color:var(--r)}.al-l .alrt-t{color:var(--l)}
+.al-g .alrt-t{color:var(--v)}.al-a .alrt-t{color:var(--a2)}
+.alrt-b{font-size:11px;color:var(--tx2);line-height:1.5}
+
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin:10px 0}
+.fstep{background:var(--g2);border-radius:7px;padding:6px 11px;font-size:11.5px;font-weight:600;color:var(--tx)}
+.farr{font-size:15px;color:var(--g)}
+.fstep.hl{background:var(--a3);color:var(--a)}
+.fstep.ok{background:var(--v3);color:var(--v)}
+.fstep.err{background:var(--r3);color:var(--r)}
+.fstep.warn{background:var(--l3);color:var(--l)}
+
+.ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+@media(max-width:680px){.ins-grid{grid-template-columns:1fr}}
+.ins-card{background:#fff;border-radius:10px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,.09)}
+.ins-card h3{font-size:12.5px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ins-card p{font-size:12px;color:var(--tx2);line-height:1.6}
+
+.sem-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.sem-tbl th{background:var(--r3);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--r)}
+.sem-tbl td{padding:7px 10px;border-bottom:1px solid #fecaca;vertical-align:top;line-height:1.5}
+.sem-tbl tr:hover td{background:#fff5f5}
+
+.srch{width:100%;padding:9px 13px;border:1.5px solid var(--g3);border-radius:7px;font-size:13px;margin-bottom:11px;font-family:inherit;outline:none;transition:border-color .2s}
+.srch:focus{border-color:var(--a2)}
+.tbl-wrap{max-height:520px;overflow-y:auto;border:1px solid var(--g3);border-radius:8px}
+.rtbl{width:100%;border-collapse:collapse;font-size:12px}
+.rtbl th{background:var(--g2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--tx2);position:sticky;top:0;z-index:1}
+.rtbl td{padding:7px 10px;border-bottom:1px solid var(--g3);vertical-align:top;line-height:1.55}
+.rtbl tr:hover td{background:#fafafa}
+.pill{display:inline-block;border-radius:4px;padding:2px 7px;font-size:10.5px;font-weight:700;white-space:nowrap}
+.e-col{font-weight:600;color:var(--a);min-width:155px}
+.u-col{font-size:11px;color:var(--g);min-width:130px}
+
+.fl-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.fl-dot{width:11px;height:11px;border-radius:2px;flex-shrink:0}
+.foot{background:#1a2535;color:#9ca3af;text-align:center;padding:13px;font-size:11.5px;margin-top:26px}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-in">
+    <h1>🔄 Análise Qualitativa — Q6: Como são feitos os Encaminhamentos Combinados (avaliação das UBS)</h1>
+    <p class="sub">Questão 6 — "Descreva resumidamente como são feitos os encaminhamentos combinados entre as unidades" &nbsp;·&nbsp; 70 respostas analisadas e categorizadas &nbsp;·&nbsp; PSE 2025 · Joinville-SC · Visão das UBS sobre as escolas</p>
+    <div class="bdgs" id="badgeContainer">
+      <!-- badges preenchidos dinamicamente -->
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="synthesis" id="synthesisContainer">
+    <!-- síntese gerada dinamicamente -->
+  </div>
+
+  <div class="ov-row">
+    <div class="card">
+      <div class="ct">Distribuição por Tipo de Processo de Encaminhamento (Q6 · n=70)</div>
+      <div style="height:275px"><canvas id="chMain"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ct">Grau de Formalização dos Processos (percepção das UBS)</div>
+      <div style="height:160px"><canvas id="chForm"></canvas></div>
+      <div style="margin-top:13px" id="formalizacaoLegend"></div>
+    </div>
+  </div>
+
+  <div class="stitle">🏷️ Análise por Categoria — Processos Identificados (UBS avaliam escolas)</div>
+  <div id="catsGrid" class="cats-grid"></div>
+
+  <div class="stitle">🚨 Unidades sem Processo de Encaminhamento Definido</div>
+  <div class="card" style="margin-bottom:22px;overflow-x:auto">
+    <table class="sem-tbl"><thead><tr><th>#</th><th>Unidade Básica de Saúde (UBS)</th><th>Unidade Escolar</th><th>Resposta Declarada (Q6)</th></tr></thead><tbody id="semTbody"></tbody></table>
+  </div>
+
+  <div class="stitle">🗺️ Fluxograma: Modelo Dominante × Modelo Ideal</div>
+  <div class="card" style="margin-bottom:22px">
+    <div class="ct">Modelo dominante (58% das UBS) — WhatsApp/Telefone informal, sem retorno formal</div>
+    <div class="flow"><div class="fstep">📞 UBS identifica demanda</div><div class="farr">→</div><div class="fstep hl">Contato por WhatsApp/telefone</div><div class="farr">→</div><div class="fstep warn">Alinhamento com escola</div><div class="farr">→</div><div class="fstep err">❌ Sem registro oficial / retorno sistemático</div></div>
+    <div style="margin-top:9px;font-size:12px;color:var(--tx2);line-height:1.6;background:var(--l3);border-radius:7px;padding:10px 13px;border-left:4px solid var(--l)"><strong style="color:var(--l)">Gargalo crítico:</strong> A comunicação é ágil, mas não gera rastro. Rotatividade de profissionais interrompe os canais informais.</div>
+    <div style="margin-top:16px"><div class="ct">Modelo ideal — praticado por UBS com protocolo formal (ex: UBSF MORRO DO AMARAL)</div>
+    <div class="flow"><div class="fstep">👁️ Identifica necessidade</div><div class="farr">→</div><div class="fstep hl">Protocolo técnico / sistema de regulação</div><div class="farr">→</div><div class="fstep ok">Registro em Olostech</div><div class="farr">→</div><div class="fstep ok">Encaminhamento rastreável</div><div class="farr">→</div><div class="fstep ok">Retorno à escola quando pertinente</div></div></div>
+  </div>
+
+  <div class="stitle">💡 Recomendações para a Gestão Municipal (a partir da visão das UBS)</div>
+  <div class="ins-grid">
+    <div class="ins-card"><h3>📋 Criar canal de comunicação institucional</h3><p>Substituir contatos pessoais por grupos institucionais com pontos focais nomeados por cargo, garantindo resiliência à rotatividade.</p></div>
+    <div class="ins-card"><h3>📱 Formalizar uso do WhatsApp com registro</h3><p>Padronizar registro mínimo dos encaminhamentos realizados por WhatsApp, com confirmação de recebimento e prazos.</p></div>
+    <div class="ins-card"><h3>🚨 Intervenção nas UBS sem processo</h3><p>Visita técnica para estabelecer fluxo básico com as escolas. Especial atenção às UBSF AVENTUREIRO II e UBSF JARDIM EDILENE.</p></div>
+    <div class="ins-card"><h3>👥 Ampliar atuação do SOE/Assistente Social</h3><p>Onde há SOE, o processo é mais qualificado. Criar protocolo específico para esses profissionais atuarem como articuladores.</p></div>
+    <div class="ins-card"><h3>🤝 Reuniões periódicas obrigatórias</h3><p>Instituir reunião bimestral entre coordenadores da UBS e gestores escolares para alinhar encaminhamentos e construir confiança.</p></div>
+    <div class="ins-card"><h3>📊 Escalar sistema de regulação</h3><p>Ampliar uso de sistemas como Olostech para encaminhamentos, garantindo rastreabilidade e redução da informalidade.</p></div>
+  </div>
+
+  <div class="stitle">📋 Todas as 70 Respostas — Categorização Individual (UBS → Escola)</div>
+  <div class="card">
+    <input class="srch" id="srch" type="text" placeholder="🔍 Buscar por UBS, escola, categoria ou trecho da resposta...">
+    <div class="tbl-wrap"><table class="rtbl"><thead><tr><th style="width:32px">#</th><th>Unidade Básica de Saúde (UBS)</th><th>Unidade Escolar</th><th>Resposta Q6</th><th style="width:180px">Categoria</th></tr></thead><tbody id="rtbody"></tbody></table></div>
+    <div style="margin-top:8px;font-size:11.5px;color:var(--g)" id="rowCnt">70 respostas exibidas</div>
+  </div>
+</div>
+<div class="foot">🔄 Análise Qualitativa Q6 — Encaminhamentos Combinados (UBS avaliam escolas) · PSE 2025 · Secretaria Municipal de Saúde/Educação · Joinville-SC · 70 UBS respondentes</div>
+
+<script>
+// ======================= DADOS REAIS (70 linhas extraídas da planilha) =======================
+const RAW = [
+  ["UBSF ADHEMAR GARCIA","CEI Adhemar Garcia","Contato direto entre gestores para avaliação da necessidade/atendimentos"],
+  ["UBSF ADHEMAR GARCIA","CEI Espaço da Criança","Contato direto entre gestores para avaliação da necessidade/atendimentos"],
+  ["UBSF JARDIM SOFIA","CEI Jardim Sofia","Realizamos uma reunião com a instituição escolar na unidade ou na escola e realizamos o planejamento das ações em conjunto com a definição de datas."],
+  ["UBSF JARDIM EDILENE","CEI Pão de Mel","Recebemos poucos encaminhamentos."],
+  ["UBSF PARQUE GUARANI","CEI Parque Guarani","Os responsáveis trazem o encaminhamento até a Ubsf e é feito o agendamento na recepção"],
+  ["UBSF JARDIM EDILENE","CEI Marilene dos Passos Santos","escrito ou contato escola-unidade de saúde"],
+  ["UBSF PARQUE GUARANI","CEI Silvia Regina Cavalheiro","Diretora entra em contato e alinhamos a forma de atendimento"],
+  ["UBSF PARQUE GUARANI","EM Baltasar Buschle","Responsável vem até a unidade e entrega na recepção"],
+  ["UBSF RIO BONITO","CEI Gustavo Zietz","O combinado é que esses encaminhamentos sejam enviados ao e-mail institucional da coordenação."],
+  ["UBSF GLÓRIA","CEI Peter Pan","Trazem as questões como obesidade, magresa, da odontologia e até mesmo consulta com a pediatria e medico de esf"],
+  ["UBSF GLÓRIA","EM Hans Müller","A escola e unidade de saude , combinam e agendam as atividades"],
+  ["UBSF PARQUE GUARANI","EM Sadalla Amin Ghanem","Responsável vem até a unidade e entrega na recepção"],
+  ["UBSF RIO BONITO","EM Hermann Muller","O combinado é que esses encaminhamentos sejam enviados ao e-mail institucional da coordenação."],
+  ["UBSF RIO BONITO","EM Sete de Setembro","O combinado é que esses encaminhamentos sejam enviados ao e-mail institucional da coordenação."],
+  ["UBSF RIO BONITO","EM Arthur da Costa e Silva","O combinado é que esses encaminhamentos sejam enviados ao e-mail institucional da coordenação."],
+  ["UBSF DA ILHA","EM Maria Regina Leal","As vezes entram em contato conosco e as vezes via cartas de encaminhamento"],
+  ["UBSF DA ILHA","CEI Miraci Dereti","enviado cartas ou entrado em contato conosco"],
+  ["UBSF DA ILHA","EM Aluizius Sehnem","Alguns em cartas e outros falam conosco"],
+  ["UBSF JARDIM EDILENE","EM Joaquim Félix Moreira","eles entram em contato e repassam os casos"],
+  ["UBSF JARDIM EDILENE","EM Nilson Wilson Bender","escola entra em conta e alinhamos as condutas"],
+  ["UBSF JARDIM EDILENE","EM Rosangela Martinowsky Baptista","escola informa por telefone demandas"],
+  ["UBSF CUBATÃO","EM Isabel Silveira Machado","São feitos pelo whatsapp ou email das gestoras."],
+  ["UBSF NOVA BRASÍLIA","CEI Doce Infância","Por meio de mensagens de aplicativo (WhatsApp), ou reunião na unidade escolar/UBSF, visto que estão localizadas lado a lado."],
+  ["UBSF LAGOINHA","CEI Justina Rosa Fachini","Via email ou em mãos aos pais."],
+  ["UBSF FÁTIMA","CEI Pedro Ivo Figueiredo de Campos","Recebidos via e-mail da Unidade de Saúde. Resposta encaminhada via e-mail. Quando recebida via WhatsApp também resolvo e respondo a solicitação recebida."],
+  ["UBSF LAGOINHA","EM Ruben Roberto Schmidlin","Via email, entregue para os pais"],
+  ["UBSF AVENTUREIRO I","CEI Castelo Branco","A depender do caso, agendamento para avaliação com médico da ESF e posterior encaminhamento à especialidade via Olostech (Regulação de especialidades)."],
+  ["UBSF KM 4","CEI Célio Gomes de Oliveira","Através de pareceres e questões agudas através de aplicativo de mensagem."],
+  ["UBSF KM 4","EM Lauro Carneiro de Loyola","Via relatório circunstanciado."],
+  ["UBSF CANTO DO RIO","CEI José do Patrocínio","Notificação via e-mail ou celular corporativo da enfermeira"],
+  ["UBSF KM 4","EM Plácido Xavier Vieira","Relatório Circustanciado"],
+  ["UBSF KM 4","EM José Motta Pires","Relatório circunstanciado"],
+  ["UBSF MORRO DO AMARAL","EM Reinaldo Pedro de França","O médico da UBS preenche uma solicitação baseada em protocolos técnicos e envia via sistema de regulação."],
+  ["UBSF SAGUAÇÚ","EM Avelino Marcante","contato direto com a diretora e equipe da escola , via watts , email, acs ,"],
+  ["UBSF ANABURGO","EM Anaburgo","Sempre contato prévio via whats com a coordenação da unidade, supervisora e diretora da escola. Sobre aluno temos duas formas: Carta entregue aos pais para avaliação da unidade ou diretamente via email institucional se o caso for mais delicado."],
+  ["UBSF CANELA","CEI Cachinhos de Ouro Extensão","A unidade escola faz um relatório da percepção da escola com relação ao problema enfrentado e encaminha a coordenação da UBS, que por sua vez faz os devidos encaminhamentos."],
+  ["UBSF CANELA","EM Emílio Paulo Roberto Hardt","Envio do relatorio com a percepção da escola sobre o problema enfrentado"],
+  ["UBSF VILA NOVA RURAL","EM Emílio Stock Júnior","Atraves do grupo no whatsapp"],
+  ["UBSF VILA NOVA RURAL","EM Senhorinha Soares","Combinados entre as partes."],
+  ["UBSF VILA NOVA RURAL","EM João Meerholz","combinados pelo whats entre coordenação e direção"],
+  ["UBSF FLORESTA","CEI Itaum","Sempre que há alguma atividade, ou necessidade de alguma família, a coordenação da unidade escolar entra em contato via whats app, e são feitos os alinhamentos"],
+  ["UBSF BUCAREIN","CEI Espaço Encantado","Através de reunião, relatórios, registros e monitoramento"],
+  ["UBSF BUCAREIN","CEI Luiza Maria Veiga","Relatorios, reuniõe,s orientação aos familiares, registro e acompanhamento"],
+  ["UBSF COSTA E SILVA","CEI Alzelir Teresinha Gonçalves Pacheco","Contato direto da direção com coordenação da unidade."],
+  ["UBSF BUCAREIN","EM Anita Garibaldi","Relatorios, comunicação a familia, registro e acompanhamento"],
+  ["UBSF COSTA E SILVA","CEI Branca de Neve","Contato direto entre direção escolar e coordenação da unidade de saúde."],
+  ["UBSF COSTA E SILVA","CEI Girassol","Contato direto entre direção escolar e coordenação da unidade de saúde."],
+  ["UBSF FLORESTA","EM Virgínia Soares","Entre coordenação escola e coordenação da UBSF"],
+  ["UBSF FLORESTA","CEI Herondina da Silva Vieira","São encaminhados pela unidade escolar e atendemos na UBSF"],
+  ["UBSF BOM RETIRO","CEI Adolfo Artmann","Contatos entre equipe da unidade com a equipe da escola incluindo diretora. Também encaminhados pelos pais"],
+  ["UBSF BOM RETIRO","CEI Débora Cristina Neves da Silva Ruiz Paloma","Contato entre a equipe da unidade e equipe da escola incluindo coordenção e diretora"],
+  ["UBSF BOM RETIRO","EM Avelino Marcante","Contato ente equipe da escola e equipe da unidade incluindo coordenador e diretor"],
+  ["UBSF RIO DA PRATA","EM Germano Lenschow","Os profissionais da educação produzem relatórios e pedem para os pais trazerem na UBSF. De posse do relatório é agendada consulta com a enfermeira para avaliar melhor a situação relatada e fazer os encaminhamentos (se necessário)."],
+  ["UBSF RIO DA PRATA","CEI Hubert Hübener","Os profissionais da educação produzem relatórios e pedem para os pais trazerem na UBSF. De posse do relatório é agendada consulta com a enfermeira para avaliar melhor a situação relatada e fazer os encaminhamentos (se necessário)."],
+  ["UBSF RIO DA PRATA","EM Honório Saldo","Os profissionais da educação produzem relatórios e pedem para os pais trazerem na UBSF. De posse do relatório é agendada consulta com a enfermeira para avaliar melhor a situação relatada e fazer os encaminhamentos (se necessário)."],
+  ["UBSF PARANAGUAMIRIM","CEI Monteiro Lobato","Através de agendamento"],
+  ["UBSF PARANAGUAMIRIM","CEI Alegria de Viver","Agendamento"],
+  ["UBSF PARANAGUAMIRIM","EM Ada Sant'Anna da Silveira","agendamento"],
+  ["UBSF ADHEMAR GARCIA","EM Luiz Gomes","Combinados dentro de uma situação específica, cada caso com suas devidas necessidades"],
+  ["UBSF JATIVOCA","EM Julio Machado da Luz","Escola quando vê necessidade de intervenção sobre um aluno, entra em contato com a coordenação ou enfermeira da unidade e passa o caso, ou agendamentos de reuniões com os responsáveis da escola ou unidade."],
+  ["UBSF ADHEMAR GARCIA","EM Mariano Costa","Por email ou whatsapp"],
+  ["UBSF CAIC VILA PARANAENSE","CEI Espinheiros","Escola solicita acompanhamento, UBSF avalia o acompanhamento na unidade e da os devidos encaminhamentos (busca ativa; agendamento de consulta; cobertura vacinal, etc)"],
+  ["UBSF CAIC VILA PARANAENSE","EM Francisco José Rodrigues de Oliveira","Escola solicita acompanhamento, UBSF avalia o acompanhamento na unidade e da os devidos encaminhamentos (busca ativa; agendamento de consulta; cobertura vacinal, etc)"],
+  ["UBSF CAIC VILA PARANAENSE","EM José Antônio Navarro Lins","Escola solicita acompanhamento, UBSF avalia o acompanhamento na unidade e da os devidos encaminhamentos (busca ativa; agendamento de consulta; cobertura vacinal, etc)"],
+  ["UBSF CAIC VILA PARANAENSE","CEI Esperança","Escola solicita acompanhamento, UBSF avalia o acompanhamento na unidade e da os devidos encaminhamentos (busca ativa; agendamento de consulta; cobertura vacinal, etc)"],
+  ["UBSF JOÃO COSTA","EM João Bernardino da Silveira Jr.","ter uma porta aberta entre o enfermeiro e as orientadoras da escola"],
+  ["UBSF AVENTUREIRO II","CEI Namir Alfredo Zattar","Ainda não tivemos essa prática entre essa ecola."],
+  ["UBSF JOÃO COSTA","CEI Estrelinha Brilhante","A demanda de encaminhamento é muito pequena."],
+  ["UBSF JOÃO COSTA","CEI Zilda Arns Neumann","Por telefone, e-mail e whatsapp."],
+  ["UBSF JOÃO COSTA","EM João Costa","Através de E-mail e whatsapp."]
+];
+
+// ======================= CATEGORIZAÇÃO =======================
+function categorize(q) {
+  let t = q.toLowerCase();
+  if (t.includes("não acontece") || t.includes("nunca foi feito") || t.includes("não realizamos") || t.includes("não temos") || t.includes("não existem") || t.includes("não encaminhamos") || t.includes("não houve") || (t.includes("não") && t.includes("combinado")) || t.includes("ainda não tivemos") || t.includes("é muito pequena") || t.includes("poucos encaminhamentos")) return "sem";
+  if (t.includes("protocolo") || t.includes("sistema de regulação") || t.includes("formulário") || t.includes("drive compartilhado") || t.includes("campo de retorno") || t.includes("olostech")) return "protocolo";
+  if (t.includes("reunião") && (t.includes("mensal") || t.includes("alinhamento") || t.includes("presencial") || t.includes("planejamento das ações"))) return "reuniao";
+  if (t.includes("assistente social") || t.includes("soe") || t.includes("psicólogo") || t.includes("orientação escolar") || t.includes("agente comunitária") || t.includes("serviço de orientação") || t.includes("orientadora")) return "soe";
+  if (t.includes("whatsapp") || t.includes("whats") || t.includes("telefone") || t.includes("ligação") || t.includes("e-mail") || t.includes("email") || t.includes("contato direto") || t.includes("mensagem")) return "digital";
+  if (t.includes("reunião") || t.includes("Através de reunião") || t.includes("reuni")) return "reuniao";
+  if (t.includes("relatório") || t.includes("parecer") || t.includes("família leva") || t.includes("pais levam") || t.includes("carta") || t.includes("bilhete") || t.includes("encaminhamento") || t.includes("entrega na recepção") || t.includes("relatorio")  && !t.includes("whats") && !t.includes("reunião")) return "relatorio";
+  return "digital";
+}
+
+const catMeta = {
+  relatorio: { label:"Relatório Pedagógico via Família", icon:"📄", color:"#0891b2", bg:"#e0f2fe", order:1, desc:"A UBS recebe relatório elaborado pela escola, entregue pela família. Sem contato direto entre unidades, sem garantia de retorno." },
+  digital: { label:"WhatsApp, Telefone e E-mail", icon:"📱", color:"#6366f1", bg:"#ede9fe", order:2, desc:"Comunicação direta via WhatsApp, telefone ou e-mail entre gestores. Ágil, mas dependente de contatos pessoais e sem registro formal." },
+  soe: { label:"Via SOE / Assistente Social / Psicólogo", icon:"👥", color:"#059669", bg:"#d1fae5", order:3, desc:"Assistente social, psicólogo ou orientador educacional atua como ponte. Processo mais qualificado, com acompanhamento ativo." },
+  sem: { label:"Sem Processo Definido / Não Realizado", icon:"❌", color:"#dc2626", bg:"#fef2f2", order:4, desc:"UBS declarou não ter processo combinado com a escola, ausência total de articulação intersetorial." },
+  protocolo: { label:"Protocolo Formal / Documento Padronizado", icon:"📋", color:"#1a7f4b", bg:"#e8f5ee", order:5, desc:"Uso de sistema de regulação ou formulário padronizado com retorno. Único nível que permite rastreabilidade." },
+  reuniao: { label:"Reunião Presencial e Alinhamento", icon:"🤝", color:"#d97706", bg:"#fef3c7", order:6, desc:"Encontros presenciais entre equipes para alinhar demandas e encaminhamentos. Prática ainda rara, mas com alto potencial." }
+};
+
+const dataRows = RAW.map((r, idx) => {
+  const cat = categorize(r[2]);
+  const meta = catMeta[cat];
+  return { num: idx+1, ubs: r[0], escola: r[1], resp: r[2], cat: cat, label: meta.label, color: meta.color, bg: meta.bg };
+});
+
+// Contagens
+const catCounts = { relatorio:0, digital:0, soe:0, sem:0, protocolo:0, reuniao:0 };
+dataRows.forEach(d => catCounts[d.cat]++);
+const total = dataRows.length;
+
+// Atualizar badges
+document.getElementById('badgeContainer').innerHTML = `
+  <span class="bdg">📊 ${total} Unidades Básicas de Saúde</span>
+  <span class="bdg">🏷️ 6 Categorias Identificadas</span>
+  <span class="bdg">🔴 ${catCounts.sem} Sem Processo Definido (${((catCounts.sem/total)*100).toFixed(1)}%)</span>
+  <span class="bdg">✅ ${catCounts.protocolo} Com Protocolo Formal (${((catCounts.protocolo/total)*100).toFixed(1)}%)</span>
+`;
+
+// Síntese dinâmica
+const synCards = [
+  { title: "📄 Padrão Dominante", text: `Em ${((catCounts.digital/total)*100).toFixed(0)}% das UBS o mecanismo é o WhatsApp/telefone/e-mail (${catCounts.digital} respostas). A comunicação direta entre coordenadores predomina, mas carece de registro e rastreabilidade.` },
+  { title: "📋 Relatório via família", text: `${((catCounts.relatorio/total)*100).toFixed(0)}% das respostas citam relatório pedagógico entregue pela família à UBS — elo frágil, sem garantia de continuidade.` },
+  { title: "🔴 Lacuna Crítica", text: `${catCounts.sem} UBS (${((catCounts.sem/total)*100).toFixed(1)}%) declararam não ter processo combinado com a escola, ausência total de articulação intersetorial.` },
+  { title: "✅ Boas Práticas Emergentes", text: `${catCounts.protocolo} UBS (${((catCounts.protocolo/total)*100).toFixed(1)}%) possuem protocolo formal (sistema de regulação). Modelo ainda muito restrito na rede.` },
+  { title: "👥 Mediação especializada", text: `${((catCounts.soe/total)*100).toFixed(0)}% mencionam SOE, assistente social ou psicólogo como articuladores — processo mais qualificado onde existe este profissional.` },
+  { title: "🤝 Reuniões presenciais raras", text: `${((catCounts.reuniao/total)*100).toFixed(0)}% fazem reuniões periódicas, mas é a ação mais desejada para fortalecer a parceria.` }
+];
+document.getElementById('synthesisContainer').innerHTML = `<h2>📌 Diagnóstico Geral — O que a análise revela sobre os encaminhamentos (visão das UBS)</h2><div class="syn-grid">${synCards.map(c => `<div class="syn-card"><strong>${c.title}</strong><p>${c.text}</p></div>`).join('')}</div>`;
+
+// Gráfico principal
+new Chart(document.getElementById('chMain'),{
+  type:'doughnut',
+  data:{ labels: Object.keys(catCounts).map(c => catMeta[c].label + ` (${catCounts[c]})`), datasets:[{ data: Object.values(catCounts), backgroundColor: Object.keys(catCounts).map(c => catMeta[c].color), borderWidth:2, borderColor:'#fff' }] },
+  options:{ responsive:true, maintainAspectRatio:false, cutout:'63%', plugins:{ legend:{ position:'right', labels:{ boxWidth:10, font:{ size:10 }, padding:10 } }, tooltip:{ callbacks:{ label: ctx => ` ${ctx.raw} UBS (${((ctx.raw/total)*100).toFixed(1)}%)` } } } }
+});
+
+// Gráfico de formalização
+const estruturado = catCounts.protocolo;
+const semiformal = catCounts.relatorio + catCounts.digital + catCounts.soe + catCounts.reuniao;
+const ausente = catCounts.sem;
+new Chart(document.getElementById('chForm'),{
+  type:'bar', data:{ labels:['Estruturado','Semiformal','Ausente'], datasets:[{ data:[estruturado, semiformal, ausente], backgroundColor:['#1a7f4b','#d97706','#dc2626'], borderRadius:5 }] },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ` ${ctx.raw} UBS` } } }, scales:{ y:{ max:70, ticks:{ font:{ size:9 } } }, x:{ ticks:{ font:{ size:10 } } } } }
+});
+document.getElementById('formalizacaoLegend').innerHTML = `
+  <div class="fl-row"><div class="fl-dot" style="background:#1a7f4b"></div><span style="font-size:11.5px"><strong>Estruturado</strong> — protocolo formal, sistema de regulação</span><span style="margin-left:auto;font-weight:700;color:#1a7f4b;font-size:12px">${estruturado} · ${((estruturado/total)*100).toFixed(1)}%</span></div>
+  <div class="fl-row"><div class="fl-dot" style="background:#d97706"></div><span style="font-size:11.5px"><strong>Semiformal</strong> — WhatsApp, relatório via família, SOE, reuniões</span><span style="margin-left:auto;font-weight:700;color:#d97706;font-size:12px">${semiformal} · ${((semiformal/total)*100).toFixed(1)}%</span></div>
+  <div class="fl-row"><div class="fl-dot" style="background:#dc2626"></div><span style="font-size:11.5px"><strong>Ausente ou indefinido</strong></span><span style="margin-left:auto;font-weight:700;color:#dc2626;font-size:12px">${ausente} · ${((ausente/total)*100).toFixed(1)}%</span></div>
+`;
+
+// Gerar cards de categoria dinamicamente
+const order = ['digital','relatorio','soe','reuniao','protocolo','sem'];
+const catsGrid = document.getElementById('catsGrid');
+catsGrid.innerHTML = '';
+for (let cat of order) {
+  const count = catCounts[cat];
+  if (count === 0) continue;
+  const meta = catMeta[cat];
+  const items = dataRows.filter(r => r.cat === cat);
+  const keywords = [...new Set(items.flatMap(r => r.resp.toLowerCase().split(/\s+/).filter(w => w.length>4 && !['como','são','feitos','para','entre','através','quando','com','uma','pela'].includes(w))).slice(0,8))];
+  const sampleQuotes = items.slice(0,3).map(r => ({ resp: r.resp, ubs: r.ubs, escola: r.escola }));
+  const percent = ((count/total)*100).toFixed(1);
+  const barWidth = percent;
+  catsGrid.innerHTML += `
+    <div class="cat-card" style="border-top-color:${meta.color}">
+      <div class="cat-head"><span class="cat-icon">${meta.icon}</span><div><div class="cat-name" style="color:${meta.color}">${meta.label}</div><div class="cat-sub">${count} UBS · ${percent}%</div></div></div>
+      <div class="cat-count" style="color:${meta.color}">${count}<span>UBS · ${percent}%</span></div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${barWidth}%;background:${meta.color}"></div></div>
+      <div class="cat-desc" style="border-color:${meta.color}">${meta.desc}</div>
+      <div class="kw-row">${keywords.map(k => `<span class="kw">${k}</span>`).join('')}</div>
+      <div class="quotes"><div class="ql">📝 Exemplos reais (UBS)</div>${sampleQuotes.map(q => `<div class="q" style="border-color:${meta.color}">${q.resp}<div class="q-sch">${q.ubs} / ${q.escola}</div></div>`).join('')}</div>
+      <div class="alrt ${cat==='sem'?'al-r':cat==='digital'?'al-l':cat==='soe'?'al-g':cat==='protocolo'?'al-g':'al-a'}"><div class="alrt-t">${cat==='sem'?'🔴 Ponto de Atenção':cat==='digital'?'⚠️ Agilidade mas sem rastreabilidade':cat==='relatorio'?'⚠️ Circuito aberto':cat==='soe'?'✅ Boa prática — mediação ativa':cat==='protocolo'?'✅ Referência para padronização':'ℹ️ Articulação direta'}</div><div class="alrt-b">${cat==='sem'?'UBS sem fluxo estabelecido. Necessário alinhamento com as escolas para garantir encaminhamentos mínimos.':cat==='digital'?'Canal eficaz, porém ausência de registro e dependência de vínculos pessoais.':cat==='relatorio'?'A UBS recebe o documento, mas não há retorno formal à escola sobre o desfecho.':cat==='soe'?'Modelo a ser ampliado, pois garante acompanhamento e diálogo estruturado.':cat==='protocolo'?'Modelo que garante registro e encaminhamento formal, precisa ser expandido para toda a rede.':'Reuniões periódicas foram a sugestão mais citada — apenas 9% praticam, mas é caminho para fortalecer vínculo.'}</div></div>
+    </div>
+  `;
+}
+
+// Tabela sem processo
+const semRows = dataRows.filter(r => r.cat === 'sem');
+document.getElementById('semTbody').innerHTML = semRows.map((r,i) => `<tr><td style="color:var(--g);text-align:center">${i+1}</td><td style="font-weight:600;color:var(--r)">${r.ubs}</td><td style="font-size:11px;color:var(--g)">${r.escola}</td><td style="font-style:italic">${r.resp}</td></tr>`).join('');
+
+// Tabela completa
+const tbody = document.getElementById('rtbody');
+const cntEl = document.getElementById('rowCnt');
+function buildTable(rows) {
+  tbody.innerHTML = rows.map(r => `<tr><td style="color:var(--g);font-size:11px;text-align:center">${r.num}</td><td class="e-col">${r.ubs}</td><td class="u-col">${r.escola}</td><td>${r.resp}</td><td><span class="pill" style="background:${r.bg};color:${r.color}">${r.label}</span></td></tr>`).join('');
+  cntEl.textContent = rows.length + ' resposta' + (rows.length!==1?'s':'') + ' exibida' + (rows.length!==1?'s':'');
+}
+buildTable(dataRows);
+document.getElementById('srch').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  buildTable(q ? dataRows.filter(r => r.ubs.toLowerCase().includes(q) || r.escola.toLowerCase().includes(q) || r.resp.toLowerCase().includes(q) || r.label.toLowerCase().includes(q)) : dataRows);
+});
+</script>
+</body>
+</html>
