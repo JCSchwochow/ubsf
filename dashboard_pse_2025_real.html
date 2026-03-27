@@ -58,10 +58,10 @@ td{padding:8px 10px;border-bottom:1px solid var(--g3)}
 <div class="hdr">
   <div class="hdr-in">
     <h1>📊 Dashboard Quantitativo PSE 2025 — Indicadores de Articulação Saúde-Educação</h1>
-    <p class="sub">Base: 70 respostas reais (duplas UBS × Escola) · Joinville-SC · Questões analisadas: Q5, Q7, Q9–Q13, Q15–Q18, Q21–Q23</p>
+    <p class="sub">Base: 70 respostas (duplas UBS × Escola) · Joinville-SC · Questões analisadas: Q5, Q7, Q9–Q13, Q15–Q18, Q21–Q23</p>
     <div class="bdgs">
       <span class="bdg">🏥 70 duplas UBS-Escola</span>
-      <span class="bdg">📊 Dados 100% reais — sem mockup</span>
+      
       <span class="bdg">✅ PSE 2025</span>
     </div>
   </div>
@@ -105,7 +105,7 @@ td{padding:8px 10px;border-bottom:1px solid var(--g3)}
     <canvas id="chartQ19" height="260" style="margin-top:16px"></canvas>
   </div>
 
-  <div class="stitle">💡 Recomendações de Gestão com Base nos Indicadores Reais</div>
+  <div class="stitle">💡 Recomendações de Gestão com Base nos Indicadores</div>
   <div class="ins-grid" id="recsGrid"></div>
 
   <div class="stitle">📊 Dados Consolidados por UBS e Escola</div>
@@ -275,7 +275,7 @@ document.getElementById('kpiRow').innerHTML=`
 
 // Síntese real
 document.getElementById('synthContainer').innerHTML=`
-<h2>📌 Panorama Geral — Dados Reais (n=${n})</h2>
+<h2>📌 Panorama Geral (n=${n})</h2>
 <div class="syn-grid">
   <div class="syn-card"><strong>📞 Encaminhamentos (Q5)</strong><p>${q5sim} (${pct(q5sim)}%) atendem todos. ${q5parc} (${pct(q5parc)}%) parcialmente. ${n-q5sim-q5parc} não atendem.</p></div>
   <div class="syn-card"><strong>😊 Satisfação (Q15)</strong><p>${sat} (${pct(sat)}%) completamente satisfeitos. ${data.filter(d=>d.q15==='Parcialmente insatisfeito').length} parcialmente insatisfeitos.</p></div>
