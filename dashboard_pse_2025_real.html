@@ -191,7 +191,14 @@ function mkBar(id, labels, vals, colors, indexAxis='x') {
           font: { size: 10, weight: 'bold' },
           color: '#333' // Cor do texto sobre o fundo branco da dashboard
         },
-        tooltip: { /* seu código de tooltip permanece igual */ }
+        tooltip: {callbacks: {
+            label: function(context) {
+              let sum = context.dataset.data.reduce((a, b) => a + b, 0);
+              let value = context.parsed.y || context.parsed.x;
+              let percentage = ((value / sum) * 100).toFixed(1) + '%';
+              return context.label + ': ' + value + ' (' + percentage + ')';
+            }
+          }}
       },
       scales:{
         x:{ticks:{font:{size:10}}, grid: {display: false}}, // Removi grades para limpar o visual
