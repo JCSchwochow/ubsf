@@ -320,6 +320,7 @@ renderField('chartQ22','q22');
 // Q23
 renderField('chartQ23','q23');
 
+/*
 // Q19 ações
 const acoes = {};
 data.forEach(d=>{
@@ -346,6 +347,68 @@ new Chart(document.getElementById('chartQ19'),{
       y:{ticks:{font:{size:10}}}
     }
   }
+});
+*/
+// Q19 ações
+const acoes = {};
+data.forEach(d => {
+  if (d.q19) d.q19.split(',').forEach(a => {
+    const t = a.trim();
+    if (t) acoes[t] = (acoes[t] || 0) + 1;
+  });
+});
+
+const sorted = Object.entries(acoes).sort((a, b) => b[1] - a[1]).slice(0, 12);
+const totalAcoes = sorted.reduce((acc, curr) => acc + curr[1], 0); // Soma total para o cálculo de %
+
+document.getElementById('q19List').innerHTML = sorted.map(([k, v]) =>
+  `<span class="pill" style="background:var(--a3);color:var(--a)">${k} (${v})</span>`).join('');
+
+new Chart(document.getElementById('chartQ19'), {
+  type: 'bar',
+  data: {
+    labels: sorted.map(s => s[0].length > 45 ? s[0].slice(0, 45) + '…' : s[0]),
+    datasets: [{
+      data: sorted.map(s => s[1]),
+      backgroundColor: '#1a4e8f',
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    layout: {
+      padding: { right: 50 } // Espaço extra à direita para o rótulo não cortar
+    },
+    plugins: {
+      legend: { display: false },
+      datalabels: {
+        anchor: 'end',    // Fixa o marcador no fim da barra
+        align: 'right',   // Posiciona o texto à direita do marcador
+        offset: 5,        // Pequeno espaço entre a barra e o texto
+        formatter: (value) => {
+          let percentage = ((value / totalAcoes) * 100).toFixed(1) + '%';
+          return value + ' (' + percentage + ')';
+        },
+        font: {
+          size: 10,
+          weight: 'bold'
+        },
+        color: '#4b5563' // Um cinza escuro para facilitar a leitura
+      }
+    },
+    scales: {
+      x: {
+        ticks: { font: { size: 10 } },
+        grid: { color: '#e5e7eb' },
+        beginAtZero: true
+      },
+      y: {
+        ticks: { font: { size: 10 } }
+      }
+    }
+  },
+  plugins: [ChartDataLabels] // Garante que o plugin seja ativado neste gráfico
 });
 
 // KPIs calculados dos dados reais
