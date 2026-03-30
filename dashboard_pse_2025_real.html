@@ -230,8 +230,6 @@ function mkDoughnut(id, labels, vals, colors) {
     }
   });
 }
-*/
-
 function mkDoughnut(id, labels, vals, colors) {
   new Chart(document.getElementById(id), {
     type:'doughnut',
@@ -246,6 +244,49 @@ function mkDoughnut(id, labels, vals, colors) {
             let percentage = ((value / sum) * 100).toFixed(1) + '%';
             // Usar \n para quebrar a linha e caber melhor no círculo
             return value + '\n(' + percentage + ')'; 
+          },
+          color: '#fff',
+          font: { size: 11, weight: 'bold' },
+          textAlign: 'center'
+        }
+      }
+    }
+  });
+}
+*/
+function mkDoughnut(id, labels, vals, colors) {
+  new Chart(document.getElementById(id), {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data: vals, backgroundColor: colors }] },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'right', labels: { font: { size: 10 } } },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = context.raw; // Valor absoluto
+              const total = context.dataset.data.reduce((a, b) => a + b, 0);
+              const percentage = ((value / total) * 100).toFixed(1) + '%';
+              
+              // Retorna a linha formatada: "E-mail: 93 (56.0%)"
+              return ` ${label}: ${value} (${percentage})`;
+            }
+          }
+        },
+        datalabels: {
+          // A mágica acontece aqui:
+          display: function(ctx) {
+            const value = ctx.dataset.data[ctx.dataIndex];
+            const sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+            const percentage = (value / sum) * 100;
+            return percentage >= 4; // Retorna true apenas se for 4% ou mais
+          },
+          formatter: (value, ctx) => {
+            const sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+            const percentage = ((value / sum) * 100).toFixed(1) + '%';
+            return value + '\n(' + percentage + ')';
           },
           color: '#fff',
           font: { size: 11, weight: 'bold' },
