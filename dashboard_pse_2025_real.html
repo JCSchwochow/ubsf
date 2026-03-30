@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dashboard PSE 2025 — Articulação Saúde-Educação · Joinville-SC</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
 :root{
   --v:#1a7f4b;--v2:#2fa866;--v3:#e8f5ee;
@@ -147,7 +148,19 @@ function mkBar(id, labels, vals, colors, indexAxis='x') {
     options:{
       indexAxis,
       responsive:true,
-      plugins:{legend:{display:false}},
+      plugins:{
+        legend:{display:false},
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let sum = context.dataset.data.reduce((a, b) => a + b, 0);
+              let value = context.parsed.y || context.parsed.x;
+              let percentage = ((value / sum) * 100).toFixed(1) + '%';
+              return context.label + ': ' + value + ' (' + percentage + ')';
+            }
+          }
+        }
+      },
       scales:{
         x:{ticks:{font:{size:10}}},
         y:{ticks:{font:{size:10}}}
@@ -160,7 +173,21 @@ function mkDoughnut(id, labels, vals, colors) {
   new Chart(document.getElementById(id), {
     type:'doughnut',
     data:{labels, datasets:[{data:vals, backgroundColor:colors}]},
-    options:{responsive:true, plugins:{legend:{position:'right', labels:{font:{size:10}}}}}
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{position:'right', labels:{font:{size:10}}},
+        datalabels: {
+          formatter: (value, ctx) => {
+            let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+            let percentage = ((value / sum) * 100).toFixed(1) + '%';
+            return percentage;
+          },
+          color: '#fff',
+          font: { size: 12, weight: 'bold' }
+        }
+      }
+    }
   });
 }
 
