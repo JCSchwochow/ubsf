@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparativo: Grau de Formalização dos Processos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .chart-container {
+            transition: transform 0.2s;
+        }
+        .chart-container:hover {
+            transform: translateY(-5px);
+        }
+        .bar-green { background-color: #1a7a43; }
+        .bar-orange { background-color: #d97706; }
+        .bar-red { background-color: #dc2626; }
+        
+        .chart-area {
+            display: flex;
+            align-items: stretch; /* Faz com que todos os filhos tenham a mesma altura do container */
+            justify-content: space-around;
+            height: 300px; /* Altura fixa para o container do gráfico */
+            border-bottom: 2px solid #e2e8f0;
+            border-left: 2px solid #e2e8f0;
+            padding: 0 1rem 0 0;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .bar {
+            width: 100%;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            min-height: 4px; /* Garante que mesmo valores baixos apareçam */
+            display: block;
+        }
+
+        .grid-line {
+            position: absolute;
+            width: 100%;
+            border-top: 1px dashed #e2e8f0;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-4 md:p-8 font-sans">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">Análise Comparativa de Processos</h1>
+            <p class="text-slate-600">Comparação entre a percepção das UBS e o panorama geral de formalização.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Percepção das Escolas (Imagem 1) -->
+            <div class="bg-white rounded-xl shadow-lg p-6 chart-container border-t-4 border-blue-500">
+                <h2 class="text-xl font-semibold text-slate-700 mb-6 border-b pb-2">Percepção das Escolas</h2>
+                
+                <div class="chart-area">
+                    <!-- Linhas de grade de fundo -->
+                    <div class="grid-line" style="bottom: 25%"></div>
+                    <div class="grid-line" style="bottom: 50%"></div>
+                    <div class="grid-line" style="bottom: 75%"></div>
+
+                    <!-- Bar Structured (4%) -->
+                    <div class="flex flex-col items-center w-20 h-full justify-end z-10">
+                        <div class="bar bar-green" style="height: 4%"></div>
+                        <span class="text-[11px] mt-2 font-bold text-slate-600">4%</span>
+                        <span class="text-[10px] uppercase tracking-tighter font-medium text-slate-400">Estruturado</span>
+                    </div>
+                    <!-- Bar Semiformal (87%) -->
+                    <div class="flex flex-col items-center w-20 h-full justify-end z-10">
+                        <div class="bar bar-orange" style="height: 87%"></div>
+                        <span class="text-[11px] mt-2 font-bold text-slate-600">87%</span>
+                        <span class="text-[10px] uppercase tracking-tighter font-medium text-slate-400">Semiformal</span>
+                    </div>
+                    <!-- Bar Absent (8%) -->
+                    <div class="flex flex-col items-center w-20 h-full justify-end z-10">
+                        <div class="bar bar-red" style="height: 8%"></div>
+                        <span class="text-[11px] mt-2 font-bold text-slate-600">8%</span>
+                        <span class="text-[10px] uppercase tracking-tighter font-medium text-slate-400">Ausente</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-4 h-4 rounded mt-1 flex-shrink-0 bar-green"></div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">Estruturado (7 unid.)</p>
+                            <p class="text-xs text-slate-500">Protocolo, drive, retorno formal.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-4 h-4 rounded mt-1 flex-shrink-0 bar-orange"></div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">Semiformal (145 unid.)</p>
+                            <p class="text-xs text-slate-500">Relatório + contato + SOE.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-4 h-4 rounded mt-1 flex-shrink-0 bar-red"></div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">Ausente (14 unid.)</p>
+                            <p class="text-xs text-slate-500">Processo ausente ou indefinido.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Perspectiva UBS (Imagem 1) -->
+            <div class="bg-white rounded-xl shadow-lg p-6 chart-container border-t-4 border-green-500">
+                <h2 class="text-xl font-semibold text-slate-700 mb-6 border-b pb-2">Percepção das UBS</h2>
+                
+                <div class="chart-area">
+                    <!-- Linhas de grade de fundo -->
+                    <div class="grid-line" style="bottom: 25%"></div>
+                    <div class="grid-line" style="bottom: 50%"></div>
+                    <div class="grid-line" style="bottom: 75%"></div>
+                    
+                    <!-- Bar Structured (2.9%) -->
+                    <div class="flex flex-col items-center w-20 h-full justify-end z-10">
+                        <div class="bar bar-green" style="height: 2.9%"></div>
+                        <span class="text-[11px] mt-2 font-bold text-slate-600">2.9%</span>
+                        <span class="text-[10px] uppercase tracking-tighter font-medium text-slate-400">Estruturado</span>
+                    </div>
+                    <!-- Bar Semiformal (92.9%) -->
+                    <div class="flex flex-col items-center w-20 h-full justify-end z-10">
+                        <div class="bar bar-orange" style="height: 92.9%"></div>
+                        <span class="text-[11px] mt-2 font-bold text-slate-600">92.9%</span>
+                        <span class="text-[10px] uppercase tracking-tighter font-medium text-slate-400">Semiformal</span>
+                    </div>
+                    <!-- Bar Absent (4.3%) -->
+                    <div class="flex flex-col items-center w-20 h-full justify-end z-10">
+                        <div class="bar bar-red" style="height: 4.3%"></div>
+                        <span class="text-[11px] mt-2 font-bold text-slate-600">4.3%</span>
+                        <span class="text-[10px] uppercase tracking-tighter font-medium text-slate-400">Ausente</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-4 h-4 rounded mt-1 flex-shrink-0 bar-green"></div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">Estruturado (2 unid.)</p>
+                            <p class="text-xs text-slate-500">Protocolo formal, sistema de regulação.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-4 h-4 rounded mt-1 flex-shrink-0 bar-orange"></div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">Semiformal (65 unid.)</p>
+                            <p class="text-xs text-slate-500">WhatsApp, relatório via família, SOE, reuniões.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-4 h-4 rounded mt-1 flex-shrink-0 bar-red"></div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">Ausente (3 unid.)</p>
+                            <p class="text-xs text-slate-500">Processos não definidos ou inexistentes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="mt-12 bg-slate-800 text-white p-6 rounded-xl shadow-inner">
+            <h3 class="text-lg font-semibold mb-3">Conclusões da Comparação:</h3>
+            <ul class="list-disc list-inside space-y-2 text-sm text-slate-300">
+                <li><strong class="text-white">Convergência:</strong> Ambas as visões confirmam que o contato via <span class="text-orange-400 font-bold">WhatsApp e relatórios informais</span> dominam o fluxo de trabalho.</li>
+                <li><strong class="text-white">Divergência de Ausência:</strong> A percepção geral identifica o dobro de processos "Ausentes" (8%) em comparação com o que as UBS relatam (4.3%), sugerindo uma possível lacuna de comunicação ou processos que se perdem no caminho.</li>
+                <li><strong class="text-white">Baixa Estruturação:</strong> O uso de protocolos formais e sistemas de regulação é criticamente baixo em ambas as amostras (abaixo de 5%).</li>
+            </ul>
+        </footer>
+    </div>
+
+</body>
+</html>
