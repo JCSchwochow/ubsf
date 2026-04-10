@@ -1,37 +1,160 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Índice - UBSF</title>
-  <style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2rem; }
-    h1 { color: #333; }
-    ul { list-style-type: none; padding: 0; }
-    li { margin: 0.5rem 0; }
-    a { text-decoration: none; color: #0066cc; }
-    a:hover { text-decoration: underline; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índice - UBSF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilização para a estrutura de árvore */
+        .tree-container {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .tree-container::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #e5e7eb;
+        }
+        .tree-item {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .tree-item::before {
+            content: "";
+            position: absolute;
+            left: -1.5rem;
+            top: 0.8rem;
+            width: 1.2rem;
+            height: 2px;
+            background-color: #e5e7eb;
+        }
+        .tree-item:last-child::after {
+            content: "";
+            position: absolute;
+            left: -1.5rem;
+            top: 0.8rem;
+            bottom: 0;
+            width: 4px;
+            background-color: #fff;
+        }
+    </style>
 </head>
-<body>
-  <h1>Índice de Páginas</h1>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 sm:p-8 font-sans">
 
-  <h2>Análise das Escolas sobre as UBSFs</h2>
-  <ul>
-    <li><a href="dash1-pan-escolas-ubsf.html" target="_blank">Análise de Dados (Panorama Geral)</a></li>    
-    <li><a href="dash2-qualit-q1234-escolas-ubsf.html" target="_blank">Análise Qualitativa Q1~Q4</a></li>
-    <li><a href="dash3-qualit-q6-escolas-ubsf.html" target="_blank">Análise Qualitativa Q6 (Encaminhamentos)</a></li>    
-  </ul>
+    <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+        <!-- Cabeçalho -->
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-8 text-white text-center">
+            <h1 class="text-3xl font-extrabold mb-2 tracking-tight">Índice de Páginas</h1>
+            <p class="text-blue-100 font-medium opacity-90">Plataforma de Monitoramento UBSF & Escolas</p>
+        </div>
 
-  <h2>Análise das UBSFs sobre as Escolas</h2>
-  <ul>
-    <li><a href="dash4-pan-ubsf-escolas.html" target="_blank">Análise de Dados (Panorama Geral)</a></li>
-    <li><a href="dash5-qualit-q1234-ubsf-escolas.html" target="_blank">Análise Qualitativa Q1~Q4</a></li>
-    <li><a href="dash6-qualit-q6-ubsf-escolas.html" target="_blank">Análise Qualitativa Q6 (Encaminhamentos)</a></li>
-  </ul>
+        <!-- Conteúdo Principal -->
+        <div class="p-8 sm:p-10">
+            <div class="space-y-10">
+                
+                <!-- Seção 1: Escolas sobre UBSF -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2.5 bg-blue-100 rounded-xl text-blue-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800">Análise das Escolas sobre as UBSFs</h2>
+                    </div>
 
-  <h2>Resumo</h2>
-  <ul>
-    <li><a href="dash7-resumo.html" target="_blank">Resumo Comparativo</a></li>    
-  </ul>
+                    <div class="tree-container ml-4">
+                        <div class="tree-item">
+                            <a href="dash1-pan-escolas-ubsf.html" target="_blank" class="group flex items-center p-3 rounded-lg hover:bg-blue-50 transition-all border border-transparent hover:border-blue-100">
+                                <span class="text-gray-700 group-hover:text-blue-700 font-medium">Análise de Dados (Panorama Geral)</span>
+                                <svg class="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 text-blue-500 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            </a>
+                        </div>
+                        <div class="tree-item">
+                            <a href="dash2-qualit-q1234-escolas-ubsf.html" target="_blank" class="group flex items-center p-3 rounded-lg hover:bg-blue-50 transition-all border border-transparent hover:border-blue-100">
+                                <span class="text-gray-700 group-hover:text-blue-700 font-medium">Análise Qualitativa Q1~Q4</span>
+                                <svg class="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 text-blue-500 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            </a>
+                        </div>
+                        <div class="tree-item">
+                            <a href="dash3-qualit-q6-escolas-ubsf.html" target="_blank" class="group flex items-center p-3 rounded-lg hover:bg-blue-50 transition-all border border-transparent hover:border-blue-100">
+                                <span class="text-gray-700 group-hover:text-blue-700 font-medium">Análise Qualitativa Q6 (Encaminhamentos)</span>
+                                <svg class="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 text-blue-500 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seção 2: UBSF sobre Escolas -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2.5 bg-emerald-100 rounded-xl text-emerald-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800">Análise das UBSFs sobre as Escolas</h2>
+                    </div>
+
+                    <div class="tree-container ml-4">
+                        <div class="tree-item">
+                            <a href="dash4-pan-ubsf-escolas.html" target="_blank" class="group flex items-center p-3 rounded-lg hover:bg-emerald-50 transition-all border border-transparent hover:border-emerald-100">
+                                <span class="text-gray-700 group-hover:text-emerald-700 font-medium">Análise de Dados (Panorama Geral)</span>
+                                <svg class="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 text-emerald-500 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            </a>
+                        </div>
+                        <div class="tree-item">
+                            <a href="dash5-qualit-q1234-ubsf-escolas.html" target="_blank" class="group flex items-center p-3 rounded-lg hover:bg-emerald-50 transition-all border border-transparent hover:border-emerald-100">
+                                <span class="text-gray-700 group-hover:text-emerald-700 font-medium">Análise Qualitativa Q1~Q4</span>
+                                <svg class="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 text-emerald-500 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            </a>
+                        </div>
+                        <div class="tree-item">
+                            <a href="dash6-qualit-q6-ubsf-escolas.html" target="_blank" class="group flex items-center p-3 rounded-lg hover:bg-emerald-50 transition-all border border-transparent hover:border-emerald-100">
+                                <span class="text-gray-700 group-hover:text-emerald-700 font-medium">Análise Qualitativa Q6 (Encaminhamentos)</span>
+                                <svg class="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 text-emerald-500 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seção 3: Resumo -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2.5 bg-amber-100 rounded-xl text-amber-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800">Resumo Final</h2>
+                    </div>
+
+                    <div class="tree-container ml-4">
+                        <div class="tree-item">
+                            <a href="dash7-resumo.html" target="_blank" class="group flex items-center p-4 rounded-xl bg-amber-50 hover:bg-amber-100 transition-all border border-amber-200">
+                                <span class="text-amber-900 font-bold">Relatório Resumo Comparativo</span>
+                                <svg class="w-5 h-5 ml-auto text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <div class="bg-gray-50 p-6 border-t border-gray-100 text-center text-sm text-gray-400">
+            &copy; 2024 UBSF Monitoramento. Todos os documentos abrem em nova aba.
+        </div>
+    </div>
+
 </body>
 </html>
