@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resumo Comparativo — Articulação Intersetorial PSE 2025</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --escolas-cor: #1a4e8f;   /* azul — perspectiva escolas */
+    --ubsf-cor: #1a7f4b;      /* verde — perspectiva UBSFs  */
+    --tag-escola-bg: #fff3cd;
+    --tag-escola-txt: #92400e;
+    --tag-ubsf-bg: #d1fae5;
+    --tag-ubsf-txt: #065f46;
+    --tag-cei-bg: #ede9fe;
+    --tag-cei-txt: #4c1d95;
+    --tag-em-bg: #dbeafe;
+    --tag-em-txt: #1e3a8a;
+    --divisor: #e5e7eb;
+  }
+
+  body {
+    font-family: 'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.65;
+    color: #1a1a1a;
+    background: #f8f9fa;
+    padding: 30px 20px;
+  }
+
+  .pagina {
+    background: #fff;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 56px 52px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.10);
+    border-radius: 4px;
+  }
+
+  /* ── TÍTULO PRINCIPAL ── */
+  .titulo-principal {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 6px;
+    letter-spacing: -.3px;
+  }
+
+  .subtitulo {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--divisor);
+  }
+
+  /* ── COLUNAS DE COMPARAÇÃO ── */
+  .colunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 28px;
+  }
+
+  .coluna {
+    border-radius: 8px;
+    padding: 20px 22px;
+  }
+
+  .col-escolas {
+    background: #eff6ff;
+    border-top: 4px solid var(--escolas-cor);
+  }
+
+  .col-ubsf {
+    background: #f0fdf4;
+    border-top: 4px solid var(--ubsf-cor);
+  }
+
+  .col-titulo {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    margin-bottom: 11px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+  }
+
+  .col-escolas .col-titulo { color: var(--escolas-cor); }
+  .col-ubsf .col-titulo { color: var(--ubsf-cor); }
+
+  /* ── PARÁGRAFO INTRODUTÓRIO ── */
+  .intro {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #374151;
+    margin-bottom: 10px;
+  }
+
+  .intro strong { color: #111; font-weight: 700; }
+
+  /* ── SUBGRUPOS ── */
+  .subgrupo {
+    margin-bottom: 11px;
+  }
+
+  .subgrupo-titulo {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 5px;
+  }
+
+  .subgrupo-n { font-weight: 700; }
+
+  /* Tags de UBSs (originais) */
+  .tag {
+    display: inline;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin: 1px 1px;
+    line-height: 1.8;
+    white-space: nowrap;
+  }
+
+  .tag-ubsf   { background: var(--tag-escola-bg); color: var(--tag-escola-txt); }
+  .tag-cei    { background: var(--tag-cei-bg); color: var(--tag-cei-txt); }
+  .tag-em     { background: var(--tag-em-bg); color: var(--tag-em-txt); }
+  .tag-destaq { background: #fef9c3; color: #92400e; outline: 1.5px solid #fbbf24; }
+
+  /* ── SEÇÕES ── */
+  .secao {
+    margin-bottom: 22px;
+  }
+
+  .secao-titulo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 7px;
+  }
+
+  .secao p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #374151;
+  }
+
+  .secao p strong { color: #111; }
+
+  /* ── TABELA COMPARATIVA ── */
+  .tabela-comp {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin-bottom: 22px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .tabela-comp thead tr {
+    background: #1f2937;
+    color: #fff;
+  }
+
+  .tabela-comp th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+
+  .tabela-comp th:nth-child(2) { background: #1e3a8a; }
+  .tabela-comp th:nth-child(3) { background: #065f46; }
+
+  .tabela-comp td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+    line-height: 1.55;
+    color: #374151;
+  }
+
+  .tabela-comp tbody tr:last-child td { border-bottom: none; }
+  .tabela-comp tbody tr:nth-child(even) td { background: #f9fafb; }
+  .tabela-comp td:first-child { font-weight: 600; color: #111; font-size: 12px; }
+
+  .num-escola { font-weight: 700; color: var(--escolas-cor); }
+  .num-ubsf   { font-weight: 700; color: var(--ubsf-cor); }
+
+  .seta-up   { color: #059669; font-weight: 700; }
+  .seta-down { color: #dc2626; font-weight: 700; }
+  .seta-eq   { color: #6b7280; font-weight: 700; }
+
+  /* ── CONCLUSÃO ── */
+  .conclusao {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #475569;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin-top: 4px;
+  }
+
+  .conclusao p {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.75;
+  }
+
+  .conclusao strong { font-style: normal; color: #1e293b; }
+
+  /* ── LEGENDA ── */
+  .legenda {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--divisor);
+  }
+
+  .leg-item { display: flex; align-items: center; gap: 5px; }
+  .leg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  @media print {
+    body { padding: 0; background: #fff; }
+    .pagina { box-shadow: none; padding: 30px 36px; }
+  }
+</style>
+</head>
+<body>
+<div class="pagina">
+
+  <div class="titulo-principal">Resumo Comparativo</div>
+  <div class="subtitulo">Articulação Intersetorial Saúde-Educação · PSE 2025 · Análise em duas perspectivas</div>
+
+  <!-- INTRO COMPARATIVO -->
+  <div class="colunas">
+    <div class="coluna col-escolas">
+      <div class="col-titulo">🏫 Perspectiva das Unidades Escolares (n = 166)</div>
+      <p class="intro">
+        A articulação é percebida de modo heterogêneo: enquanto <strong>31%</strong> das escolas identificam o <strong>diálogo aberto</strong> como principal pilar de sucesso (Q1), a mesma temática reaparece como <strong>barreira para 17%</strong> dos respondentes (Q3) — contradição estrutural que revela ausência de canais formalizados de comunicação.
+      </p>
+    </div>
+    <div class="coluna col-ubsf">
+      <div class="col-titulo">🏥 Perspectiva das UBSFs (n = 70)</div>
+      <p class="intro">
+        A articulação é avaliada de forma mais uniforme e positiva: <strong>54%</strong> das UBSFs destacam a <strong>comunicação e vínculo com a UE</strong> como ponto forte (Q1), enquanto apenas <strong>16%</strong> a apontam como fragilidade (Q2) — indicando que, sob o olhar da saúde, os canais existentes funcionam melhor do que percebido pelas escolas.
+      </p>
+    </div>
+  </div>
+
+  <!-- DIÁLOGO ABERTO: PERSPECTIVA ESCOLAS -->
+  <div class="secao">
+    <div class="secao-titulo">Comunicação como Força — Perspectiva das Escolas (Q1)</div>
+    <div class="subgrupo">
+      <div class="subgrupo-titulo">
+        Diálogo Aberto <span class="subgrupo-n">(n = 31)</span>:
+        <span style="font-size:10.5px;font-weight:400;color:#6b7280">UBSFs avaliadas positivamente pelas escolas quanto à comunicação</span>
+      </div>
+      <div style="line-height:2.0">
+        <span class="tag tag-ubsf">UBSF ANABURGO</span> <span class="tag tag-ubsf">UBSF BAKHITA</span> <span class="tag tag-ubsf">UBSF BOEHMERWALD</span> <span class="tag tag-ubsf">UBSF BUCAREIN</span> <span class="tag tag-ubsf">UBSF CAIC VILA PARANAENSE</span> <span class="tag tag-ubsf">UBSF COMASA</span> <span class="tag tag-ubsf">UBSF COSTA E SILVA</span> <span class="tag tag-ubsf">UBSF CUBATÃO</span> <span class="tag tag-destaq">UBSF EDLA JORDAN</span> <span class="tag tag-ubsf">UBSF FÁTIMA</span> <span class="tag tag-ubsf">UBSF FLORESTA</span> <span class="tag tag-ubsf">UBSF ITAUM</span> <span class="tag tag-ubsf">UBSF JARDIM EDILENE</span> <span class="tag tag-ubsf">UBSF JARIVATUBA</span> <span class="tag tag-ubsf">UBSF JOÃO COSTA</span> <span class="tag tag-ubsf">UBSF KM 4</span> <span class="tag tag-ubsf">UBSF LAGOINHA</span> <span class="tag tag-ubsf">UBSF MORRO DO MEIO</span> <span class="tag tag-ubsf">UBSF NOVA BRASÍLIA</span> <span class="tag tag-destaq">UBSF PARANAGUAMIRIM</span> <span class="tag tag-destaq">UBSF PARQUE DOUAT</span> <span class="tag tag-destaq">UBSF PARQUE JOINVILLE</span> <span class="tag tag-ubsf">UBSF PIRABEIRABA</span> <span class="tag tag-ubsf">UBSF PROFIPO</span> <span class="tag tag-ubsf">UBSF RIO DA PRATA</span> <span class="tag tag-destaq">UBSF SAGUAÇÚ</span> <span class="tag tag-ubsf">UBSF SÃO MARCOS</span> <span class="tag tag-ubsf">UBSF ULYSSES GUIMARAES</span> <span class="tag tag-ubsf">UBSF VILA NOVA I</span> <span class="tag tag-ubsf">UBSF WILLY SCHOSSLAND</span>
+      </div>
+    </div>
+    <div class="subgrupo">
+      <div class="subgrupo-titulo">
+        Barreira na comunicação <span class="subgrupo-n">(n = 19)</span>:
+        <span style="font-size:10.5px;font-weight:400;color:#6b7280">UBSFs onde escolas relataram comunicação deficiente</span>
+      </div>
+      <div style="line-height:2.0">
+        <span class="tag tag-ubsf">UBSF ADHEMAR GARCIA</span> <span class="tag tag-ubsf">UBSF AVENTUREIRO II</span> <span class="tag tag-ubsf">UBSF BOM RETIRO</span> <span class="tag tag-ubsf">UBSF CANTO DO RIO</span> <span class="tag tag-ubsf">UBSF DOM GREGÓRIO</span> <span class="tag tag-destaq">UBSF EDLA JORDAN</span> <span class="tag tag-destaq">UBSF FLORESTA</span> <span class="tag tag-ubsf">UBSF ITAUM</span> <span class="tag tag-ubsf">UBSF ITINGA</span> <span class="tag tag-destaq">UBSF JARDIM EDILENE</span> <span class="tag tag-ubsf">UBSF JARDIM PARAÍSO - VILA DA SAÚDE</span> <span class="tag tag-destaq">UBSF JARIVATUBA</span> <span class="tag tag-destaq">UBSF PARANAGUAMIRIM</span> <span class="tag tag-destaq">UBSF PARQUE JOINVILLE</span> <span class="tag tag-destaq">UBSF SAGUAÇÚ</span> <span class="tag tag-ubsf">UBSF VILA NOVA</span> <span class="tag tag-ubsf">UBSF VILA NOVA I</span> <span class="tag tag-ubsf">UBSF VILA NOVA RURAL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMUNICAÇÃO: PERSPECTIVA UBSFs -->
+  <div class="secao">
+    <div class="secao-titulo">Comunicação como Força — Perspectiva das UBSFs (Q1)</div>
+    <div class="subgrupo">
+      <div class="subgrupo-titulo">
+        Vínculo e Comunicação positivos <span class="subgrupo-n">(n = 38 — 54%)</span>:
+        <span style="font-size:10.5px;font-weight:400;color:#6b7280">UEs onde as UBSFs destacaram comunicação/vínculo como ponto forte</span>
+      </div>
+      <div style="line-height:2.0">
+        <span class="tag tag-cei">CEI Jardim Sofia</span> <span class="tag tag-em">EM Hans Müller</span> <span class="tag tag-cei">CEI Silvia Regina Cavalheiro</span> <span class="tag tag-em">EM Sadalla Amin Ghanem</span> <span class="tag tag-em">EM Baltasar Buschle</span> <span class="tag tag-cei">CEI Gustavo Zietz</span> <span class="tag tag-em">EM Hermann Muller</span> <span class="tag tag-em">EM Sete de Setembro</span> <span class="tag tag-em">EM Arthur da Costa e Silva</span> <span class="tag tag-em">EM Nilson Wilson Bender</span> <span class="tag tag-em">EM Rosangela Martinowsky Baptista</span> <span class="tag tag-cei">CEI Doce Infância</span> <span class="tag tag-cei">CEI Célio Gomes de Oliveira</span> <span class="tag tag-em">EM Lauro Carneiro de Loyola</span> <span class="tag tag-destaq">CEI José do Patrocínio</span> <span class="tag tag-em">EM Plácido Xavier Vieira</span> <span class="tag tag-em">EM José Motta Pires</span> <span class="tag tag-em">EM Avelino Marcante</span> <span class="tag tag-em">EM Emílio Stock Júnior</span> <span class="tag tag-em">EM Senhorinha Soares</span> <span class="tag tag-cei">CEI Itaum</span> <span class="tag tag-cei">CEI Espaço Encantado</span> <span class="tag tag-cei">CEI Luiza Maria Veiga</span> <span class="tag tag-em">EM Anita Garibaldi</span> <span class="tag tag-em">EM Virgínia Soares</span> <span class="tag tag-cei">CEI Herondina da Silva Vieira</span> <span class="tag tag-em">EM Germano Lenschow</span> <span class="tag tag-cei">CEI Hubert Hübener</span> <span class="tag tag-em">EM Honório Saldo</span> <span class="tag tag-em">EM Luiz Gomes</span> <span class="tag tag-em">EM Julio Machado da Luz</span> <span class="tag tag-em">EM Mariano Costa</span> <span class="tag tag-cei">CEI Parque Guarani</span> <span class="tag tag-cei">CEI Marilene dos Passos Santos</span> <span class="tag tag-cei">CEI Espinheiros</span> <span class="tag tag-em">EM Francisco José Rodrigues de Oliveira</span> <span class="tag tag-cei">CEI Esperança</span> <span class="tag tag-cei">CEI Pedro Ivo Figueiredo de Campos</span>
+      </div>
+    </div>
+    <div class="subgrupo">
+      <div class="subgrupo-titulo">
+        Comunicação como fragilidade <span class="subgrupo-n">(n = 11 — 16%)</span>:
+        <span style="font-size:10.5px;font-weight:400;color:#6b7280">UEs onde as UBSFs apontaram comunicação deficiente</span>
+      </div>
+      <div style="line-height:2.0">
+        <span class="tag tag-destaq">CEI Jardim Sofia</span> <span class="tag tag-destaq">CEI Parque Guarani</span> <span class="tag tag-destaq">EM Baltasar Buschle</span> <span class="tag tag-destaq">EM Sadalla Amin Ghanem</span> <span class="tag tag-destaq">EM Maria Regina Leal</span> <span class="tag tag-destaq">CEI José do Patrocínio</span> <span class="tag tag-destaq">CEI Alzelir Teresinha Gonçalves Pacheco</span> <span class="tag tag-destaq">CEI Branca de Neve</span> <span class="tag tag-destaq">CEI Girassol</span> <span class="tag tag-destaq">CEI Monteiro Lobato</span> <span class="tag tag-destaq">CEI Namir Alfredo Zattar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABELA COMPARATIVA CENTRAL -->
+  <div class="secao">
+    <div class="secao-titulo">Comparativo de Indicadores — Visão Cruzada</div>
+    <table class="tabela-comp">
+      <thead>
+        <tr>
+          <th style="background:#1f2937">Indicador</th>
+          <th>🏫 Escolas sobre UBSFs (n=166)</th>
+          <th>🏥 UBSFs sobre UEs (n=70)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Satisfação média geral (Q15)</td>
+          <td><span class="num-escola">4,26 / 5</span> — 94,4% positiva</td>
+          <td><span class="num-ubsf">4,51 / 5</span> — 95,7% positiva <span class="seta-up">↑</span></td>
+        </tr>
+        <tr>
+          <td>Comunicação como força (Q1)</td>
+          <td><span class="num-escola">31%</span> dos respondentes</td>
+          <td><span class="num-ubsf">31%</span> dos respondentes <span class="seta-eq">≈ convergência</span></td>
+        </tr>
+        <tr>
+          <td>Comunicação como barreira/fragilidade (Q2/Q3)</td>
+          <td><span class="num-escola">17%</span> como barreira</td>
+          <td><span class="num-ubsf">19%</span> como fragilidade <span class="seta-eq">≈</span></td>
+        </tr>
+        <tr>
+          <td>Encaminhamentos plenamente atendidos (Q5)</td>
+          <td><span class="num-escola">53,0%</span> plenamente atendidos</td>
+          <td><span class="num-ubsf">90,0%</span> plenamente atendidos <span class="seta-up">↑ +37pp</span></td>
+        </tr>
+        <tr>
+          <td>Cronograma PSE cumprido (Q17)</td>
+          <td><span class="num-escola">75,0%</span> cumprido (Sim)</td>
+          <td><span class="num-ubsf">84,3%</span> cumprido (Sim) <span class="seta-up">↑ +9pp</span></td>
+        </tr>
+        <tr>
+          <td>Principal gargalo operacional</td>
+          <td>Sobrecarga de atendimentos UBS <span class="num-escola">21%</span></td>
+          <td>Agenda/disponibilidade da UE <span class="num-ubsf">27%</span></td>
+        </tr>
+        <tr>
+          <td>Principal sugestão de melhoria (Q4)</td>
+          <td>Reuniões periódicas <span class="num-escola">25%</span></td>
+          <td>Reuniões periódicas <span class="num-ubsf">29%</span> <span class="seta-eq">≈ convergência</span></td>
+        </tr>
+        <tr>
+          <td>UEs/UBSFs com satisfação crítica (≤ 2/5)</td>
+          <td><span class="num-escola">7</span> escolas com sat. crítica</td>
+          <td><span class="num-ubsf">3</span> UEs com sat. crítica</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GARGALOS OPERACIONAIS -->
+  <div class="secao">
+    <div class="secao-titulo">Gargalos Operacionais (Q2 e Q3)</div>
+    <div class="colunas" style="margin-bottom:0">
+      <div style="font-size:13px;color:#374151;line-height:1.7">
+        <strong style="color:var(--escolas-cor)">Sob o olhar das Escolas:</strong><br>
+        Os gargalos recaem sobre as UBSFs — sobrecarga do número de atendimentos (<strong>21%</strong>) e carência de profissionais especialistas (<strong>16%</strong> em fragilidades e <strong>12%</strong> em barreiras) limitam a capacidade de resposta. A falta de tempo e agendas incompatíveis (<strong>16%</strong>) também impede que as ações articuladas se tornem fluxo contínuo.
+      </div>
+      <div style="font-size:13px;color:#374151;line-height:1.7">
+        <strong style="color:var(--ubsf-cor)">Sob o olhar das UBSFs:</strong><br>
+        Os gargalos recaem sobre as Unidades Escolares — compatibilidade de agendas e disponibilidade das UEs (<strong>29%</strong>), falta de RH e sobrecarga nas equipes de saúde (<strong>19%</strong>), e rotatividade de gestores nas escolas (<strong>3%</strong>) que exige retomada constante dos vínculos construídos. Falta de engajamento da UE foi citada em <strong>7%</strong> das avaliações.
+      </div>
+    </div>
+  </div>
+
+  <!-- CAMINHOS DE MELHORIA -->
+  <div class="secao">
+    <div class="secao-titulo">Caminhos de Melhoria (Q4)</div>
+    <div class="colunas" style="margin-bottom:0">
+      <div style="font-size:13px;color:#374151;line-height:1.7">
+        <strong style="color:var(--escolas-cor)">O que as Escolas pedem:</strong><br>
+        A solução mais requisitada, com <strong>25% de adesão</strong>, é a realização de <strong>reuniões periódicas</strong>. Formalização do planejamento conjunto (<strong>11%</strong>) e melhoria de protocolos e fluxos (<strong>14%</strong>) completam os caminhos apontados para reduzir as dificuldades de comunicação.
+      </div>
+      <div style="font-size:13px;color:#374151;line-height:1.7">
+        <strong style="color:var(--ubsf-cor)">O que as UBSFs sugerem:</strong><br>
+        A solução mais demandada, com <strong>29% de adesão</strong>, é igualmente a realização de <strong>reuniões periódicas</strong> entre as equipes — convergência notável com a perspectiva das escolas. Capacitação conjunta (<strong>10%</strong>) e comunicação mais estruturada (<strong>10%</strong>) emergem como complementos essenciais.
+      </div>
+    </div>
+  </div>
+
+  <!-- CONCLUSÃO -->
+  <div class="conclusao">
+    <p>
+      <strong>Convergência estrutural confirmada:</strong> ambos os lados da parceria apontam para a mesma solução — reuniões periódicas e comunicação mais formalizada. A <strong>assimetria de percepção</strong> é o achado mais relevante: as UBSFs avaliam as escolas com maior satisfação (4,51 vs 4,26) e relatam taxa de encaminhamentos atendidos significativamente superior (90% vs 55%), sugerindo que parte das insatisfações das escolas decorre de expectativas não comunicadas, e não de falhas objetivas de resposta da saúde. O fortalecimento da parceria demanda principalmente a criação de espaços formais de planejamento conjunto que <em>tornem explícitas as expectativas de ambos os lados</em> antes que se transformem em insatisfação acumulada.
+    </p>
+  </div>
+
+  <!-- LEGENDA -->
+  <div class="legenda">
+    <div class="leg-item"><div class="leg-dot" style="background:#fff3cd;outline:1px solid #d97706"></div> UBSF aparece em mais de uma categoria</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#ede9fe"></div> CEI — Centro de Educação Infantil</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#dbeafe"></div> EM — Escola Municipal</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#fff3cd"></div> UE com classificação dupla (força e fragilidade)</div>
+    <div class="leg-item" style="margin-left:auto;font-style:italic;color:#9ca3af">PSE 2025 · Joinville-SC · n=196 respondentes</div>
+  </div>
+
+</div>
+</body>
+</html>
